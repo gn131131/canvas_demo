@@ -29,15 +29,20 @@ function component() {
   return element;
 }
 
-let element = component();
-document.body.appendChild(element);
+let newElement = component();
+document.body.appendChild(newElement);
 
 console.log("热部署", module.hot);
 if (module.hot) {
   module.hot.accept("./js/main.js", function() {
     console.log("热部署模块更新");
-    document.body.removeChild(element);
-    element = component();
-    document.body.appendChild(element);
+    document.body.removeChild(newElement);
+    newElement = component();
+    document.body.appendChild(newElement);
   });
+}
+
+console.log("环境", process.env.NODE_ENV);
+if (process.env.NODE_ENV !== "production") {
+  console.log("Looks like we are in development mode!");
 }
