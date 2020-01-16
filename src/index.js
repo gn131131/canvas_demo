@@ -12,7 +12,7 @@ import printFn from "./js/main";
 function component() {
   let element = document.createElement("div");
 
-  element.innerHTML = _.join(["你好", "朋友"], "-");
+  element.innerHTML = _.join(["你好", "朋友21432啊1"], "-");
   element.classList.add("color-red", "bg-pic-b", "font-simkai");
 
   let myIcon = new Image();
@@ -29,4 +29,15 @@ function component() {
   return element;
 }
 
-document.body.appendChild(component());
+let element = component();
+document.body.appendChild(element);
+
+console.log("热部署", module.hot);
+if (module.hot) {
+  module.hot.accept("./js/main.js", function() {
+    console.log("热部署模块更新");
+    document.body.removeChild(element);
+    element = component();
+    document.body.appendChild(element);
+  });
+}

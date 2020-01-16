@@ -2,11 +2,14 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackManifestPlugin = require("webpack-manifest-plugin");
+const webpack = require("webpack");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    app: "./src/index.js"
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist")
   },
   devtool: "inline-source-map",
@@ -31,12 +34,15 @@ module.exports = {
       template: "./index.html"
     }),
     new CleanWebpackPlugin(),
-    new WebpackManifestPlugin()
+    new WebpackManifestPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     port: 8001,
     compress: true,
-    hot: true
+    hot: true,
+    hotOnly: true
   }
 };
