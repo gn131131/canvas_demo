@@ -39,5 +39,20 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./index.html"
     })
-  ]
+  ],
+  optimization: {
+    splitChunks: {
+      chunks: "initial",
+      automaticNameDelimiter: ".",
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: 1
+        }
+      }
+    },
+    runtimeChunk: {
+      name: entrypoint => `manifest.${entrypoint.name}`
+    }
+  }
 };
