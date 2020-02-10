@@ -1,3 +1,9 @@
-export default function printFn() {
-  console.error("print test");
-}
+import canvasFn from "./canvasFn.js"
+
+let mainObj = {
+  cursorMove: () => {
+    canvasFn.canvasFn1();
+  }
+};
+
+export default mainObj;
