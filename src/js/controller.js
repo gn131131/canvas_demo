@@ -9,7 +9,7 @@ let controllerFn = {
     window.requestAnimationFrame(this.canvasControllerMainFn);
   },
   canvasControllerMainFn() {
-    if (mainModel.cursor.axisX && mainModel.cursor.axisY) {
+    if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
       controllerFn.cursor.generateCursorAnimation(mainModel.cursor.axisX, mainModel.cursor.axisY);
     }
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
@@ -22,12 +22,16 @@ let controllerFn = {
       }
     },
     generateRectFromRandomPlace(x, y) {
-      const randomOffsetX = utils.getSimpleRandomNumber(-10, 10);
-      const randomOffsetY = utils.getSimpleRandomNumber(-10, 10);
+      const randomOffsetX = utils.getSimpleRandomNumber(0, 10);
+      const randomOffsetY = utils.getSimpleRandomNumber(0, 10);
       const randomWidth = utils.getSimpleRandomNumber(20, 30);
       const randomHeight = utils.getSimpleRandomNumber(20, 30);
       const randomColor = utils.getSimpleRandomColor();
-      canvasFn.drawRect(mainModel.ctx, x+randomOffsetX, y+randomOffsetY, randomWidth, randomHeight, null, true, randomColor);
+      canvasFn.drawRect(mainModel.ctx, x + randomOffsetX, y + randomOffsetY, randomWidth, randomHeight, null, true, randomColor);
+      let timeout = setTimeout(() => {
+        canvasFn.clearRect(mainModel.ctx, x + randomOffsetX - 1, y + randomOffsetY - 1, randomWidth + 2, randomHeight + 2);
+        clearTimeout(timeout);
+      }, 500);
     }
   }
 };

@@ -10,7 +10,9 @@ let canvasFn = {
       ctx.fillStyle = color;
       ctx.fillRect(x, y, w, h);
     }
-    
+  },
+  clearRect(ctx, x, y, w, h) {
+    ctx.clearRect(x, y, w, h);
   },
   drawPic() {
 
