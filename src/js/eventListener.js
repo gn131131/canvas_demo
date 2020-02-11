@@ -9,8 +9,13 @@ let eventListenerFn = {
   },
   mouseMove() {
     $("#mainCanvas").off('mousemove').on('mousemove', (e) => {
-      mainModel.cursor.axisX = e.offsetX;
-      mainModel.cursor.axisY = e.offsetY;
+      if (mainModel.cursor.axisX === e.offsetX && mainModel.cursor.axisY === e.offsetY) {
+        mainModel.cursor.isMoving = false;
+      } else {
+        mainModel.cursor.isMoving = true;
+        mainModel.cursor.axisX = e.offsetX;
+        mainModel.cursor.axisY = e.offsetY;
+      }
     });
   },
   mouseDown() {

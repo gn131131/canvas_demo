@@ -5,7 +5,8 @@ let mainModel = {
   cursor: {
     axisX: undefined,
     axisY: undefined,
-    isClicked: false
+    isClicked: false,
+    isMoving: false
   }
 };
 
