@@ -1,6 +1,16 @@
 let canvasFn = {
-  canvasFn1: () => {
-    console.log(123333);
+  drawLine() {
+    
+  },
+  drawRect() {
+
+  },
+  drawPic() {
+
+  },
+  startAnimation: (animationFn) => {
+    animationFn();
+    window.requestAnimationFrame(this.startAnimation);
   }
 };
 

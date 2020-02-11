@@ -1,8 +1,8 @@
-import canvasFn from "./canvasFn.js"
+import controllerFn from "./controller";
 
 let mainObj = {
-  cursorMove: () => {
-    canvasFn.canvasFn1();
+  init() {
+    controllerFn.init();
   }
 };
 
