@@ -7,7 +7,14 @@ let mainModel = {
     axisX: undefined,
     axisY: undefined,
     isClicked: false,
-    isMoving: false
+    isMoving: false,
+    rect: {
+      offsetXScope: [10, -10],
+      offsetYScope: [10, -10],
+      widthScope: [30, 10],
+      generateNumber: 2,
+      clearTimes: 500
+    }
   }
 };
 

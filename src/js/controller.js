@@ -17,22 +17,23 @@ let controllerFn = {
   },
   cursor: {
     generateCursorAnimation(x, y) {
-      const randomRectCount = utils.getSimpleRandomNumber(5);
+      const randomRectCount = utils.getSimpleRandomNumber(mainModel.cursor.rect.generateNumber);
       for (let i = 0; i < randomRectCount; i++) {
         this.generateRectFromRandomPlace(x, y);
       }
     },
     generateRectFromRandomPlace(x, y) {
-      const randomOffsetX = utils.getSimpleRandomNumber(10, -10);
-      const randomOffsetY = utils.getSimpleRandomNumber(10, -10);
-      const randomWidth = utils.getSimpleRandomNumber(30, 10);
+      const rectModel = mainModel.cursor.rect;
+      const randomOffsetX = utils.getSimpleRandomNumber(rectModel.offsetXScope[0], rectModel.offsetXScope[1]);
+      const randomOffsetY = utils.getSimpleRandomNumber(rectModel.offsetYScope[0], rectModel.offsetYScope[1]);
+      const randomWidth = utils.getSimpleRandomNumber(rectModel.widthScope[0], rectModel.widthScope[1]);
       const randomHeight = randomWidth;
       const randomColor = utils.getSimpleRandomColor();
-      canvasFn.drawRect(mainModel.ctx, x + randomOffsetX, y + randomOffsetY, randomWidth, randomHeight, null, true, randomColor);
+      canvasFn.drawRect(mainModel.ctx, x + randomOffsetX - randomWidth / 2, y + randomOffsetY - randomHeight / 2, randomWidth, randomHeight, null, true, randomColor);
       let timeout = setTimeout(() => {
-        canvasFn.clearRect(mainModel.ctx, x + randomOffsetX - 1, y + randomOffsetY - 1, randomWidth + 2, randomHeight + 2);
+        canvasFn.clearRect(mainModel.ctx, x + randomOffsetX - 1 - randomWidth / 2, y + randomOffsetY - 1 - randomHeight / 2, randomWidth + 2, randomHeight + 2);
         clearTimeout(timeout);
-      }, 500);
+      }, rectModel.clearTimes);
     }
   }
 };

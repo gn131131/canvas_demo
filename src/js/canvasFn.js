@@ -2,8 +2,8 @@ import $ from "jquery";
 
 let canvasFn = {
   setCanvasToFullScreen(node) {
-    node.width =  $(window).get(0).innerWidth;
-    node.height =  $(window).get(0).innerHeight;
+    node.width =  document.documentElement.clientWidth;
+    node.height =  document.documentElement.clientHeight;
   },
   drawLine() {
     
