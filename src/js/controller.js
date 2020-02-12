@@ -5,6 +5,7 @@ import mainModel from "./model";
 
 let controllerFn = {
   init() {
+    canvasFn.setCanvasToFullScreen(mainModel.canvasNode);
     eventListenerFn.init();
     window.requestAnimationFrame(this.canvasControllerMainFn);
   },
