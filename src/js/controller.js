@@ -2,6 +2,7 @@ import eventListenerFn from "./eventListener";
 import utils from "./utils";
 import canvasFn from "./canvasFn";
 import mainModel from "./model";
+import $ from "jquery";
 
 let controllerFn = {
   init() {
@@ -14,25 +15,39 @@ let controllerFn = {
     // 鼠标渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
       controllerFn.cursor.drawCursorRect();
+    } else {
+      $.each(mainModel.cursor.rect.randomInfoArray, (i, item) => {
+        controllerFn.cursor.clearRectByRandomInfo(item);
+      });
+      mainModel.cursor.rect.randomInfoArray = [];
+      mainModel.cursor.rect.count = 0;
     }
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
   },
   cursor: {
     drawCursorRect() {
-      for (let i = 0; i < mainModel.cursor.rect.randomInfoArray.length; i++) {
-        this.clearRectByRandomInfo(mainModel.cursor.rect.randomInfoArray[i]);
-      }
+      $.each(mainModel.cursor.rect.randomInfoArray, (i, item) => {
+        this.clearRectByRandomInfo(item);
+      });
       mainModel.cursor.rect.count++;
       if (mainModel.cursor.rect.count === mainModel.cursor.rect.intervalCountTimes) {
-        mainModel.cursor.rect.randomInfoArray = [];
-        mainModel.cursor.rect.count = 0;
-        for (let i = 0; i < mainModel.cursor.rect.showNumber; i++) {
-          mainModel.cursor.rect.randomInfoArray[i] = controllerFn.cursor.generateCursorRectInfo(mainModel.cursor);
+        if (mainModel.cursor.rect.randomInfoArray.length === mainModel.cursor.rect.showNumber) {
+          
+          mainModel.cursor.rect.randomInfoArray[mainModel.cursor.rect.currentIndex] = controllerFn.cursor.generateCursorRectInfo(mainModel.cursor);
+          if (mainModel.cursor.rect.currentIndex === mainModel.cursor.rect.randomInfoArray.length - 1) {
+            mainModel.cursor.rect.currentIndex = 0;
+          } else {
+            mainModel.cursor.rect.currentIndex++;
+          }
+        } else {
+          mainModel.cursor.rect.randomInfoArray.push(controllerFn.cursor.generateCursorRectInfo(mainModel.cursor));
         }
+        mainModel.cursor.rect.count = 0;
       }
-      for (let i = 0; i < mainModel.cursor.rect.randomInfoArray.length; i++) {
-        this.drawRectByRandomInfo(mainModel.cursor.rect.randomInfoArray[i]);
-      }
+      
+      $.each(mainModel.cursor.rect.randomInfoArray, (i, item) => {
+        this.drawRectByRandomInfo(item);
+      });
     },
     generateCursorRectInfo(cursor) {
       const rectModel = mainModel.cursor.rect;

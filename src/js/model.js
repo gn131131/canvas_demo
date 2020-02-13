@@ -12,10 +12,11 @@ let mainModel = {
       offsetXScope: [50, -50],
       offsetYScope: [50, -50],
       widthScope: [30, 10],
-      intervalCountTimes: 4,
-      showNumber: 20,
+      intervalCountTimes: 1,
+      showNumber: 40,
       randomInfoArray: [],
-      count: 0
+      count: 0,
+      currentIndex: 0
     }
   }
 };
