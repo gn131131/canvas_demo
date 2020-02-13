@@ -10,30 +10,48 @@ let controllerFn = {
     window.requestAnimationFrame(this.canvasControllerMainFn);
   },
   canvasControllerMainFn() {
+    // 界面渲染
+    // 鼠标渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
-      controllerFn.cursor.generateCursorAnimation(mainModel.cursor.axisX, mainModel.cursor.axisY);
+      controllerFn.cursor.drawCursorRect();
     }
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
   },
   cursor: {
-    generateCursorAnimation(x, y) {
-      const randomRectCount = utils.getSimpleRandomNumber(mainModel.cursor.rect.generateNumber);
-      for (let i = 0; i < randomRectCount; i++) {
-        this.generateRectFromRandomPlace(x, y);
+    drawCursorRect() {
+      for (let i = 0; i < mainModel.cursor.rect.randomInfoArray.length; i++) {
+        this.clearRectByRandomInfo(mainModel.cursor.rect.randomInfoArray[i]);
+      }
+      mainModel.cursor.rect.count++;
+      if (mainModel.cursor.rect.count === mainModel.cursor.rect.intervalCountTimes) {
+        mainModel.cursor.rect.randomInfoArray = [];
+        mainModel.cursor.rect.count = 0;
+        for (let i = 0; i < mainModel.cursor.rect.showNumber; i++) {
+          mainModel.cursor.rect.randomInfoArray[i] = controllerFn.cursor.generateCursorRectInfo(mainModel.cursor);
+        }
+      }
+      for (let i = 0; i < mainModel.cursor.rect.randomInfoArray.length; i++) {
+        this.drawRectByRandomInfo(mainModel.cursor.rect.randomInfoArray[i]);
       }
     },
-    generateRectFromRandomPlace(x, y) {
+    generateCursorRectInfo(cursor) {
       const rectModel = mainModel.cursor.rect;
-      const randomOffsetX = utils.getSimpleRandomNumber(rectModel.offsetXScope[0], rectModel.offsetXScope[1]);
-      const randomOffsetY = utils.getSimpleRandomNumber(rectModel.offsetYScope[0], rectModel.offsetYScope[1]);
-      const randomWidth = utils.getSimpleRandomNumber(rectModel.widthScope[0], rectModel.widthScope[1]);
-      const randomHeight = randomWidth;
-      const randomColor = utils.getSimpleRandomColor();
-      canvasFn.drawRect(mainModel.ctx, x + randomOffsetX - randomWidth / 2, y + randomOffsetY - randomHeight / 2, randomWidth, randomHeight, null, true, randomColor);
-      let timeout = setTimeout(() => {
-        canvasFn.clearRect(mainModel.ctx, x + randomOffsetX - 1 - randomWidth / 2, y + randomOffsetY - 1 - randomHeight / 2, randomWidth + 2, randomHeight + 2);
-        clearTimeout(timeout);
-      }, rectModel.clearTimes);
+      const randomRectInfo = {
+        x: cursor.axisX,
+        y: cursor.axisY,
+        randomOffsetX: utils.getSimpleRandomNumber(rectModel.offsetXScope[0], rectModel.offsetXScope[1]),
+        randomOffsetY: utils.getSimpleRandomNumber(rectModel.offsetYScope[0], rectModel.offsetYScope[1]),
+        randomWidth: utils.getSimpleRandomNumber(rectModel.widthScope[0], rectModel.widthScope[1]),
+        randomColor: utils.getSimpleRandomColor()
+      }
+      randomRectInfo.randomHeight = randomRectInfo.randomWidth;
+      return randomRectInfo;
+    },
+    drawRectByRandomInfo(obj) {
+      canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor);
+    },
+    clearRectByRandomInfo(obj) {
+      canvasFn.clearRect(mainModel.ctx, obj.x + obj.randomOffsetX - 1 - obj.randomWidth / 2, obj.y + obj.randomOffsetY - 1 - obj.randomHeight / 2, obj.randomWidth + 2, obj.randomHeight + 2);
     }
   }
 };

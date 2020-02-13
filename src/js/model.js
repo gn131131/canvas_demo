@@ -9,11 +9,13 @@ let mainModel = {
     isClicked: false,
     isMoving: false,
     rect: {
-      offsetXScope: [30, -30],
-      offsetYScope: [30, -30],
-      widthScope: [20, 10],
-      generateNumber: 5,
-      clearTimes: 80
+      offsetXScope: [50, -50],
+      offsetYScope: [50, -50],
+      widthScope: [30, 10],
+      intervalCountTimes: 4,
+      showNumber: 20,
+      randomInfoArray: [],
+      count: 0
     }
   }
 };
