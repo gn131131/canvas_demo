@@ -30,7 +30,7 @@ let controllerFn = {
         this.clearRectByRandomInfo(item);
       });
       mainModel.cursor.rect.count++;
-      if (mainModel.cursor.rect.count === mainModel.cursor.rect.intervalCountTimes) {
+      if (mainModel.cursor.rect.count === mainModel.cursor.rect.countInterval) {
         if (mainModel.cursor.rect.randomInfoArray.length === mainModel.cursor.rect.showNumber) {
           
           mainModel.cursor.rect.randomInfoArray[mainModel.cursor.rect.currentIndex] = controllerFn.cursor.generateCursorRectInfo(mainModel.cursor);
