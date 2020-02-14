@@ -9,14 +9,24 @@ let mainModel = {
     isClicked: false,
     isMoving: false,
     rect: {
-      offsetXScope: [30, -30],
-      offsetYScope: [30, -30],
+      offsetXScope: [50, -50],
+      offsetYScope: [50, -50],
       widthScope: [25, 5],
       countInterval: 1,
-      showNumber: 10,
+      showNumber: 20,
       randomInfoArray: [],
       count: 0,
-      currentIndex: 0
+      currentIndex: 0,
+      mode: 'picture',
+      picArray: [
+        '../assets/image/peach/1.png',
+        '../assets/image/peach/2.png',
+        '../assets/image/peach/3.png',
+        '../assets/image/peach/4.png',
+        '../assets/image/peach/5.png',
+        '../assets/image/peach/6.png'
+      ],
+      imageArray: []
     }
   }
 };

@@ -20,8 +20,8 @@ let canvasFn = {
   clearRect(ctx, x, y, w, h) {
     ctx.clearRect(x, y, w, h);
   },
-  drawPic() {
-
+  drawPic(ctx, image, x, y, w, h) {
+    ctx.drawImage(image, x, y, w, h);
   }
 };
 

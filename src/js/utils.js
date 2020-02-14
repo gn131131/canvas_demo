@@ -22,6 +22,9 @@ let utilsFn = {
   },
   getSimpleRandomColor() {
     return '#' + Math.floor( Math.random() * 0xffffff ).toString(16);
+  },
+  getRandomPicFromArray(array) {
+    return array[Math.floor(Math.random()*array.length)];
   }
 };
 

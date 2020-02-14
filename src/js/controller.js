@@ -14,42 +14,60 @@ let controllerFn = {
     // 界面渲染
     // 鼠标渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
-      controllerFn.cursor.drawCursorRect();
+      controllerFn.cursor.drawCursorAnimation();
     } else {
-      $.each(mainModel.cursor.rect.randomInfoArray, (i, item) => {
-        controllerFn.cursor.clearRectByRandomInfo(item);
-      });
-      mainModel.cursor.rect.randomInfoArray = [];
-      mainModel.cursor.rect.count = 0;
+      controllerFn.cursor.clearCursorAnimation();
     }
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
   },
   cursor: {
-    drawCursorRect() {
-      $.each(mainModel.cursor.rect.randomInfoArray, (i, item) => {
+    drawCursorAnimation() {
+      const rectModel = mainModel.cursor.rect;
+
+      if (rectModel.mode === 'picture') {
+        $.each(rectModel.picArray, (i, item) => {
+          let image = new Image();
+          image.src = item;
+          rectModel.imageArray.push(image);
+        });
+      }
+
+      $.each(rectModel.randomInfoArray, (i, item) => {
         this.clearRectByRandomInfo(item);
       });
-      mainModel.cursor.rect.count++;
-      if (mainModel.cursor.rect.count === mainModel.cursor.rect.countInterval) {
-        if (mainModel.cursor.rect.randomInfoArray.length === mainModel.cursor.rect.showNumber) {
+      rectModel.count++;
+      if (rectModel.count === rectModel.countInterval) {
+        if (rectModel.randomInfoArray.length === rectModel.showNumber) {
           
-          mainModel.cursor.rect.randomInfoArray[mainModel.cursor.rect.currentIndex] = controllerFn.cursor.generateCursorRectInfo(mainModel.cursor);
-          if (mainModel.cursor.rect.currentIndex === mainModel.cursor.rect.randomInfoArray.length - 1) {
-            mainModel.cursor.rect.currentIndex = 0;
+          rectModel.randomInfoArray[rectModel.currentIndex] = controllerFn.cursor.generateCursorInfo(mainModel.cursor);
+          if (rectModel.currentIndex === rectModel.randomInfoArray.length - 1) {
+            rectModel.currentIndex = 0;
           } else {
-            mainModel.cursor.rect.currentIndex++;
+            rectModel.currentIndex++;
           }
         } else {
-          mainModel.cursor.rect.randomInfoArray.push(controllerFn.cursor.generateCursorRectInfo(mainModel.cursor));
+          rectModel.randomInfoArray.push(controllerFn.cursor.generateCursorInfo(mainModel.cursor));
         }
-        mainModel.cursor.rect.count = 0;
+        rectModel.count = 0;
       }
-      
-      $.each(mainModel.cursor.rect.randomInfoArray, (i, item) => {
-        this.drawRectByRandomInfo(item);
+      $.each(rectModel.randomInfoArray, (i, item) => {
+        if (rectModel.mode === 'rect') {
+          this.drawRectByRandomInfo(item);
+        } else if (rectModel.mode === 'picture') {
+          item.randomHeight = item.randomWidth = 50;
+          this.drawPicByRandomInfo(item);
+        }
       });
     },
-    generateCursorRectInfo(cursor) {
+    clearCursorAnimation() {
+      const rectModel = mainModel.cursor.rect;
+      $.each(rectModel.randomInfoArray, (i, item) => {
+        controllerFn.cursor.clearRectByRandomInfo(item);
+      });
+      rectModel.randomInfoArray = [];
+      rectModel.count = 0;
+    },
+    generateCursorInfo(cursor) {
       const rectModel = mainModel.cursor.rect;
       const randomRectInfo = {
         x: cursor.axisX,
@@ -57,7 +75,8 @@ let controllerFn = {
         randomOffsetX: utils.getSimpleRandomNumber(rectModel.offsetXScope[0], rectModel.offsetXScope[1]),
         randomOffsetY: utils.getSimpleRandomNumber(rectModel.offsetYScope[0], rectModel.offsetYScope[1]),
         randomWidth: utils.getSimpleRandomNumber(rectModel.widthScope[0], rectModel.widthScope[1]),
-        randomColor: utils.getSimpleRandomColor()
+        randomColor: utils.getSimpleRandomColor(),
+        randomImage: utils.getRandomPicFromArray(rectModel.imageArray)
       }
       randomRectInfo.randomHeight = randomRectInfo.randomWidth;
       return randomRectInfo;
@@ -67,6 +86,10 @@ let controllerFn = {
     },
     clearRectByRandomInfo(obj) {
       canvasFn.clearRect(mainModel.ctx, obj.x + obj.randomOffsetX - 1 - obj.randomWidth / 2, obj.y + obj.randomOffsetY - 1 - obj.randomHeight / 2, obj.randomWidth + 2, obj.randomHeight + 2);
+    },
+    drawPicByRandomInfo(obj) {
+      canvasFn.drawPic(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
+
     }
   }
 };
