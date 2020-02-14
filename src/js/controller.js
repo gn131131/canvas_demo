@@ -54,7 +54,7 @@ let controllerFn = {
         if (rectModel.mode === 'rect') {
           this.drawRectByRandomInfo(item);
         } else if (rectModel.mode === 'picture') {
-          item.randomHeight = item.randomWidth = 50;
+          item.randomHeight = item.randomWidth = rectModel.picWidth;
           this.drawPicByRandomInfo(item);
         }
       });
