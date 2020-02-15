@@ -11,12 +11,14 @@ let controllerFn = {
     window.requestAnimationFrame(this.canvasControllerMainFn);
   },
   canvasControllerMainFn() {
-    // 界面渲染
-    // 鼠标渲染--放最后
+    // 清除鼠标特效--放最前
+    if (!(mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked)) {
+      controllerFn.cursor.clearCursorAnimation();
+    }
+    // 界面渲染--放中间
+    // 鼠标特效渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
       controllerFn.cursor.drawCursorAnimation();
-    } else {
-      controllerFn.cursor.clearCursorAnimation();
     }
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
   },
@@ -54,7 +56,6 @@ let controllerFn = {
         if (rectModel.mode === 'rect') {
           this.drawRectByRandomInfo(item);
         } else if (rectModel.mode === 'picture') {
-          item.randomHeight = item.randomWidth = rectModel.picWidth;
           this.drawPicByRandomInfo(item);
         }
       });
@@ -66,7 +67,8 @@ let controllerFn = {
       });
       rectModel.randomInfoArray = [];
       rectModel.count = 0;
-    },
+      rectModel.currentIndex = 0;
+    },    
     generateCursorInfo(cursor) {
       const rectModel = mainModel.cursor.rect;
       const randomRectInfo = {
@@ -76,11 +78,11 @@ let controllerFn = {
         randomOffsetY: utils.getSimpleRandomNumber(rectModel.offsetYScope[0], rectModel.offsetYScope[1]),
         randomWidth: utils.getSimpleRandomNumber(rectModel.widthScope[0], rectModel.widthScope[1]),
         randomColor: utils.getSimpleRandomColor(),
-        randomImage: utils.getRandomPicFromArray(rectModel.imageArray)
+        randomImage: utils.getRandomItemFromArray(rectModel.imageArray)
       }
       randomRectInfo.randomHeight = randomRectInfo.randomWidth;
       return randomRectInfo;
-    },
+    },   
     drawRectByRandomInfo(obj) {
       canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor);
     },
@@ -89,7 +91,6 @@ let controllerFn = {
     },
     drawPicByRandomInfo(obj) {
       canvasFn.drawPic(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
-
     }
   }
 };
