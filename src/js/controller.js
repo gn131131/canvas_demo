@@ -1,3 +1,11 @@
+/*
+ * @Description: 总控制器
+ * @Version: 1.0
+ * @Autor: Pumpking
+ * @Date: 2020-02-11 16:56:12
+ * @LastEditors: Pumpking
+ * @LastEditTime: 2020-02-15 14:45:25
+ */
 import eventListenerFn from "./eventListener";
 import utils from "./utils";
 import canvasFn from "./canvasFn";

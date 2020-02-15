@@ -1,3 +1,11 @@
+/*
+ * @Description: 全局事件监听
+ * @Version: 1.0
+ * @Autor: Pumpking
+ * @Date: 2020-02-11 17:04:42
+ * @LastEditors: Pumpking
+ * @LastEditTime: 2020-02-15 14:45:16
+ */
 import $ from "jquery";
 import mainModel from "./model";
 

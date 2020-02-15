@@ -1,3 +1,11 @@
+/*
+ * @Description: 常量数据模型
+ * @Version: 1.0
+ * @Autor: Pumpking
+ * @Date: 2020-02-11 20:33:15
+ * @LastEditors: Pumpking
+ * @LastEditTime: 2020-02-15 14:45:03
+ */
 import $ from "jquery";
 
 let mainModel = {

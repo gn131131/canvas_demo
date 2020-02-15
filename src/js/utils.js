@@ -1,8 +1,16 @@
+/*
+ * @Description: 公共方法
+ * @Version: 1.0
+ * @Autor: Pumpking
+ * @Date: 2020-02-11 20:24:25
+ * @LastEditors: Pumpking
+ * @LastEditTime: 2020-02-15 14:43:53
+ */
 let utilsFn = {
   /**
    * @description: 获得一个随机数字
-   * @param {number} max
-   * @param {number} min
+   * @param {number} max 上限
+   * @param {number} min 下限
    * @return: 随机数字
    * @author: Pumpking
    */  
@@ -37,8 +45,8 @@ let utilsFn = {
     return '#' + Math.floor( Math.random() * 0xffffff ).toString(16);
   },
   /**
-   * @description: 从图片数组中随机一个值
-   * @param {array} array 
+   * @description: 从数组中随机一个值
+   * @param {array} array 数组
    * @return: 随机值
    * @author: Pumpking
    */
