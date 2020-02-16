@@ -21,17 +21,55 @@ let controllerFn = {
   canvasControllerMainFn() {
     // 清除鼠标特效--放最前
     if (!(mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked)) {
-      controllerFn.cursor.clearCursorAnimation();
+      controllerFn.cursor.clearAnimation();
     }
+    // 界面清除--放中间
+    controllerFn.game[mainModel.game.mode].clearGame();
     // 界面渲染--放中间
+    controllerFn.game[mainModel.game.mode].drawGame();
     // 鼠标特效渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
-      controllerFn.cursor.drawCursorAnimation();
+      controllerFn.cursor.drawAnimation();
     }
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
   },
+  game: {
+    snake: {
+      drawGame() {
+        this.drawWall();
+      },
+      clearGame() {
+        this.clearWall();
+      },
+      drawWall() {
+        const wallModel = mainModel.game.snake.wall;
+        wallModel.axis = [{
+            x: wallModel.x,
+            y: wallModel.y
+          },
+          {
+            x: wallModel.x + wallModel.w,
+            y: wallModel.y
+          },
+          {
+            x: wallModel.x + wallModel.w,
+            y: wallModel.y + wallModel.h
+          },
+          {
+            x: wallModel.x,
+            y: wallModel.y + wallModel.h
+          },
+        ];
+        canvasFn.drawLine(mainModel.ctx, wallModel.axis, wallModel.color, wallModel.width);
+      },
+      clearWall() {
+        const wallModel = mainModel.game.snake.wall;
+        canvasFn.clearRect(mainModel.ctx, wallModel.x - wallModel.width, wallModel.y - wallModel.width, wallModel.w + 2 * wallModel.width, wallModel.h + 2 * wallModel.width);
+      }
+    }
+  },
   cursor: {
-    drawCursorAnimation() {
+    drawAnimation() {
       const rectModel = mainModel.cursor.rect;
 
       if (rectModel.mode === 'picture') {
@@ -48,15 +86,15 @@ let controllerFn = {
       rectModel.count++;
       if (rectModel.count === rectModel.countInterval) {
         if (rectModel.randomInfoArray.length === rectModel.showNumber) {
-          
-          rectModel.randomInfoArray[rectModel.currentIndex] = controllerFn.cursor.generateCursorInfo(mainModel.cursor);
+
+          rectModel.randomInfoArray[rectModel.currentIndex] = controllerFn.cursor.generateInfo(mainModel.cursor);
           if (rectModel.currentIndex === rectModel.randomInfoArray.length - 1) {
             rectModel.currentIndex = 0;
           } else {
             rectModel.currentIndex++;
           }
         } else {
-          rectModel.randomInfoArray.push(controllerFn.cursor.generateCursorInfo(mainModel.cursor));
+          rectModel.randomInfoArray.push(controllerFn.cursor.generateInfo(mainModel.cursor));
         }
         rectModel.count = 0;
       }
@@ -68,7 +106,7 @@ let controllerFn = {
         }
       });
     },
-    clearCursorAnimation() {
+    clearAnimation() {
       const rectModel = mainModel.cursor.rect;
       $.each(rectModel.randomInfoArray, (i, item) => {
         controllerFn.cursor.clearRectByRandomInfo(item);
@@ -76,8 +114,8 @@ let controllerFn = {
       rectModel.randomInfoArray = [];
       rectModel.count = 0;
       rectModel.currentIndex = 0;
-    },    
-    generateCursorInfo(cursor) {
+    },
+    generateInfo(cursor) {
       const rectModel = mainModel.cursor.rect;
       const randomRectInfo = {
         x: cursor.axisX,
@@ -90,12 +128,13 @@ let controllerFn = {
       }
       randomRectInfo.randomHeight = randomRectInfo.randomWidth;
       return randomRectInfo;
-    },   
+    },
     drawRectByRandomInfo(obj) {
-      canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor);
+      canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor, mainModel.cursor.rect.borderWidth);
     },
     clearRectByRandomInfo(obj) {
-      canvasFn.clearRect(mainModel.ctx, obj.x + obj.randomOffsetX - 1 - obj.randomWidth / 2, obj.y + obj.randomOffsetY - 1 - obj.randomHeight / 2, obj.randomWidth + 2, obj.randomHeight + 2);
+      const borderWidth = mainModel.cursor.rect.borderWidth || 1;
+      canvasFn.clearRect(mainModel.ctx, obj.x + obj.randomOffsetX - borderWidth - obj.randomWidth / 2, obj.y + obj.randomOffsetY - borderWidth - obj.randomHeight / 2, obj.randomWidth + 2 * borderWidth, obj.randomHeight + 2 * borderWidth);
     },
     drawPicByRandomInfo(obj) {
       canvasFn.drawPic(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);

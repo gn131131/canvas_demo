@@ -15,6 +15,7 @@ let eventListenerFn = {
     this.mouseUp();
     this.mouseDown();
     this.mouseLeave();
+    this.keyDown();
   },
   mouseMove() {
     $("#mainCanvas").off('mousemove').on('mousemove', (e) => {
@@ -36,6 +37,18 @@ let eventListenerFn = {
   mouseLeave() {
     $("#mainCanvas").off('mouseleave').on('mouseleave', (e) => {
       mainModel.cursor.isClicked = false;
+    });
+  },
+  keyDown() {
+    $(window).off('keydown').on('keydown', (e) => {
+      // e.preventDefault();
+      // const playerModel = mainModel.game.adventure.player;
+      // switch (e.keyCode) {
+      //   case 37: playerModel.x = playerModel.oldX - playerModel.speed;break;
+      //   // case 38: playerModel.y = playerModel.oldY - playerModel.speed;break;
+      //   case 39: playerModel.x = playerModel.oldX + playerModel.speed;break;
+      //   // case 40: playerModel.y = playerModel.oldY + playerModel.speed;break;
+      // }
     });
   }
 };

@@ -19,8 +19,25 @@ let canvasFn = {
     node.width =  document.documentElement.clientWidth;
     node.height =  document.documentElement.clientHeight;
   },
-  drawLine() {
+  /**
+   * @description: 绘制线
+   * @param {type} 
+   * @return: 
+   * @author: Pumpking
+   */
+  drawLine(ctx, array, color, width) {
+    color = color || '#000';
+    width = width || 1;
     
+    ctx.beginPath();
+    ctx.moveTo(array[0].x, array[0].y);
+    $.each(array, (i, item) => {
+      ctx.lineTo(item.x, item.y);
+    });
+    ctx.closePath();
+    ctx.lineWidth = width;
+    ctx.strokeStyle = color;
+    ctx.stroke();
   },
   /**
    * @description: 绘制矩形
@@ -35,7 +52,8 @@ let canvasFn = {
    * @return: void
    * @author: Pumpking
    */  
-  drawRect(ctx, x, y, w, h, color, isEmpty, borderColor) {
+  drawRect(ctx, x, y, w, h, color, isEmpty, borderColor, borderWidth) {
+    ctx.lineWidth = borderWidth || 1;
     if (isEmpty === true) {
       ctx.strokeStyle = borderColor;
       ctx.strokeRect(x, y, w, h);

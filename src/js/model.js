@@ -17,6 +17,29 @@ import img6 from '../assets/image/peach/6.png';
 let mainModel = {
   canvasNode: document.getElementById("mainCanvas"),
   ctx: document.getElementById("mainCanvas").getContext('2d'),
+  game: {
+    mode: 'snake',
+    snake: {
+      game: {
+        rectWidth: 20,
+      },
+      wall: {
+        x: 50,
+        y: 50,
+        w: 800,
+        h: 500,
+        axis: [],
+        color: '#000',
+        width: 10
+      },
+      player: {
+        axis: [],
+        color: '#ff0000',
+        speed: 1,
+        position: 'left'
+      }
+    }
+  },
   cursor: {
     axisX: null,
     axisY: null,
@@ -26,6 +49,7 @@ let mainModel = {
       offsetXScope: [20, -20],
       offsetYScope: [20, -20],
       widthScope: [20, 3],
+      borderWidth: 1,
       countInterval: 1,
       showNumber: 10,
       randomInfoArray: [],
