@@ -7,6 +7,12 @@
  * @LastEditTime: 2020-02-15 14:45:03
  */
 import $ from "jquery";
+import img1 from '../assets/image/peach/1.png';
+import img2 from '../assets/image/peach/2.png';
+import img3 from '../assets/image/peach/3.png';
+import img4 from '../assets/image/peach/4.png';
+import img5 from '../assets/image/peach/5.png';
+import img6 from '../assets/image/peach/6.png';
 
 let mainModel = {
   canvasNode: document.getElementById("mainCanvas"),
@@ -25,15 +31,8 @@ let mainModel = {
       randomInfoArray: [],
       count: 0,
       currentIndex: 0,
-      mode: 'rect',
-      picArray: [
-        '../assets/image/peach/1.png',
-        '../assets/image/peach/2.png',
-        '../assets/image/peach/3.png',
-        '../assets/image/peach/4.png',
-        '../assets/image/peach/5.png',
-        '../assets/image/peach/6.png'
-      ],
+      mode: 'rect', // 'picture' 'rect'
+      picArray: [img1, img2, img3, img4, img5, img6],
       imageArray: []
     }
   }

@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: Pumpking
+ * @Date: 2020-02-11 16:13:25
+ * @LastEditors: Pumpking
+ * @LastEditTime: 2020-02-16 13:32:29
+ */
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -17,11 +25,25 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"]
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              outputPath: 'images/'
+            }
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ["file-loader"]
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              outputPath: 'fonts/'
+            }
+          }
+        ]
       },
       {
         test: /\.js$/,
