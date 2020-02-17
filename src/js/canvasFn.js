@@ -22,8 +22,11 @@ let canvasFn = {
   },
   /**
    * @description: 绘制线
-   * @param {type} 
-   * @return: 
+   * @param {object} ctx canvas
+   * @param {array} array 包含顺序路径点坐标的数组，eg.[{x: 0, y: 0}]
+   * @param {string} 线条颜色，不填默认黑色
+   * @param {number} 线条宽度，不填默认1
+   * @return: void
    * @author: Pumpking
    */
   drawLine(ctx, array, color, width) {

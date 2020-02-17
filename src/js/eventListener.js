@@ -41,14 +41,14 @@ let eventListenerFn = {
   },
   keyDown() {
     $(window).off('keydown').on('keydown', (e) => {
-      // e.preventDefault();
-      // const playerModel = mainModel.game.adventure.player;
-      // switch (e.keyCode) {
-      //   case 37: playerModel.x = playerModel.oldX - playerModel.speed;break;
-      //   // case 38: playerModel.y = playerModel.oldY - playerModel.speed;break;
-      //   case 39: playerModel.x = playerModel.oldX + playerModel.speed;break;
-      //   // case 40: playerModel.y = playerModel.oldY + playerModel.speed;break;
-      // }
+      e.preventDefault();
+      const playerModel = mainModel.game[mainModel.game.mode].player;
+      switch (e.keyCode) {
+        case 37: playerModel.position = "left";break;
+        case 38: playerModel.position = "top";break;
+        case 39: playerModel.position = "right";break;
+        case 40: playerModel.position = "bottom";break;
+      }
     });
   }
 };
