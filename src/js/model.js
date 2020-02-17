@@ -39,7 +39,7 @@ let mainModel = {
         oriLength: 5,
         color: '#ff0000',
         position: 'right',
-        countInterval: 3
+        countInterval: 1
       }
     }
   },
@@ -55,7 +55,7 @@ let mainModel = {
       borderWidth: 1,
       countInterval: 1,
       showNumber: 20,
-      mode: 'rect', // 'picture' 'rect'
+      mode: 'picture', // 'picture' 'rect'
       picArray: [img1, img2, img3, img4, img5, img6],
     }
   }

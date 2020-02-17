@@ -129,17 +129,19 @@ let controllerFn = {
     drawAnimation() {
       const rectModel = mainModel.cursor.rect;
 
-      if (rectModel.mode === 'picture' && !rectModel.imageArray) {
+      rectModel.count = rectModel.count || 0;
+      rectModel.count++;
+      rectModel.randomInfoArray = rectModel.randomInfoArray || [];
+      rectModel.imageArray = rectModel.imageArray || [];
+
+      if (rectModel.mode === 'picture' && rectModel.imageArray.length === 0) {
         $.each(rectModel.picArray, (i, item) => {
           let image = new Image();
           image.src = item;
           rectModel.imageArray.push(image);
         });
       }
-      rectModel.imageArray = rectModel.imageArray || [];
-      rectModel.count = rectModel.count || 0;
-      rectModel.count++;
-      rectModel.randomInfoArray = rectModel.randomInfoArray || [];
+
       if (rectModel.count === rectModel.countInterval) {
         if (rectModel.randomInfoArray.length === rectModel.showNumber) {
           rectModel.currentIndex = rectModel.currentIndex || 0;
