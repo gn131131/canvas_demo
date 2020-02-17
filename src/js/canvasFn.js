@@ -7,6 +7,7 @@
  * @LastEditTime: 2020-02-15 14:43:21
  */
 import $ from "jquery";
+import mainModel from "./model";
 
 let canvasFn = {
   /**
@@ -16,8 +17,8 @@ let canvasFn = {
    * @author: Pumpking
    */
   setCanvasToFullScreen(node) {
-    node.width =  document.documentElement.clientWidth;
-    node.height =  document.documentElement.clientHeight;
+    node.width =  mainModel.clientWidth;
+    node.height =  mainModel.clientHeight;
   },
   /**
    * @description: 绘制线

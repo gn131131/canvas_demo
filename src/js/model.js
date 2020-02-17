@@ -17,6 +17,8 @@ import img6 from '../assets/image/peach/6.png';
 let mainModel = {
   canvasNode: document.getElementById("mainCanvas"),
   ctx: document.getElementById("mainCanvas").getContext('2d'),
+  clientWidth: document.documentElement.clientWidth,
+  clientHeight: document.documentElement.clientHeight,
   game: {
     mode: 'snake',
     snake: {

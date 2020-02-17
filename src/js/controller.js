@@ -19,27 +19,25 @@ let controllerFn = {
     window.requestAnimationFrame(this.canvasControllerMainFn);
   },
   canvasControllerMainFn() {
-    // 清除鼠标特效--放最前
-    if (!(mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked)) {
-      controllerFn.cursor.clearAnimation();
-    }
-    // 界面清除--放中间
-    controllerFn.game[mainModel.game.mode].clearGame();
+    // 界面清除--放最前
+    controllerFn.clearAll();
     // 界面渲染--放中间
     controllerFn.game[mainModel.game.mode].drawGame();
     // 鼠标特效渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
       controllerFn.cursor.drawAnimation();
+    } else {
+      controllerFn.cursor.clearInfo();
     }
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
+  },
+  clearAll() {
+    canvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   game: {
     snake: {
       drawGame() {
         this.drawWall();
-      },
-      clearGame() {
-        this.clearWall();
       },
       drawWall() {
         const wallModel = mainModel.game.snake.wall;
@@ -61,10 +59,6 @@ let controllerFn = {
           },
         ];
         canvasFn.drawLine(mainModel.ctx, wallModel.axis, wallModel.color, wallModel.width);
-      },
-      clearWall() {
-        const wallModel = mainModel.game.snake.wall;
-        canvasFn.clearRect(mainModel.ctx, wallModel.x - wallModel.width, wallModel.y - wallModel.width, wallModel.w + 2 * wallModel.width, wallModel.h + 2 * wallModel.width);
       }
     }
   },
@@ -79,10 +73,6 @@ let controllerFn = {
           rectModel.imageArray.push(image);
         });
       }
-
-      $.each(rectModel.randomInfoArray, (i, item) => {
-        this.clearRectByRandomInfo(item);
-      });
       rectModel.count++;
       if (rectModel.count === rectModel.countInterval) {
         if (rectModel.randomInfoArray.length === rectModel.showNumber) {
@@ -106,11 +96,8 @@ let controllerFn = {
         }
       });
     },
-    clearAnimation() {
+    clearInfo() {
       const rectModel = mainModel.cursor.rect;
-      $.each(rectModel.randomInfoArray, (i, item) => {
-        controllerFn.cursor.clearRectByRandomInfo(item);
-      });
       rectModel.randomInfoArray = [];
       rectModel.count = 0;
       rectModel.currentIndex = 0;
@@ -131,10 +118,6 @@ let controllerFn = {
     },
     drawRectByRandomInfo(obj) {
       canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor, mainModel.cursor.rect.borderWidth);
-    },
-    clearRectByRandomInfo(obj) {
-      const borderWidth = mainModel.cursor.rect.borderWidth || 1;
-      canvasFn.clearRect(mainModel.ctx, obj.x + obj.randomOffsetX - borderWidth - obj.randomWidth / 2, obj.y + obj.randomOffsetY - borderWidth - obj.randomHeight / 2, obj.randomWidth + 2 * borderWidth, obj.randomHeight + 2 * borderWidth);
     },
     drawPicByRandomInfo(obj) {
       canvasFn.drawPic(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
