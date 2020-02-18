@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-15 14:45:16
+ * @LastEditTime: 2020-02-18 16:20:32
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -41,15 +41,25 @@ let eventListenerFn = {
   },
   keyDown() {
     $(window).off('keydown').on('keydown', (e) => {
-      e.preventDefault();
-      const playerModel = mainModel.game[mainModel.game.mode].player;
-      const gameModel = mainModel.game[mainModel.game.mode].game;
-      gameModel.start = true;
-      switch (e.keyCode) {
-        case 37: playerModel.position = "left";break;
-        case 38: playerModel.position = "top";break;
-        case 39: playerModel.position = "right";break;
-        case 40: playerModel.position = "bottom";break;
+      if (mainModel.game.mode === 'snake') {
+        e.preventDefault();
+        const playerModel = mainModel.game[mainModel.game.mode].player;
+        const gameModel = mainModel.game[mainModel.game.mode].game;
+        gameModel.start = true;
+        switch (e.keyCode) {
+          case 37:
+            playerModel.position = "left";
+            break;
+          case 38:
+            playerModel.position = "top";
+            break;
+          case 39:
+            playerModel.position = "right";
+            break;
+          case 40:
+            playerModel.position = "bottom";
+            break;
+        }
       }
     });
   }
