@@ -41,8 +41,7 @@ let mainModel = {
         oriLength: 20,
         oriSpeed: 10,
         color: '#ff0000',
-        position: 'right',
-        speedUpIntervalCount: 1
+        speedUpIntervalCount: 10
       },
       food: {
         count: 2

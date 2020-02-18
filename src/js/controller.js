@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-18 20:23:07
+ * @LastEditTime: 2020-02-18 20:25:25
  * TODO: 
  * 1.自碰判断（完成）
  * 2.倒走判断（完成）
@@ -99,6 +99,7 @@ let controllerFn = {
         model.player.speedCount = model.player.speedCount || 0;
         model.player.speed = model.player.speed || model.player.oriSpeed;
         model.player.count = model.player.count || 0;
+        model.player.position = model.player.position || 'right';
 
         model.food.axis = model.food.axis || [];
 
