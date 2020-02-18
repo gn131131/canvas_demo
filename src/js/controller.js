@@ -5,6 +5,16 @@
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
  * @LastEditTime: 2020-02-15 14:45:25
+ * TODO: 
+ * 1.自碰判断
+ * 2.倒走判断
+ * 3.加速
+ * 4.食物增长开关
+ * 5.计分
+ * 6.菜单
+ * 8.皮肤
+ * 9.多人
+ * 10.自食截断
  */
 import eventListenerFn from "./eventListener";
 import utils from "./utils";
