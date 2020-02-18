@@ -41,7 +41,8 @@ let mainModel = {
         oriLength: 20,
         color: '#ff0000',
         position: 'right',
-        countInterval: 5
+        speed: 10,
+        speedUpIntervalCount: 2
       },
       food: {
         count: 2
@@ -58,7 +59,7 @@ let mainModel = {
       offsetYScope: [20, -20],
       widthScope: [20, 3],
       borderWidth: 1,
-      countInterval: 1,
+      speed: 1,
       showNumber: 20,
       mode: 'rect', // 'picture' 'rect'
       picArray: [img1, img2, img3, img4, img5, img6],

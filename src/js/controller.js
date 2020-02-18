@@ -4,11 +4,11 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-18 16:43:27
+ * @LastEditTime: 2020-02-18 17:22:52
  * TODO: 
  * 1.自碰判断（完成）
  * 2.倒走判断（完成）
- * 3.加速
+ * 3.加速（完成）
  * 4.食物增长开关
  * 4.5.代码优化
  * 5.计分
@@ -76,18 +76,25 @@ let controllerFn = {
         canvasFn.drawLine(mainModel.ctx, wallModel.axis, wallModel.color, gameModel.rectWidth);
       },
       drawPlayer() {
+        const gameModel = mainModel.game.snake.game;
+
         this.generatePlayerInfo();
         this.drawPlayerByInfo();
 
-        this.generateFoodInfo();
-        this.drawFoodByInfo();
+        if (gameModel.start === true) {
+          this.generateFoodInfo();
+          this.drawFoodByInfo();
 
-        this.playerMoveByPosition();
-        this.eatFood();
-        this.checkCollision();
+          this.playerMoveByPosition();
+          this.eatFood();
+          this.checkSpeedUp();
+          this.checkCollision();
+        }
       },
       generatePlayerInfo() {
         const model = mainModel.game.snake;
+        model.player.score = model.player.score || 0;
+        model.player.speedCount = model.player.speedCount || 0;
         if (model.game.start === false) {
           model.player.axis = [];
           for (let i = 0; i < model.player.oriLength; i++) {
@@ -96,18 +103,18 @@ let controllerFn = {
               y: model.player.oriAxis.y
             });
           }
-        } else {
-
         }
       },
       resetInfo() {
         const model = mainModel.game.snake;
-        
+
         model.game.start = false;
 
         model.player.position = 'right';
         model.player.count = 0;
         model.player.length = model.player.oriLength;
+        model.player.score = 0;
+        model.player.speedCount = 0;
 
         model.food.axis = [];
       },
@@ -122,29 +129,27 @@ let controllerFn = {
         const gameModel = mainModel.game.snake.game;
         const playerModel = mainModel.game.snake.player;
         playerModel.count = playerModel.count || 0;
-        if (gameModel.start === true) {
-          playerModel.count++;
-          if (playerModel.count === playerModel.countInterval) {
-            
-            if (playerModel.eating === true) {
-              playerModel.eating = false;
-            } else {
-              playerModel.axis.shift(0);
-            }
+        playerModel.count++;
+        if (playerModel.count === playerModel.speed) {
 
-            const tempObj = JSON.parse(JSON.stringify(playerModel.axis[playerModel.axis.length - 1]));
-            if (playerModel.position === 'right') {
-              tempObj.x = tempObj.x + gameModel.rectWidth;
-            } else if (playerModel.position === 'left') {
-              tempObj.x = tempObj.x - gameModel.rectWidth;
-            } else if (playerModel.position === 'top') {
-              tempObj.y = tempObj.y - gameModel.rectWidth;
-            } else if (playerModel.position === 'bottom') {
-              tempObj.y = tempObj.y + gameModel.rectWidth;
-            }
-            playerModel.axis.push(tempObj);
-            playerModel.count = 0;
+          if (playerModel.eating === true) {
+            playerModel.eating = false;
+          } else {
+            playerModel.axis.shift(0);
           }
+
+          const tempObj = JSON.parse(JSON.stringify(playerModel.axis[playerModel.axis.length - 1]));
+          if (playerModel.position === 'right') {
+            tempObj.x = tempObj.x + gameModel.rectWidth;
+          } else if (playerModel.position === 'left') {
+            tempObj.x = tempObj.x - gameModel.rectWidth;
+          } else if (playerModel.position === 'top') {
+            tempObj.y = tempObj.y - gameModel.rectWidth;
+          } else if (playerModel.position === 'bottom') {
+            tempObj.y = tempObj.y + gameModel.rectWidth;
+          }
+          playerModel.axis.push(tempObj);
+          playerModel.count = 0;
         }
       },
       checkCollision() {
@@ -152,15 +157,13 @@ let controllerFn = {
         const wallModel = mainModel.game.snake.wall;
         const playerModel = mainModel.game.snake.player;
         const lastAxis = playerModel.axis[playerModel.axis.length - 1];
-        if (gameModel.start === true) {
-          $.each(playerModel.axis, (i, item) => {
-            if (lastAxis.x === item.x && lastAxis.y === item.y && i !== playerModel.axis.length - 1) {
-              this.resetInfo();
-            }
-          });
-          if (lastAxis.x < wallModel.x + gameModel.rectWidth || lastAxis.x > wallModel.x + wallModel.w - gameModel.rectWidth || lastAxis.y < wallModel.y + gameModel.rectWidth || lastAxis.y > wallModel.y + wallModel.h - gameModel.rectWidth) {
+        $.each(playerModel.axis, (i, item) => {
+          if (lastAxis.x === item.x && lastAxis.y === item.y && i !== playerModel.axis.length - 1) {
             this.resetInfo();
           }
+        });
+        if (lastAxis.x < wallModel.x + gameModel.rectWidth || lastAxis.x > wallModel.x + wallModel.w - gameModel.rectWidth || lastAxis.y < wallModel.y + gameModel.rectWidth || lastAxis.y > wallModel.y + wallModel.h - gameModel.rectWidth) {
+          this.resetInfo();
         }
       },
       generateFoodInfo() {
@@ -169,7 +172,7 @@ let controllerFn = {
         const wallModel = mainModel.game.snake.wall;
 
         foodModel.axis = foodModel.axis || [];
-        if (gameModel.start === true && foodModel.axis.length < foodModel.count) {
+        if (foodModel.axis.length < foodModel.count) {
           for (let i = 0; i < foodModel.count; i++) {
             foodModel.axis.push({
               x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
@@ -191,19 +194,26 @@ let controllerFn = {
         const playerModel = mainModel.game.snake.player;
         const wallModel = mainModel.game.snake.wall;
         const gameModel = mainModel.game.snake.game;
-        
+
         const headAxis = playerModel.axis[playerModel.axis.length - 1];
 
-        if (gameModel.start === true) {
-          for (let i = 0; i < foodModel.count; i++) {
-            if (foodModel.axis[i].x == headAxis.x && foodModel.axis[i].y == headAxis.y) {
-              foodModel.axis[i].x = utils.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, gameModel.rectWidth);
-              foodModel.axis[i].y = utils.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, gameModel.rectWidth);
-              foodModel.axis[i].color = utils.getSimpleRandomColor();
+        for (let i = 0; i < foodModel.count; i++) {
+          if (foodModel.axis[i].x == headAxis.x && foodModel.axis[i].y == headAxis.y) {
+            foodModel.axis[i].x = utils.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, gameModel.rectWidth);
+            foodModel.axis[i].y = utils.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, gameModel.rectWidth);
+            foodModel.axis[i].color = utils.getSimpleRandomColor();
 
-              playerModel.eating = true;
-            }
+            playerModel.eating = true;
+            playerModel.score++;
+            playerModel.speedCount++;
           }
+        }
+      },
+      checkSpeedUp() {
+        const playerModel = mainModel.game.snake.player;
+        if (playerModel.speedCount !== 0 && playerModel.speedCount % playerModel.speedUpIntervalCount === 0 && playerModel.speed > 1) {
+          playerModel.speedCount = 0;
+          playerModel.speed--;
         }
       }
     }
@@ -225,7 +235,7 @@ let controllerFn = {
         });
       }
 
-      if (rectModel.count === rectModel.countInterval) {
+      if (rectModel.count === rectModel.speed) {
         if (rectModel.randomInfoArray.length === rectModel.showNumber) {
           rectModel.currentIndex = rectModel.currentIndex || 0;
           rectModel.randomInfoArray[rectModel.currentIndex] = controllerFn.cursor.generateInfo(mainModel.cursor);
