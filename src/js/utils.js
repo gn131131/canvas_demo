@@ -53,9 +53,9 @@ let utilsFn = {
     return number;
   },
   /**
-   * @description: 生成随机数字
+   * @description: 生成随机颜色
    * @param {null} 
-   * @return: 随机数字
+   * @return: 随机颜色
    * @author: Pumpking
    */
   getSimpleRandomColor() {

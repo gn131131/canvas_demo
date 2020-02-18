@@ -27,8 +27,8 @@ let mainModel = {
         start: false
       },
       wall: {
-        x: 50,
-        y: 50,
+        x: 40,
+        y: 40,
         w: 800,
         h: 500,
         color: '#000'

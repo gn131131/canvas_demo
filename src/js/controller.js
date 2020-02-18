@@ -91,10 +91,13 @@ let controllerFn = {
       },
       resetInfo() {
         const model = mainModel.game.snake;
+        
         model.game.start = false;
+
         model.player.position = 'right';
         model.player.count = 0;
         model.player.length = model.player.oriLength;
+
         model.food.axis = [];
       },
       drawPlayerByInfo() {
@@ -151,8 +154,8 @@ let controllerFn = {
         if (gameModel.start === true && foodModel.axis.length < foodModel.count) {
           for (let i = 0; i < foodModel.count; i++) {
             foodModel.axis.push({
-              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth / 2, wallModel.x + gameModel.rectWidth / 2, gameModel.rectWidth),
-              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth / 2, wallModel.y + gameModel.rectWidth / 2, gameModel.rectWidth),
+              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
+              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth, wallModel.y + gameModel.rectWidth, gameModel.rectWidth),
               color: utils.getSimpleRandomColor()
             });
           }
@@ -171,14 +174,15 @@ let controllerFn = {
         const wallModel = mainModel.game.snake.wall;
         const gameModel = mainModel.game.snake.game;
         
-        const headAxis = playerModel.axis[playerModel.axis.length -1];
+        const headAxis = playerModel.axis[playerModel.axis.length - 1];
 
         if (gameModel.start === true) {
           for (let i = 0; i < foodModel.count; i++) {
             if (foodModel.axis[i].x == headAxis.x && foodModel.axis[i].y == headAxis.y) {
               foodModel.axis[i].x = utils.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, gameModel.rectWidth);
               foodModel.axis[i].y = utils.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, gameModel.rectWidth);
-  
+              foodModel.axis[i].color = utils.getSimpleRandomColor();
+
               playerModel.eating = true;
             }
           }
