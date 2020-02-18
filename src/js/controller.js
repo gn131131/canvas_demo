@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-18 17:22:52
+ * @LastEditTime: 2020-02-18 20:20:19
  * TODO: 
  * 1.自碰判断（完成）
  * 2.倒走判断（完成）
@@ -78,7 +78,7 @@ let controllerFn = {
       drawPlayer() {
         const gameModel = mainModel.game.snake.game;
 
-        this.generatePlayerInfo();
+        this.initPlayerInfo();
         this.drawPlayerByInfo();
 
         if (gameModel.start === true) {
@@ -91,10 +91,16 @@ let controllerFn = {
           this.checkCollision();
         }
       },
-      generatePlayerInfo() {
+      initPlayerInfo() {
         const model = mainModel.game.snake;
+        
         model.player.score = model.player.score || 0;
         model.player.speedCount = model.player.speedCount || 0;
+        model.player.speed = model.player.speed || model.player.oriSpeed;
+        model.player.count = model.player.count || 0;
+
+        model.food.axis = model.food.axis || [];
+
         if (model.game.start === false) {
           model.player.axis = [];
           for (let i = 0; i < model.player.oriLength; i++) {
@@ -113,6 +119,7 @@ let controllerFn = {
         model.player.position = 'right';
         model.player.count = 0;
         model.player.length = model.player.oriLength;
+        model.player.speed = model.player.oriSpeed;
         model.player.score = 0;
         model.player.speedCount = 0;
 
@@ -128,7 +135,7 @@ let controllerFn = {
       playerMoveByPosition() {
         const gameModel = mainModel.game.snake.game;
         const playerModel = mainModel.game.snake.player;
-        playerModel.count = playerModel.count || 0;
+        
         playerModel.count++;
         if (playerModel.count === playerModel.speed) {
 
@@ -171,7 +178,6 @@ let controllerFn = {
         const gameModel = mainModel.game.snake.game;
         const wallModel = mainModel.game.snake.wall;
 
-        foodModel.axis = foodModel.axis || [];
         if (foodModel.axis.length < foodModel.count) {
           for (let i = 0; i < foodModel.count; i++) {
             foodModel.axis.push({
