@@ -151,8 +151,8 @@ let controllerFn = {
         if (gameModel.start === true && foodModel.axis.length < foodModel.count) {
           for (let i = 0; i < foodModel.count; i++) {
             foodModel.axis.push({
-              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
-              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth, wallModel.y + gameModel.rectWidth, gameModel.rectWidth),
+              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth / 2, wallModel.x + gameModel.rectWidth / 2, gameModel.rectWidth),
+              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth / 2, wallModel.y + gameModel.rectWidth / 2, gameModel.rectWidth),
               color: utils.getSimpleRandomColor()
             });
           }
