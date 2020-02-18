@@ -43,21 +43,23 @@ let controllerFn = {
       drawWall() {
         const gameModel = mainModel.game.snake.game;
         const wallModel = mainModel.game.snake.wall;
+        const x = wallModel.x + gameModel.rectWidth / 2;
+        const y = wallModel.y + gameModel.rectWidth / 2;
         wallModel.axis = [{
-            x: wallModel.x,
-            y: wallModel.y
+            x: x,
+            y: y
           },
           {
-            x: wallModel.x + wallModel.w,
-            y: wallModel.y
+            x: x + wallModel.w,
+            y: y
           },
           {
-            x: wallModel.x + wallModel.w,
-            y: wallModel.y + wallModel.h
+            x: x + wallModel.w,
+            y: y + wallModel.h
           },
           {
-            x: wallModel.x,
-            y: wallModel.y + wallModel.h
+            x: x,
+            y: y + wallModel.h
           },
         ];
         canvasFn.drawLine(mainModel.ctx, wallModel.axis, wallModel.color, gameModel.rectWidth);
@@ -132,10 +134,11 @@ let controllerFn = {
         }
       },
       checkCollision() {
+        const gameModel = mainModel.game.snake.game;
         const wallModel = mainModel.game.snake.wall;
         const playerModel = mainModel.game.snake.player;
         const lastAxis = playerModel.axis[playerModel.axis.length - 1];
-        if (lastAxis.x < wallModel.x || lastAxis.x > wallModel.x + wallModel.w || lastAxis.y < wallModel.y || lastAxis.y > wallModel.y + wallModel.h) {
+        if (lastAxis.x < wallModel.x + gameModel.rectWidth || lastAxis.x > wallModel.x + wallModel.w - gameModel.rectWidth || lastAxis.y < wallModel.y + gameModel.rectWidth || lastAxis.y > wallModel.y + wallModel.h - gameModel.rectWidth) {
           this.resetInfo();
         }
       },
@@ -148,8 +151,8 @@ let controllerFn = {
         if (gameModel.start === true && foodModel.axis.length < foodModel.count) {
           for (let i = 0; i < foodModel.count; i++) {
             foodModel.axis.push({
-              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, gameModel.rectWidth),
-              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, gameModel.rectWidth),
+              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
+              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth, wallModel.y + gameModel.rectWidth, gameModel.rectWidth),
               color: utils.getSimpleRandomColor()
             });
           }
