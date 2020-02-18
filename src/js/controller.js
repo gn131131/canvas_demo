@@ -171,7 +171,7 @@ let controllerFn = {
         const headAxis = playerModel.axis[playerModel.axis.length -1];
 
         if (gameModel.start === true) {
-          for (let i = 0; i < foodModel.axis.length; i++) {
+          for (let i = 0; i < foodModel.count; i++) {
             if (foodModel.axis[i].x == headAxis.x && foodModel.axis[i].y == headAxis.y) {
               foodModel.axis[i].x = utils.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, gameModel.rectWidth);
               foodModel.axis[i].y = utils.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, gameModel.rectWidth);

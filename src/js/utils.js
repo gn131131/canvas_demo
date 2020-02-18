@@ -20,7 +20,7 @@ let utilsFn = {
     if (!min) {
       min = 0;
     }
-    while (number === null || (number / multiple) % 1 !== 0) {
+    function getResult() {
       if (min >= 0) {
         number = Math.floor(Math.random() * (max - min + 1)) + min;
       } else if (min < 0) {
@@ -41,6 +41,13 @@ let utilsFn = {
           number = -Math.floor(Math.random() * ((-min) - (-max) + 1)) + (-max);
         }
       }
+    }
+    if (multiple) {
+      while (number === null || (number / multiple) % 1 !== 0) {
+        getResult();
+      }
+    } else {
+      getResult();
     }
     
     return number;
