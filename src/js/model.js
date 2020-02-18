@@ -24,22 +24,24 @@ let mainModel = {
     snake: {
       game: {
         rectWidth: 10,
-        reset: true
+        start: false
       },
       wall: {
         x: 50,
         y: 50,
         w: 800,
         h: 500,
-        color: '#000',
-        width: 10
+        color: '#000'
       },
       player: {
         oriAxis: {x: 100, y: 100},
         oriLength: 5,
         color: '#ff0000',
         position: 'right',
-        countInterval: 1
+        countInterval: 5
+      },
+      food: {
+        count: 2
       }
     }
   },
@@ -55,7 +57,7 @@ let mainModel = {
       borderWidth: 1,
       countInterval: 1,
       showNumber: 20,
-      mode: 'picture', // 'picture' 'rect'
+      mode: 'rect', // 'picture' 'rect'
       picArray: [img1, img2, img3, img4, img5, img6],
     }
   }

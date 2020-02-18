@@ -43,6 +43,8 @@ let eventListenerFn = {
     $(window).off('keydown').on('keydown', (e) => {
       e.preventDefault();
       const playerModel = mainModel.game[mainModel.game.mode].player;
+      const gameModel = mainModel.game[mainModel.game.mode].game;
+      gameModel.start = true;
       switch (e.keyCode) {
         case 37: playerModel.position = "left";break;
         case 38: playerModel.position = "top";break;
