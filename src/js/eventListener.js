@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-18 16:20:32
+ * @LastEditTime: 2020-02-18 16:42:34
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -46,18 +46,19 @@ let eventListenerFn = {
         const playerModel = mainModel.game[mainModel.game.mode].player;
         const gameModel = mainModel.game[mainModel.game.mode].game;
         gameModel.start = true;
+        
         switch (e.keyCode) {
           case 37:
-            playerModel.position = "left";
+            playerModel.position !== "right" && (playerModel.position = "left");
             break;
           case 38:
-            playerModel.position = "top";
+            playerModel.position !== "bottom" && (playerModel.position = "top");
             break;
           case 39:
-            playerModel.position = "right";
+            playerModel.position !== "left" && (playerModel.position = "right");
             break;
           case 40:
-            playerModel.position = "bottom";
+            playerModel.position !== "top" && (playerModel.position = "bottom");
             break;
         }
       }

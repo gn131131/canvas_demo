@@ -4,12 +4,13 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-15 14:45:25
+ * @LastEditTime: 2020-02-18 16:43:27
  * TODO: 
- * 1.自碰判断
- * 2.倒走判断
+ * 1.自碰判断（完成）
+ * 2.倒走判断（完成）
  * 3.加速
  * 4.食物增长开关
+ * 4.5.代码优化
  * 5.计分
  * 6.菜单
  * 8.皮肤
@@ -151,8 +152,15 @@ let controllerFn = {
         const wallModel = mainModel.game.snake.wall;
         const playerModel = mainModel.game.snake.player;
         const lastAxis = playerModel.axis[playerModel.axis.length - 1];
-        if (lastAxis.x < wallModel.x + gameModel.rectWidth || lastAxis.x > wallModel.x + wallModel.w - gameModel.rectWidth || lastAxis.y < wallModel.y + gameModel.rectWidth || lastAxis.y > wallModel.y + wallModel.h - gameModel.rectWidth) {
-          this.resetInfo();
+        if (gameModel.start === true) {
+          $.each(playerModel.axis, (i, item) => {
+            if (lastAxis.x === item.x && lastAxis.y === item.y && i !== playerModel.axis.length - 1) {
+              this.resetInfo();
+            }
+          });
+          if (lastAxis.x < wallModel.x + gameModel.rectWidth || lastAxis.x > wallModel.x + wallModel.w - gameModel.rectWidth || lastAxis.y < wallModel.y + gameModel.rectWidth || lastAxis.y > wallModel.y + wallModel.h - gameModel.rectWidth) {
+            this.resetInfo();
+          }
         }
       },
       generateFoodInfo() {

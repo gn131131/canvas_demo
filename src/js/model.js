@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-15 14:45:03
+ * @LastEditTime: 2020-02-18 16:39:35
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -38,7 +38,7 @@ let mainModel = {
           x: 10,
           y: 10
         },
-        oriLength: 5,
+        oriLength: 20,
         color: '#ff0000',
         position: 'right',
         countInterval: 5
