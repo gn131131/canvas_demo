@@ -27,14 +27,17 @@ let mainModel = {
         start: false
       },
       wall: {
-        x: 40,
-        y: 40,
-        w: 800,
-        h: 500,
+        x: 4,
+        y: 4,
+        w: 80,
+        h: 50,
         color: '#000'
       },
       player: {
-        oriAxis: {x: 100, y: 100},
+        oriAxis: {
+          x: 10,
+          y: 10
+        },
         oriLength: 5,
         color: '#ff0000',
         position: 'right',
@@ -62,5 +65,15 @@ let mainModel = {
     }
   }
 };
+
+function linkInfo() {
+  mainModel.game.snake.wall.x = mainModel.game.snake.wall.x * mainModel.game.snake.game.rectWidth;
+  mainModel.game.snake.wall.y = mainModel.game.snake.wall.y * mainModel.game.snake.game.rectWidth;
+  mainModel.game.snake.wall.w = mainModel.game.snake.wall.w * mainModel.game.snake.game.rectWidth;
+  mainModel.game.snake.wall.h = mainModel.game.snake.wall.h * mainModel.game.snake.game.rectWidth;
+  mainModel.game.snake.player.oriAxis.x = mainModel.game.snake.player.oriAxis.x * mainModel.game.snake.game.rectWidth;
+  mainModel.game.snake.player.oriAxis.y = mainModel.game.snake.player.oriAxis.y * mainModel.game.snake.game.rectWidth;
+}
+linkInfo();
 
 export default mainModel;
