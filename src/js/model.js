@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 16:55:54
+ * @LastEditTime: 2020-02-19 18:00:12
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -41,7 +41,14 @@ let mainModel = {
         oriLength: 5,
         oriSpeed: 50, // 最大59
         color: '#ff0000',
-        speedUpIntervalCount: 5
+        speedUpIntervalCount: 5,
+        scoreAxis: {
+          x: 900,
+          y: 40
+        },
+        scoreColor: '#fff',
+        scoreText: '分数',
+        scoreFont: '20px sans-serif'
       },
       food: {
         count: 10

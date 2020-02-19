@@ -4,13 +4,9 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 17:30:13
+ * @LastEditTime: 2020-02-19 18:01:03
  * TODO: 
- * 1.自碰判断（完成）
- * 2.倒走判断（完成）
- * 3.加速（完成）
- * 3.5.速度曲线调整（完成）
- * 4.食物增长开关
+ * 4.食物增长开关（暂不考虑）
  * 4.5.代码优化
  * 5.计分
  * 6.菜单
@@ -51,6 +47,7 @@ let controllerFn = {
       drawGame() {
         this.drawWall();
         this.drawPlayer();
+        this.drawScore();
       },
       drawWall() {
         const gameModel = mainModel.game.snake.game;
@@ -225,6 +222,10 @@ let controllerFn = {
           playerModel.speedCount = 0;
           playerModel.speed++;
         }
+      },
+      drawScore() {
+        const playerModel = mainModel.game.snake.player;
+        canvasFn.drawText(mainModel.ctx, `${playerModel.scoreText}: ${playerModel.score}`, playerModel.scoreAxis.x, playerModel.scoreAxis.y, playerModel.scoreFont, playerModel.scoreColor);
       }
     }
   },

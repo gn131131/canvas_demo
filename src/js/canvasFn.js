@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 15:11:09
+ * @LastEditTime: 2020-02-19 17:59:33
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -92,6 +92,25 @@ let canvasFn = {
    */  
   drawPic(ctx, image, x, y, w, h) {
     ctx.drawImage(image, x, y, w, h);
+  },
+  /**
+   * @description: 绘制文字
+   * @param {object} ctx canvas
+   * @param {string} text 文字
+   * @param {number} x x坐标
+   * @param {number} y y坐标
+   * @param {string} font 文字信息
+   * @param {string} color 颜色
+   * @return: void
+   * @author: Pumpking
+   */
+  drawText(ctx, text, x, y, font, color) {
+    color = color || '#000';
+    font = font || '10px sans-serif';
+
+    ctx.font = font;
+    ctx.fillStyle = color;
+    ctx.fillText(text, x, y);
   }
 };
 

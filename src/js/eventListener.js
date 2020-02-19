@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 17:31:18
+ * @LastEditTime: 2020-02-19 17:34:35
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -73,8 +73,6 @@ let eventListenerFn = {
           playerModel.position.shift(0);
           playerModel.position.push(pos);
         }
-
-        console.log(playerModel.position)
       }
     });
   }
