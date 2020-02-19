@@ -4,18 +4,25 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-18 16:42:34
+ * @LastEditTime: 2020-02-19 15:14:44
  */
 import $ from "jquery";
 import mainModel from "./model";
 
 let eventListenerFn = {
   init() {
+    this.resize();
     this.mouseMove();
     this.mouseUp();
     this.mouseDown();
     this.mouseLeave();
     this.keyDown();
+  },
+  resize() {
+    $(window).resize(() => {
+      mainModel.clientWidth = document.documentElement.clientWidth;
+      mainModel.clientHeight = document.documentElement.clientHeight;
+    });
   },
   mouseMove() {
     $("#mainCanvas").off('mousemove').on('mousemove', (e) => {

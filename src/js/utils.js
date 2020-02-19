@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 14:28:25
+ * @LastEditTime: 2020-02-19 14:43:53
  */
 let utilsFn = {
   /**
@@ -24,11 +24,9 @@ let utilsFn = {
       if (min >= 0) {
         number = Math.floor(Math.random() * (max - min + 1)) + min;
       } else if (min < 0) {
-        let maxPer = 0,
-          minPer = 0;
+        let maxPer = 0;
         if (max > 0) {
           maxPer = max / (max - min);
-          minPer = -min / (max - min);
           let randomSign = Math.random() > maxPer ? 'min' : 'max';
           switch (randomSign) {
             case 'max':

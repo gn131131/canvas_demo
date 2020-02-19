@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 14:23:24
+ * @LastEditTime: 2020-02-19 14:54:02
  * TODO: 
  * 1.自碰判断（完成）
  * 2.倒走判断（完成）
