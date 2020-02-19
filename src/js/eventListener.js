@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 15:14:44
+ * @LastEditTime: 2020-02-19 17:31:18
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -56,18 +56,25 @@ let eventListenerFn = {
         
         switch (e.keyCode) {
           case 37:
-            playerModel.position !== "right" && (playerModel.position = "left");
+            playerModel.position[0] !== 'right' && refreshPosition("left");
             break;
           case 38:
-            playerModel.position !== "bottom" && (playerModel.position = "top");
+            playerModel.position[0] !== 'bottom' && refreshPosition("top");
             break;
           case 39:
-            playerModel.position !== "left" && (playerModel.position = "right");
+            playerModel.position[0] !== 'left' && refreshPosition("right");
             break;
           case 40:
-            playerModel.position !== "top" && (playerModel.position = "bottom");
+            playerModel.position[0] !== 'top' && refreshPosition("bottom");
             break;
         }
+
+        function refreshPosition(pos) {
+          playerModel.position.shift(0);
+          playerModel.position.push(pos);
+        }
+
+        console.log(playerModel.position)
       }
     });
   }

@@ -4,12 +4,12 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 14:54:02
+ * @LastEditTime: 2020-02-19 17:30:13
  * TODO: 
  * 1.自碰判断（完成）
  * 2.倒走判断（完成）
  * 3.加速（完成）
- * 3.5.速度曲线调整
+ * 3.5.速度曲线调整（完成）
  * 4.食物增长开关
  * 4.5.代码优化
  * 5.计分
@@ -87,6 +87,7 @@ let controllerFn = {
           this.drawFoodByInfo();
 
           this.playerMoveByPosition();
+
           this.eatFood();
           this.checkSpeedUp();
           this.checkCollision();
@@ -97,9 +98,9 @@ let controllerFn = {
         
         model.player.score = model.player.score || 0;
         model.player.speedCount = model.player.speedCount || 0;
-        model.player.speed = model.player.speed || model.player.oriSpeed;
+        model.player.speed = model.player.speed || (60 - model.player.oriSpeed);
         model.player.count = model.player.count || 0;
-        model.player.position = model.player.position || 'right';
+        model.player.position = model.player.position || ['right', 'right'];
 
         model.food.axis = model.food.axis || [];
 
@@ -118,10 +119,10 @@ let controllerFn = {
 
         model.game.start = false;
 
-        model.player.position = 'right';
+        model.player.position = ['right', 'right'];
         model.player.count = 0;
         model.player.length = model.player.oriLength;
-        model.player.speed = model.player.oriSpeed;
+        model.player.speed = (60 - model.player.oriSpeed);
         model.player.score = 0;
         model.player.speedCount = 0;
 
@@ -148,17 +149,18 @@ let controllerFn = {
           }
 
           const tempObj = JSON.parse(JSON.stringify(playerModel.axis[playerModel.axis.length - 1]));
-          if (playerModel.position === 'right') {
+          if (playerModel.position[1] === 'right') {
             tempObj.x = tempObj.x + gameModel.rectWidth;
-          } else if (playerModel.position === 'left') {
+          } else if (playerModel.position[1] === 'left') {
             tempObj.x = tempObj.x - gameModel.rectWidth;
-          } else if (playerModel.position === 'top') {
+          } else if (playerModel.position[1] === 'top') {
             tempObj.y = tempObj.y - gameModel.rectWidth;
-          } else if (playerModel.position === 'bottom') {
+          } else if (playerModel.position[1] === 'bottom') {
             tempObj.y = tempObj.y + gameModel.rectWidth;
           }
           playerModel.axis.push(tempObj);
           playerModel.count = 0;
+          playerModel.position[0] = playerModel.position[1];
         }
       },
       checkCollision() {
@@ -219,9 +221,9 @@ let controllerFn = {
       },
       checkSpeedUp() {
         const playerModel = mainModel.game.snake.player;
-        if (playerModel.speedCount !== 0 && playerModel.speedCount % playerModel.speedUpIntervalCount === 0 && playerModel.speed > 1) {
+        if (playerModel.speedCount !== 0 && playerModel.speedCount % playerModel.speedUpIntervalCount === 0 && playerModel.speed < 60) {
           playerModel.speedCount = 0;
-          playerModel.speed--;
+          playerModel.speed++;
         }
       }
     }
@@ -243,7 +245,7 @@ let controllerFn = {
         });
       }
 
-      if (rectModel.count === rectModel.speed) {
+      if (rectModel.count === (60 - rectModel.speed)) {
         if (rectModel.randomInfoArray.length === rectModel.showNumber) {
           rectModel.currentIndex = rectModel.currentIndex || 0;
           rectModel.randomInfoArray[rectModel.currentIndex] = controllerFn.cursor.generateInfo(mainModel.cursor);

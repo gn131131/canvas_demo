@@ -1,10 +1,10 @@
 /*
- * @Description: 常量数据模型
+ * @Description: 常量数据模型，设置项
  * @Version: 1.0
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 14:20:01
+ * @LastEditTime: 2020-02-19 16:55:54
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -38,13 +38,13 @@ let mainModel = {
           x: 10,
           y: 10
         },
-        oriLength: 20,
-        oriSpeed: 10,
+        oriLength: 5,
+        oriSpeed: 50, // 最大59
         color: '#ff0000',
-        speedUpIntervalCount: 10
+        speedUpIntervalCount: 5
       },
       food: {
-        count: 2
+        count: 10
       }
     }
   },
@@ -58,7 +58,7 @@ let mainModel = {
       offsetYScope: [30, -30],
       widthScope: [20, 3],
       borderWidth: 1,
-      speed: 1,
+      speed: 59, // 最大59
       showNumber: 20,
       mode: 'rect', // 'picture' 'rect'
       picArray: [img1, img2, img3, img4, img5, img6],
