@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-18 16:39:35
+ * @LastEditTime: 2020-02-19 14:20:01
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -54,8 +54,8 @@ let mainModel = {
     isClicked: false,
     isMoving: false,
     rect: {
-      offsetXScope: [20, -20],
-      offsetYScope: [20, -20],
+      offsetXScope: [30, -30],
+      offsetYScope: [30, -30],
       widthScope: [20, 3],
       borderWidth: 1,
       speed: 1,

@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-15 14:43:53
+ * @LastEditTime: 2020-02-19 14:28:25
  */
 let utilsFn = {
   /**
@@ -25,17 +25,16 @@ let utilsFn = {
         number = Math.floor(Math.random() * (max - min + 1)) + min;
       } else if (min < 0) {
         let maxPer = 0,
-          minPer = 0,
-          randomPer;
+          minPer = 0;
         if (max > 0) {
           maxPer = max / (max - min);
           minPer = -min / (max - min);
           let randomSign = Math.random() > maxPer ? 'min' : 'max';
           switch (randomSign) {
             case 'max':
-              number = Math.floor(Math.random() * max);
+              number = Math.floor(Math.random() * max);break;
             case 'min':
-              number = -Math.floor(Math.random() * (-min));
+              number = -Math.floor(Math.random() * (-min));break;
           }
         } else {
           number = -Math.floor(Math.random() * ((-min) - (-max) + 1)) + (-max);
