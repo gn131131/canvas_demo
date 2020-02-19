@@ -4,11 +4,11 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 18:01:03
+ * @LastEditTime: 2020-02-19 18:03:47
  * TODO: 
  * 4.食物增长开关（暂不考虑）
  * 4.5.代码优化
- * 5.计分
+ * 5.计分（完成）
  * 6.菜单
  * 8.皮肤
  * 9.多人
