@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-20 16:37:57
+ * @LastEditTime: 2020-02-20 17:01:17
  * TODO: 
  * 6.菜单
  * 6.1.星辰
@@ -70,8 +70,8 @@ let controllerFn = {
             tinyStarModel.axis.push({
               x: utils.getSimpleRandomNumber(mainModel.clientWidth),
               y: utils.getSimpleRandomNumber(mainModel.clientHeight),
-              velocityX: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed),
-              velocityY: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed),
+              velocityX: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
+              velocityY: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
               color: tinyStarModel.color
             });
           }
