@@ -4,15 +4,15 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 18:03:47
+ * @LastEditTime: 2020-02-20 14:12:01
  * TODO: 
- * 4.食物增长开关（暂不考虑）
- * 4.5.代码优化
- * 5.计分（完成）
  * 6.菜单
+ * 6.1.星辰
+ * 6.2.鼠标移动，星辰形成文字
  * 8.皮肤
- * 9.多人
- * 10.自食截断
+ * 8.5.代码优化
+ * 9.多人（暂不考虑）
+ * 10.自食截断（暂不考虑）
  */
 import eventListenerFn from "./eventListener";
 import utils from "./utils";
@@ -30,7 +30,11 @@ let controllerFn = {
     // 界面清除--放最前
     controllerFn.clearAll();
     // 界面渲染--放中间
-    controllerFn.game[mainModel.game.mode].drawGame();
+    if (mainModel.interface === 'game') {
+      controllerFn.game[mainModel.game.mode].drawGame();
+    } else if (mainModel.interface === 'menu') {
+      
+    }
     // 鼠标特效渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
       controllerFn.cursor.drawAnimation();

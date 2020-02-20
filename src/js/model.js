@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 18:00:12
+ * @LastEditTime: 2020-02-20 15:06:12
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -19,6 +19,7 @@ let mainModel = {
   ctx: document.getElementById("mainCanvas").getContext('2d'),
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
+  interface: 'menu',
   game: {
     mode: 'snake',
     snake: {
@@ -44,7 +45,7 @@ let mainModel = {
         speedUpIntervalCount: 5,
         scoreAxis: {
           x: 900,
-          y: 40
+          y: 60
         },
         scoreColor: '#fff',
         scoreText: '分数',
