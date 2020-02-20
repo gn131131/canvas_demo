@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-20 16:38:53
+ * @LastEditTime: 2020-02-20 17:06:19
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -19,7 +19,7 @@ let mainModel = {
   ctx: document.getElementById("mainCanvas").getContext('2d'),
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
-  interface: 'menu',
+  interface: 'game',
   menu: {
     mode: 'star',
     star: {
@@ -81,7 +81,7 @@ let mainModel = {
       widthScope: [20, 3],
       borderWidth: 1,
       speed: 59, // 最大59
-      showNumber: 10,
+      showNumber: 20,
       mode: 'rect', // 'picture' 'rect'
       picArray: [img1, img2, img3, img4, img5, img6],
     }

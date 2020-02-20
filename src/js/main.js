@@ -4,13 +4,16 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-15 14:45:38
+ * @LastEditTime: 2020-02-20 18:12:11
  */
 import controllerFn from "./controller";
+import testFn from "./test";
 
 let mainObj = {
   init() {
     controllerFn.init();
+
+    // testFn.init();
   }
 };
 
