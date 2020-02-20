@@ -4,11 +4,13 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-20 14:12:01
+ * @LastEditTime: 2020-02-20 16:37:57
  * TODO: 
  * 6.菜单
  * 6.1.星辰
- * 6.2.鼠标移动，星辰形成文字
+ * 6.2.文字暗色
+ * 6.2.鼠标指向，星辰移动聚焦文字，形成亮字
+ * 6.3.点击跳转
  * 8.皮肤
  * 8.5.代码优化
  * 9.多人（暂不考虑）
@@ -33,7 +35,7 @@ let controllerFn = {
     if (mainModel.interface === 'game') {
       controllerFn.game[mainModel.game.mode].drawGame();
     } else if (mainModel.interface === 'menu') {
-      
+      controllerFn.menu[mainModel.menu.mode].drawMenu();
     }
     // 鼠标特效渲染--放最后
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
@@ -45,6 +47,61 @@ let controllerFn = {
   },
   clearAll() {
     canvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+  },
+  menu: {
+    star: {
+      drawMenu() {
+        this.initInfo();
+
+        this.initTinyStarInfo();
+        this.drawTinyStar();
+        this.tinyStarMove();
+        this.lineConnect();
+      },
+      initInfo() {
+        const starModel = mainModel.menu.star;
+        starModel.tiny.axis = starModel.tiny.axis || [];
+      },
+      initTinyStarInfo() {
+        const tinyStarModel = mainModel.menu.star.tiny;
+
+        if (tinyStarModel.axis.length === 0) {
+          for (let i = 0; i < tinyStarModel.maxNumber; i++) {
+            tinyStarModel.axis.push({
+              x: utils.getSimpleRandomNumber(mainModel.clientWidth),
+              y: utils.getSimpleRandomNumber(mainModel.clientHeight),
+              velocityX: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed),
+              velocityY: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed),
+              color: tinyStarModel.color
+            });
+          }
+        }
+      },
+      drawTinyStar() {
+        const tinyStarModel = mainModel.menu.star.tiny;
+
+        $.each(tinyStarModel.axis, (i, item) => {
+          canvasFn.drawCircle(mainModel.ctx, tinyStarModel.radius, item.x, item.y, item.color, false);
+        });
+      },
+      tinyStarMove() {
+        const tinyStarModel = mainModel.menu.star.tiny;
+
+        $.each(tinyStarModel.axis, (i, item) => {
+          item.x += item.velocityX;
+          item.y += item.velocityY;
+          if (item.x >= mainModel.clientWidth || item.x <= 0) {
+            item.velocityX = -item.velocityX;
+          }
+          if (item.y >= mainModel.clientHeight || item.y <= 0) {
+            item.velocityY = -item.velocityY;
+          }
+        });
+      },
+      lineConnect() {
+
+      }
+    }
   },
   game: {
     snake: {
@@ -96,7 +153,7 @@ let controllerFn = {
       },
       initPlayerInfo() {
         const model = mainModel.game.snake;
-        
+
         model.player.score = model.player.score || 0;
         model.player.speedCount = model.player.speedCount || 0;
         model.player.speed = model.player.speed || (60 - model.player.oriSpeed);
@@ -139,7 +196,7 @@ let controllerFn = {
       playerMoveByPosition() {
         const gameModel = mainModel.game.snake.game;
         const playerModel = mainModel.game.snake.player;
-        
+
         playerModel.count++;
         if (playerModel.count === playerModel.speed) {
 

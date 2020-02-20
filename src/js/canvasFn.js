@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 17:59:33
+ * @LastEditTime: 2020-02-20 16:15:11
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -62,6 +62,7 @@ let canvasFn = {
       ctx.strokeStyle = borderColor;
       ctx.strokeRect(x, y, w, h);
     } else {
+      ctx.strokeStyle = color;
       ctx.fillStyle = color;
       ctx.fillRect(x, y, w, h);
     }
@@ -111,6 +112,20 @@ let canvasFn = {
     ctx.font = font;
     ctx.fillStyle = color;
     ctx.fillText(text, x, y);
+  },
+  drawCircle(ctx, radius, x, y, color, isEmpty, borderColor, borderWidth) {
+    ctx.lineWidth = borderWidth || 1;
+
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    if (isEmpty === true) {
+      ctx.strokeStyle = borderColor;
+    } else {
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+    ctx.stroke();
   }
 };
 
