@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-20 16:15:11
+ * @LastEditTime: 2020-02-21 15:57:54
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -41,7 +41,6 @@ let canvasFn = {
     ctx.closePath();
     ctx.lineWidth = width;
     ctx.strokeStyle = color;
-    ctx.stroke();
   },
   /**
    * @description: 绘制矩形
@@ -92,7 +91,7 @@ let canvasFn = {
    * @author: Pumpking
    */  
   drawPic(ctx, image, x, y, w, h) {
-    ctx.drawImage(image, x, y, w, h);
+    ctx.drawImage(image, Math.floor(x), Math.floor(y), Math.floor(w), Math.floor(h));
   },
   /**
    * @description: 绘制文字
@@ -113,6 +112,19 @@ let canvasFn = {
     ctx.fillStyle = color;
     ctx.fillText(text, x, y);
   },
+  /**
+   * @description: 绘制圆形
+   * @param {object} ctx canvas
+   * @param {number} radius 半径
+   * @param {number} x x坐标
+   * @param {number} y y坐标
+   * @param {string} color 填充颜色
+   * @param {boolean} isEmpty 是否为圆环
+   * @param {string} borderColor 边框颜色
+   * @param {number} borderWidth 边框宽度
+   * @return: void
+   * @author: Pumpking
+   */
   drawCircle(ctx, radius, x, y, color, isEmpty, borderColor, borderWidth) {
     ctx.lineWidth = borderWidth || 1;
 
@@ -125,7 +137,6 @@ let canvasFn = {
       ctx.fillStyle = color;
       ctx.fill();
     }
-    ctx.stroke();
   }
 };
 

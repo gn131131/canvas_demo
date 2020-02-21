@@ -4,10 +4,10 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 15:41:24
+ * @LastEditTime: 2020-02-21 15:58:46
  * TODO: 
  * 6.菜单
- * 6.1.星辰
+ * 6.1.星辰（完成）
  * 6.2.文字暗色
  * 6.2.鼠标指向，星辰移动聚焦文字，形成亮字
  * 6.3.点击跳转
@@ -32,6 +32,7 @@ let controllerFn = {
     // 界面清除--放最前
     controllerFn.clearAll();
 
+    // 离屏渲染
     controllerFn.render();
     
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
@@ -53,6 +54,9 @@ let controllerFn = {
     } else {
       controllerFn.cursor.resetInfo();
     }
+
+    mainModel.ctx.stroke();
+
     canvasFn.drawPic(mainModel.mainCtx, offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   clearAll() {
