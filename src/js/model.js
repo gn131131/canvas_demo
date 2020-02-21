@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 16:06:52
+ * @LastEditTime: 2020-02-21 17:14:24
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -20,7 +20,7 @@ let mainModel = {
   ctx: null, // 离屏ctx
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
-  interface: 'game', // 'menu'、'game'
+  interface: 'menu', // 'menu'、'game'
   menu: {
     mode: 'star',
     star: {
@@ -32,6 +32,18 @@ let mainModel = {
       },
       big: {
 
+      },
+      text: {
+        content: [{
+          name: '测试',
+          x: 200,
+          y: 150,
+          w: 40,
+          h: 20,
+          color: '#fff',
+          font: '20px sans-serif'
+        }],
+        focus: false
       }
     }
   },
@@ -83,7 +95,7 @@ let mainModel = {
       borderWidth: 1,
       speed: 59, // 最大59
       showNumber: 20,
-      mode: 'picture', // 'picture' 'rect'
+      mode: 'rect', // 'picture' 'rect'
       picArray: [img1, img2, img3, img4, img5, img6],
     }
   }

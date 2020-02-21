@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-19 17:34:35
+ * @LastEditTime: 2020-02-21 17:23:06
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -29,6 +29,27 @@ let eventListenerFn = {
       mainModel.cursor.isMoving = true;
       mainModel.cursor.axisX = e.offsetX;
       mainModel.cursor.axisY = e.offsetY;
+
+      const menuText = mainModel.menu[mainModel.menu.mode].text;
+      $.each(menuText.content, (i, item) => {
+        withinRect(item.x, item.y, item.w, item.h).then(() => {
+          menuText.focus = true;
+          mainModel.canvasNode.style.cursor = 'pointer';
+        }, () => {
+          menuText.focus = false;
+          mainModel.canvasNode.style.cursor = 'default';
+        });
+      });
+
+      function withinRect(x, y, w, h) {
+        return new Promise((resolve, reject) => {
+          if (mainModel.cursor.axisX <= x + w && mainModel.cursor.axisX >= x && mainModel.cursor.axisY <= y && mainModel.cursor.axisY >= y - h) {
+            resolve();
+          } else {
+            reject();
+          }
+        });
+      }
     });
   },
   mouseDown() {

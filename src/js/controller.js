@@ -4,12 +4,12 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 16:31:12
+ * @LastEditTime: 2020-02-21 17:00:52
  * TODO: 
  * 6.菜单
- * 6.1.星辰（完成）
+ * 6.1.鼠标指向，星辰移动聚焦
  * 6.2.文字暗色
- * 6.2.鼠标指向，星辰移动聚焦文字，形成亮字
+ * 6.3.星辰形成亮字
  * 6.3.点击跳转
  * 8.皮肤
  * 8.5.代码优化
@@ -65,17 +65,33 @@ let controllerFn = {
       drawMenu() {
         this.initInfo();
 
-        this.initTinyStarInfo();
+        this.drawMenuText();
         this.drawTinyStar();
-        this.tinyStarMove();
+        
+        if (!mainModel.menu.star.text.focus) {
+          this.tinyStarMoveAuto();
+        }
+        
         this.lineConnect();
       },
       initInfo() {
-        const starModel = mainModel.menu.star;
-        starModel.tiny.axis = starModel.tiny.axis || [];
+        this.initMenuTextInfo();
+        this.initTinyStarInfo();
+      },
+      initMenuTextInfo() {
+
+      },
+      drawMenuText() {
+        const textModel = mainModel.menu.star.text;
+
+        $.each(textModel.content, (i, item) => {
+          canvasFn.drawText(mainModel.ctx, item.name, item.x, item.y, item.font, item.color);
+        });
       },
       initTinyStarInfo() {
         const tinyStarModel = mainModel.menu.star.tiny;
+
+        tinyStarModel.axis = tinyStarModel.axis || [];
 
         if (tinyStarModel.axis.length === 0) {
           for (let i = 0; i < tinyStarModel.maxNumber; i++) {
@@ -97,7 +113,7 @@ let controllerFn = {
         });
         mainModel.ctx.stroke();
       },
-      tinyStarMove() {
+      tinyStarMoveAuto() {
         const tinyStarModel = mainModel.menu.star.tiny;
 
         $.each(tinyStarModel.axis, (i, item) => {
