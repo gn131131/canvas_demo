@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 15:58:46
+ * @LastEditTime: 2020-02-21 16:31:12
  * TODO: 
  * 6.菜单
  * 6.1.星辰（完成）
@@ -55,8 +55,6 @@ let controllerFn = {
       controllerFn.cursor.resetInfo();
     }
 
-    mainModel.ctx.stroke();
-
     canvasFn.drawPic(mainModel.mainCtx, offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   clearAll() {
@@ -97,6 +95,7 @@ let controllerFn = {
         $.each(tinyStarModel.axis, (i, item) => {
           canvasFn.drawCircle(mainModel.ctx, tinyStarModel.radius, item.x, item.y, item.color, false);
         });
+        mainModel.ctx.stroke();
       },
       tinyStarMove() {
         const tinyStarModel = mainModel.menu.star.tiny;
@@ -147,6 +146,7 @@ let controllerFn = {
           },
         ];
         canvasFn.drawLine(mainModel.ctx, wallModel.axis, wallModel.color, gameModel.rectWidth);
+        mainModel.ctx.stroke();
       },
       drawPlayer() {
         const gameModel = mainModel.game.snake.game;

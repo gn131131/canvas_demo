@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 15:42:48
+ * @LastEditTime: 2020-02-21 16:06:52
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -20,7 +20,7 @@ let mainModel = {
   ctx: null, // 离屏ctx
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
-  interface: 'menu',
+  interface: 'game', // 'menu'、'game'
   menu: {
     mode: 'star',
     star: {

@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 15:57:54
+ * @LastEditTime: 2020-02-21 16:25:15
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -30,17 +30,19 @@ let canvasFn = {
    * @author: Pumpking
    */
   drawLine(ctx, array, color, width) {
+    ctx.beginPath();
+
     color = color || '#000';
     width = width || 1;
+
+    ctx.lineWidth = width;
+    ctx.strokeStyle = color;
     
-    ctx.beginPath();
     ctx.moveTo(array[0].x, array[0].y);
     $.each(array, (i, item) => {
       ctx.lineTo(item.x, item.y);
     });
     ctx.closePath();
-    ctx.lineWidth = width;
-    ctx.strokeStyle = color;
   },
   /**
    * @description: 绘制矩形
@@ -52,16 +54,17 @@ let canvasFn = {
    * @param {string} color 填充颜色
    * @param {boolean} isEmpty 是否空心
    * @param {string} borderColor 边框颜色
+   * @param {number} borderWidth 边框宽度
    * @return: void
    * @author: Pumpking
    */  
   drawRect(ctx, x, y, w, h, color, isEmpty, borderColor, borderWidth) {
-    ctx.lineWidth = borderWidth || 1;
+    ctx.lineWidth = borderWidth || 0;
+
     if (isEmpty === true) {
       ctx.strokeStyle = borderColor;
       ctx.strokeRect(x, y, w, h);
     } else {
-      ctx.strokeStyle = color;
       ctx.fillStyle = color;
       ctx.fillRect(x, y, w, h);
     }
@@ -105,6 +108,7 @@ let canvasFn = {
    * @author: Pumpking
    */
   drawText(ctx, text, x, y, font, color) {
+
     color = color || '#000';
     font = font || '10px sans-serif';
 
@@ -126,9 +130,8 @@ let canvasFn = {
    * @author: Pumpking
    */
   drawCircle(ctx, radius, x, y, color, isEmpty, borderColor, borderWidth) {
-    ctx.lineWidth = borderWidth || 1;
-
     ctx.beginPath();
+    ctx.lineWidth = borderWidth || 0;
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     if (isEmpty === true) {
       ctx.strokeStyle = borderColor;
@@ -137,6 +140,7 @@ let canvasFn = {
       ctx.fillStyle = color;
       ctx.fill();
     }
+    ctx.closePath();
   }
 };
 
