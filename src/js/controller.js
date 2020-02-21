@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 14:49:09
+ * @LastEditTime: 2020-02-21 15:41:24
  * TODO: 
  * 6.菜单
  * 6.1.星辰
@@ -31,6 +31,16 @@ let controllerFn = {
   canvasControllerMainFn() {
     // 界面清除--放最前
     controllerFn.clearAll();
+
+    controllerFn.render();
+    
+    window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
+  },
+  render() {
+    let offscreenCanvas = document.createElement('canvas');
+    canvasFn.setCanvasToFullScreen(offscreenCanvas);
+    mainModel.ctx = offscreenCanvas.getContext("2d");
+
     // 界面渲染--放中间
     if (mainModel.interface === 'game') {
       controllerFn.game[mainModel.game.mode].drawGame();
@@ -43,10 +53,10 @@ let controllerFn = {
     } else {
       controllerFn.cursor.resetInfo();
     }
-    window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
+    canvasFn.drawPic(mainModel.mainCtx, offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   clearAll() {
-    canvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+    canvasFn.clearRect(mainModel.mainCtx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   menu: {
     star: {
