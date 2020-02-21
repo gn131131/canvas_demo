@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 17:00:52
+ * @LastEditTime: 2020-02-21 18:14:58
  * TODO: 
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
@@ -309,9 +309,9 @@ let controllerFn = {
       },
       checkSpeedUp() {
         const playerModel = mainModel.game.snake.player;
-        if (playerModel.speedCount !== 0 && playerModel.speedCount % playerModel.speedUpIntervalCount === 0 && playerModel.speed < 60) {
+        if (playerModel.speedCount !== 0 && playerModel.speedCount % playerModel.speedUpIntervalCount === 0 && playerModel.speed > 1) {
           playerModel.speedCount = 0;
-          playerModel.speed++;
+          playerModel.speed--;
         }
       },
       drawScore() {
