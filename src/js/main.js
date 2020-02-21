@@ -11,9 +11,9 @@ import testFn from "./test";
 
 let mainObj = {
   init() {
-    // controllerFn.init();
+    controllerFn.init();
 
-    testFn.init();
+    // testFn.init();
   }
 };
 

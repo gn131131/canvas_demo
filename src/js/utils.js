@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 14:23:21
+ * @LastEditTime: 2020-02-21 14:58:27
  */
 let utilsFn = {
   /**
@@ -28,16 +28,16 @@ let utilsFn = {
       } else if (min < 0) {
         let minPer = 0;
         if (max >= 0) {
-          minPer = min / (max - min);
+          minPer = min / (min - max);
           let randomSign = Math.random() > minPer ? 'max' : 'min';
           switch (randomSign) {
             case 'max':
-              number = noInt ? Math.random() * max : Math.floor(Math.random() * max);break;
+              number = noInt ? (Math.random() * max) : (Math.floor(Math.random() * max));break;
             case 'min':
-              number = noInt ? -Math.random() * (-min) : -Math.floor(Math.random() * (-min));break;
+              number = noInt ? (-Math.random() * (-min)) : (-Math.floor(Math.random() * (-min)));break;
           }
         } else {
-          number = noInt ? -Math.random() * ((-min) - (-max) + 1) + (-max) : -Math.floor(Math.random() * ((-min) - (-max) + 1)) + (-max);
+          number = noInt ? (-Math.random() * ((-min) - (-max) + 1) + (-max)) : (-Math.floor(Math.random() * ((-min) - (-max) + 1)) + (-max));
         }
       }
       if (multiple && !noInt) {
@@ -50,6 +50,7 @@ let utilsFn = {
         }
       }
     }
+    
     if (noZero) {
       while (number === null || number === 0) {
         getResult();
