@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 17:14:24
+ * @LastEditTime: 2020-02-21 17:59:56
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -20,7 +20,7 @@ let mainModel = {
   ctx: null, // 离屏ctx
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
-  interface: 'menu', // 'menu'、'game'
+  interface: 'game', // 'menu'、'game'
   menu: {
     mode: 'star',
     star: {
@@ -41,7 +41,7 @@ let mainModel = {
           w: 40,
           h: 20,
           color: '#fff',
-          font: '20px sans-serif'
+          font: 20
         }],
         focus: false
       }
@@ -72,11 +72,11 @@ let mainModel = {
         speedUpIntervalCount: 5,
         scoreAxis: {
           x: 900,
-          y: 60
+          y: 40
         },
         scoreColor: '#fff',
         scoreText: '分数',
-        scoreFont: '20px sans-serif'
+        scoreFont: 20
       },
       food: {
         count: 10

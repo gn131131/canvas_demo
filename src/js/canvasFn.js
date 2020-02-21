@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 16:25:15
+ * @LastEditTime: 2020-02-21 17:59:42
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -110,11 +110,11 @@ let canvasFn = {
   drawText(ctx, text, x, y, font, color) {
 
     color = color || '#000';
-    font = font || '10px sans-serif';
+    const newFont = font ? (typeof font === 'number' ? (font + 'px sans-serif') : font) : '10px sans-serif';
 
-    ctx.font = font;
+    ctx.font = newFont;
     ctx.fillStyle = color;
-    ctx.fillText(text, x, y);
+    ctx.fillText(text, x, y + font);
   },
   /**
    * @description: 绘制圆形

@@ -43,7 +43,7 @@ let eventListenerFn = {
 
       function withinRect(x, y, w, h) {
         return new Promise((resolve, reject) => {
-          if (mainModel.cursor.axisX <= x + w && mainModel.cursor.axisX >= x && mainModel.cursor.axisY <= y && mainModel.cursor.axisY >= y - h) {
+          if (mainModel.cursor.axisX <= x + w && mainModel.cursor.axisX >= x && mainModel.cursor.axisY <= y + h && mainModel.cursor.axisY >= y) {
             resolve();
           } else {
             reject();
