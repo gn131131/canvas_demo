@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-20 17:34:53
+ * @LastEditTime: 2020-02-21 14:23:21
  */
 let utilsFn = {
   /**
@@ -12,8 +12,8 @@ let utilsFn = {
    * @param {number} max 上限
    * @param {number} min 下限
    * @param {number} multiple 倍数，可填
-   * @param {boolean} noZero 去0
-   * @param {boolean} noInt 非整数
+   * @param {boolean} noZero 去0，可填
+   * @param {boolean} noInt 非整数，可填
    * @return: 随机数字
    * @author: Pumpking
    */
@@ -40,16 +40,17 @@ let utilsFn = {
           number = noInt ? -Math.random() * ((-min) - (-max) + 1) + (-max) : -Math.floor(Math.random() * ((-min) - (-max) + 1)) + (-max);
         }
       }
+      if (multiple && !noInt) {
+        if (number / multiple !== 0) {
+          if (number % multiple >= multiple / 2) {
+            number = Math.ceil(number / multiple) * multiple;
+          } else {
+            number = Math.floor(number / multiple) * multiple;
+          }
+        }
+      }
     }
-    if (multiple && noZero) {
-      while (number === null || (number / multiple) % 1 !== 0 || number === 0) {
-        getResult();
-      }
-    } else if (multiple) {
-      while (number === null || (number / multiple) % 1 !== 0) {
-        getResult();
-      }
-    } else if (noZero) {
+    if (noZero) {
       while (number === null || number === 0) {
         getResult();
       }

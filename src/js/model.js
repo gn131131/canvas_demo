@@ -19,7 +19,7 @@ let mainModel = {
   ctx: document.getElementById("mainCanvas").getContext('2d'),
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
-  interface: 'game',
+  interface: 'menu',
   menu: {
     mode: 'star',
     star: {
