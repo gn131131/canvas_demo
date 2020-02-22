@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 14:58:27
+ * @LastEditTime: 2020-02-22 16:59:55
  */
 let utilsFn = {
   /**
@@ -78,6 +78,31 @@ let utilsFn = {
    */
   getRandomItemFromArray(array) {
     return array[Math.floor(Math.random() * array.length)];
+  },
+  /**
+   * @description: 深拷贝
+   * @param {any} 原数据 
+   * @return: 深拷贝后的数据
+   * @author: Pumpking
+   */
+  deepClone(origin) {
+    let toStr = Object.prototype.toString
+    let isInvalid = toStr.call(origin) !== '[object Object]' && toStr.call(origin) !== '[object Array]'
+    if (isInvalid) {
+      return origin
+    }
+    let target = toStr.call(origin) === '[object Object]' ? {} : []
+    for (const key in origin) {
+      if (origin.hasOwnProperty(key)) {
+        const item = origin[key];
+        if (typeof item === 'object' && item !== null) {
+          target[key] = deepClone(item)
+        } else {
+          target[key] = item
+        }
+      }
+    }
+    return target
   }
 };
 

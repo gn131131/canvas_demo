@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 18:16:17
+ * @LastEditTime: 2020-02-22 20:19:21
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -94,7 +94,7 @@ let mainModel = {
       widthScope: [20, 3],
       borderWidth: 1,
       speed: 59, // 最大59
-      showNumber: 20,
+      showNumber: 10,
       mode: 'rect', // 'picture' 'rect'
       picArray: [img1, img2, img3, img4, img5, img6],
     }

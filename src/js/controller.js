@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 18:14:58
+ * @LastEditTime: 2020-02-22 20:36:28
  * TODO: 
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
@@ -72,7 +72,7 @@ let controllerFn = {
           this.tinyStarMoveAuto();
         }
         
-        this.lineConnect();
+        this.drawFps();
       },
       initInfo() {
         this.initMenuTextInfo();
@@ -127,7 +127,7 @@ let controllerFn = {
           }
         });
       },
-      lineConnect() {
+      drawFps() {
 
       }
     }
@@ -236,7 +236,7 @@ let controllerFn = {
             playerModel.axis.shift(0);
           }
 
-          const tempObj = JSON.parse(JSON.stringify(playerModel.axis[playerModel.axis.length - 1]));
+          const tempObj = utils.deepClone(playerModel.axis[playerModel.axis.length - 1]);
           if (playerModel.position[1] === 'right') {
             tempObj.x = tempObj.x + gameModel.rectWidth;
           } else if (playerModel.position[1] === 'left') {
