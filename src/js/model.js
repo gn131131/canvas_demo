@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-22 20:19:21
+ * @LastEditTime: 2020-02-24 15:57:06
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -41,9 +41,13 @@ let mainModel = {
           w: 40,
           h: 20,
           color: '#fff',
-          font: 20
+          font: 200
         }],
-        focus: false
+        font: 200,
+        focus: false,
+        defR: 6,
+        gap: 10,
+        textCount: 0
       }
     }
   },

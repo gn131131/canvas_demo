@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-22 20:36:28
+ * @LastEditTime: 2020-02-24 16:22:56
  * TODO: 
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
@@ -34,7 +34,7 @@ let controllerFn = {
 
     // 离屏渲染
     controllerFn.render();
-    
+
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
   },
   render() {
@@ -55,6 +55,7 @@ let controllerFn = {
       controllerFn.cursor.resetInfo();
     }
 
+    canvasFn.drawPic(mainModel.mainCtx, mainModel.textCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
     canvasFn.drawPic(mainModel.mainCtx, offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   clearAll() {
@@ -65,14 +66,14 @@ let controllerFn = {
       drawMenu() {
         this.initInfo();
 
-        this.drawMenuText();
+        // this.drawMenuText();
         this.drawTinyStar();
-        
+
         if (!mainModel.menu.star.text.focus) {
           this.tinyStarMoveAuto();
         }
-        
-        this.drawFps();
+
+        this.drawText();
       },
       initInfo() {
         this.initMenuTextInfo();
@@ -100,7 +101,7 @@ let controllerFn = {
               y: utils.getSimpleRandomNumber(mainModel.clientHeight),
               velocityX: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
               velocityY: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
-              color: tinyStarModel.color
+              color: utils.getSimpleRandomColor()
             });
           }
         }
@@ -127,8 +128,56 @@ let controllerFn = {
           }
         });
       },
-      drawFps() {
+      drawText() {
+        const textModel = mainModel.menu.star.text;
+        if(textModel.textCount===textModel.content.length){
+          textModel.textCount=0;
+        }
+        mainModel.textCanvas = document.createElement('canvas');
+        canvasFn.setCanvasToFullScreen(mainModel.textCanvas);
+        let ctx = mainModel.textCanvas.getContext('2d');
+        this.createText(ctx, textModel.content[textModel.textCount].name);
+        textModel.textCount++;		
+        this.findText(ctx);
+      },
+      //生成文字
+      createText(ctx, text) {
+        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+        ctx.font = mainModel.menu.star.text.font + 'px "微软雅黑';
+        ctx.fillStyle = 'red';
 
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, mainModel.clientWidth / 2, mainModel.clientHeight / 2);
+      },
+      createRadius(ctx, data) {
+        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+        for (let i = 0; i < data.length; i++) {
+          ctx.beginPath();
+
+          ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
+          ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
+          ctx.closePath();
+          ctx.fill();
+        }
+      },
+      //查找不同颜色的值和位置
+      findText(ctx) {
+        let imageData = ctx.getImageData(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+        let data = imageData.data;
+        let pos = [];
+        for (let i = 0; i < mainModel.clientWidth; i += mainModel.menu.star.text.gap) {
+          for (let j = 0; j < mainModel.clientHeight; j += mainModel.menu.star.text.gap) {
+            let index = (j * mainModel.clientWidth + i) * 4;
+            if (data[index] > 128) {
+              pos.push({
+                x: i,
+                y: j
+              });
+            }
+          }
+        }
+        this.createRadius(ctx, pos);
       }
     }
   },
