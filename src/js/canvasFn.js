@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 17:59:42
+ * @LastEditTime: 2020-02-26 00:36:56
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -44,8 +44,8 @@ let canvasFn = {
       ctx.lineTo(item.x, item.y);
     });
     ctx.closePath();
-    ctx.restore();
     ctx.stroke();
+    ctx.restore();
   },
   /**
    * @description: 绘制矩形
@@ -149,8 +149,8 @@ let canvasFn = {
       ctx.fill();
     }
     ctx.closePath();
-    ctx.restore();
     ctx.stroke();
+    ctx.restore();
   }
 };
 

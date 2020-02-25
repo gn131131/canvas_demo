@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-25 23:55:05
+ * @LastEditTime: 2020-02-26 00:58:54
  * TODO: 
  * Critical.性能优化，解耦
  * 6.菜单
@@ -60,6 +60,8 @@ let controllerFn = {
     } else if (mainModel.interface === 'menu') {
       controllerFn.menu[mainModel.menu.mode].initRenderInfo();
     }
+
+    controllerFn.cursor.initRenderInfo();
   },
   render() {
     if (mainModel.interface === 'game') {
@@ -212,13 +214,54 @@ let controllerFn = {
   game: {
     snake: {
       initRenderInfo() {
-        this.drawWall();
+        this.initPlayerInfo();
+        this.initWallInfo();
+        this.initFoodInfo();
+        this.initScoreInfo();
+      },
+      render() {
         this.drawPlayer();
+        this.drawWall();
+        this.drawFood();
         this.drawScore();
       },
-      drawWall() {
+      initPlayerInfo() {
+        const model = mainModel.game.snake;
+
+        model.player.score = model.player.score || 0;
+        model.player.speedCount = model.player.speedCount || 0;
+        model.player.speed = model.player.speed || (60 - model.player.oriSpeed);
+        model.player.count = model.player.count || 0;
+        model.player.position = model.player.position || ['right', 'right'];
+        model.food.axis = model.food.axis || [];
+
+        if (model.game.start === false) {
+          model.player.axis = [];
+          for (let i = 0; i < model.player.oriLength; i++) {
+            model.player.axis.push({
+              x: model.player.oriAxis.x + i * model.game.rectWidth,
+              y: model.player.oriAxis.y
+            });
+          }
+        }
+      },
+      drawPlayer() {
+        const gameModel = mainModel.game.snake.game;
+
+        this.drawPlayerByInfo();
+
+        if (gameModel.start === true) {
+          this.playerMoveByPosition();
+
+          this.eatFood();
+          this.checkSpeedUp();
+          this.checkCollision();
+        }
+      },
+      initWallInfo() {
         const gameModel = mainModel.game.snake.game;
         const wallModel = mainModel.game.snake.wall;
+        
         const x = wallModel.x + gameModel.rectWidth / 2;
         const y = wallModel.y + gameModel.rectWidth / 2;
         wallModel.axis = [{
@@ -238,45 +281,44 @@ let controllerFn = {
             y: y + wallModel.h
           },
         ];
-        canvasFn.drawLine(mainModel.ctx, wallModel.axis, wallModel.color, gameModel.rectWidth);
+        wallModel.render = () => {
+          canvasFn.drawLine(wallModel.offscreenCtx, wallModel.axis, wallModel.color, gameModel.rectWidth);
+        };
+        controllerFn.createAndRenderOffscreenCanvas(wallModel, mainModel.clientWidth, mainModel.clientHeight);
       },
-      drawPlayer() {
+      drawWall() {
+        const wallModel = mainModel.game.snake.wall;
+
+        canvasFn.drawImage(mainModel.ctx, wallModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+      },
+      initFoodInfo() {
+        const foodModel = mainModel.game.snake.food;
         const gameModel = mainModel.game.snake.game;
+        const wallModel = mainModel.game.snake.wall;
 
-        this.initPlayerInfo();
-        this.drawPlayerByInfo();
-
-        if (gameModel.start === true) {
-          this.generateFoodInfo();
-          this.drawFoodByInfo();
-
-          this.playerMoveByPosition();
-
-          this.eatFood();
-          this.checkSpeedUp();
-          this.checkCollision();
-        }
-      },
-      initPlayerInfo() {
-        const model = mainModel.game.snake;
-
-        model.player.score = model.player.score || 0;
-        model.player.speedCount = model.player.speedCount || 0;
-        model.player.speed = model.player.speed || (60 - model.player.oriSpeed);
-        model.player.count = model.player.count || 0;
-        model.player.position = model.player.position || ['right', 'right'];
-
-        model.food.axis = model.food.axis || [];
-
-        if (model.game.start === false) {
-          model.player.axis = [];
-          for (let i = 0; i < model.player.oriLength; i++) {
-            model.player.axis.push({
-              x: model.player.oriAxis.x + i * model.game.rectWidth,
-              y: model.player.oriAxis.y
+        if (foodModel.axis.length < foodModel.count) {
+          for (let i = 0; i < foodModel.count; i++) {
+            foodModel.axis.push({
+              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
+              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth, wallModel.y + gameModel.rectWidth, gameModel.rectWidth),
+              color: utils.getSimpleRandomColor()
             });
           }
         }
+      },
+      drawFood() {
+        const gameModel = mainModel.game.snake.game;
+        const foodModel = mainModel.game.snake.food;
+        $.each(foodModel.axis, (i, item) => {
+          canvasFn.drawRect(mainModel.ctx, item.x, item.y, gameModel.rectWidth, gameModel.rectWidth, item.color);
+        });
+      },
+      initScoreInfo() {
+
+      },
+      drawScore() {
+        const playerModel = mainModel.game.snake.player;
+        canvasFn.drawText(mainModel.ctx, `${playerModel.scoreText}: ${playerModel.score}`, playerModel.scoreAxis.x, playerModel.scoreAxis.y, playerModel.scoreFont, playerModel.scoreColor);
       },
       resetInfo() {
         const model = mainModel.game.snake;
@@ -291,6 +333,8 @@ let controllerFn = {
         model.player.speedCount = 0;
 
         model.food.axis = [];
+
+        this.initRenderInfo();
       },
       drawPlayerByInfo() {
         const gameModel = mainModel.game.snake.game;
@@ -341,28 +385,6 @@ let controllerFn = {
           this.resetInfo();
         }
       },
-      generateFoodInfo() {
-        const foodModel = mainModel.game.snake.food;
-        const gameModel = mainModel.game.snake.game;
-        const wallModel = mainModel.game.snake.wall;
-
-        if (foodModel.axis.length < foodModel.count) {
-          for (let i = 0; i < foodModel.count; i++) {
-            foodModel.axis.push({
-              x: utils.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
-              y: utils.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth, wallModel.y + gameModel.rectWidth, gameModel.rectWidth),
-              color: utils.getSimpleRandomColor()
-            });
-          }
-        }
-      },
-      drawFoodByInfo() {
-        const gameModel = mainModel.game.snake.game;
-        const foodModel = mainModel.game.snake.food;
-        $.each(foodModel.axis, (i, item) => {
-          canvasFn.drawRect(mainModel.ctx, item.x, item.y, gameModel.rectWidth, gameModel.rectWidth, item.color);
-        });
-      },
       eatFood() {
         const foodModel = mainModel.game.snake.food;
         const playerModel = mainModel.game.snake.player;
@@ -389,10 +411,6 @@ let controllerFn = {
           playerModel.speedCount = 0;
           playerModel.speed--;
         }
-      },
-      drawScore() {
-        const playerModel = mainModel.game.snake.player;
-        canvasFn.drawText(mainModel.ctx, `${playerModel.scoreText}: ${playerModel.score}`, playerModel.scoreAxis.x, playerModel.scoreAxis.y, playerModel.scoreFont, playerModel.scoreColor);
       }
     }
   },
@@ -403,9 +421,11 @@ let controllerFn = {
       const rectModel = mainModel.cursor.rect;
 
       rectModel.count = rectModel.count || 0;
-      rectModel.count++;
       rectModel.randomInfoArray = rectModel.randomInfoArray || [];
       rectModel.imageArray = rectModel.imageArray || [];
+    },
+    render() {
+      const rectModel = mainModel.cursor.rect;
 
       if (rectModel.mode === 'picture' && rectModel.imageArray.length === 0) {
         $.each(rectModel.picArray, (i, item) => {
@@ -415,6 +435,7 @@ let controllerFn = {
         });
       }
 
+      rectModel.count++;
       if (rectModel.count === (60 - rectModel.speed)) {
         if (rectModel.randomInfoArray.length === rectModel.showNumber) {
           rectModel.currentIndex = rectModel.currentIndex || 0;
@@ -429,6 +450,7 @@ let controllerFn = {
         }
         rectModel.count = 0;
       }
+      
       $.each(rectModel.randomInfoArray, (i, item) => {
         if (rectModel.mode === 'rect') {
           this.drawRectByRandomInfo(item);
