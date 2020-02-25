@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-25 14:32:55
+ * @LastEditTime: 2020-02-25 23:53:09
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -26,7 +26,7 @@ let mainModel = {
       tiny: {
         maxNumber: 200,
         color: '#fff',
-        radius: 1,
+        radius: 2,
         speed: 2
       },
       big: {

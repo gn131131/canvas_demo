@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-25 23:06:58
+ * @LastEditTime: 2020-02-25 23:55:05
  * TODO: 
  * Critical.性能优化，解耦
  * 6.菜单
@@ -62,8 +62,6 @@ let controllerFn = {
     }
   },
   render() {
-    // canvasFn.drawImage(mainModel.mainCtx, mainModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
-    // canvasFn.drawImage(mainModel.mainCtx, mainModel.textCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
     if (mainModel.interface === 'game') {
       controllerFn.game[mainModel.game.mode].render();
     } else if (mainModel.interface === 'menu') {
@@ -77,7 +75,7 @@ let controllerFn = {
     }
   },
   clearAll() {
-    canvasFn.clearRect(mainModel.mainCtx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+    canvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
 
 
@@ -110,8 +108,8 @@ let controllerFn = {
               velocityY: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
               color: utils.getSimpleRandomColor(),
               render() {
-                canvasFn.drawCircle(this.offscreenCanvas, tinyStarModel.radius, this.x, this.y, this.color, false);
-                this.move();
+                // canvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, 0, 0, this.color, false);
+                canvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
               },
               move() {
                 this.x += this.velocityX;
@@ -127,13 +125,16 @@ let controllerFn = {
             tinyStarModel.axis.push(obj);
           }
         }
+        $.each(tinyStarModel.axis, (i, item) => {
+          controllerFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius, tinyStarModel.radius);
+        });
       },
       drawTinyStar() {
         const tinyStarModel = mainModel.menu.star.tiny;
 
         $.each(tinyStarModel.axis, (i, item) => {
-          controllerFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius, tinyStarModel.radius);
-          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, 0, 0, tinyStarModel.radius, tinyStarModel.radius);
+          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius, tinyStarModel.radius);
+          item.move();
         });
       },
       initMenuText() {
@@ -141,16 +142,16 @@ let controllerFn = {
 
         $.each(textModel.content, (i, item) => {
           item.render = () => {
-            canvasFn.drawText(this.offscreenCanvas, item.name, item.x, item.y, item.font, item.color);
+            canvasFn.drawText(item.offscreenCtx, item.name, 0, 0, item.font, item.color);
           };
+          controllerFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
         });
       },
       drawMenuText() {
         const textModel = mainModel.menu.star.text;
 
         $.each(textModel.content, (i, item) => {
-          controllerFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
-          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, 0, 0, item.w, item.h);
+          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
         });
       },
       // drawText() {
