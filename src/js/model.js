@@ -16,9 +16,7 @@ import img6 from '../assets/image/peach/6.png';
 
 let mainModel = {
   canvasNode: document.getElementById("mainCanvas"),
-  mainCtx: document.getElementById("mainCanvas").getContext("2d"), // 主屏ctx
-  ctx: null, // 离屏ctx
-  textCtx: null, // 文字ctx
+  ctx: document.getElementById("mainCanvas").getContext("2d"),
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
   interface: 'menu', // 'menu'、'game'

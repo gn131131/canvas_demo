@@ -4,9 +4,9 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-25 14:34:10
+ * @LastEditTime: 2020-02-25 23:06:58
  * TODO: 
- * Critical.性能优化
+ * Critical.性能优化，解耦
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
  * 6.2.文字暗色
@@ -26,88 +26,75 @@ import Stats from "stats.js";
 
 let controllerFn = {
   init() {
-    canvasFn.setCanvasToFullScreen(mainModel.canvasNode);
-    eventListenerFn.init();
-    this.initStats();
-    window.requestAnimationFrame(this.canvasControllerMainFn);
+
+    this.initStats(); // 初始化stats.js
+
+    canvasFn.setCanvasToFullScreen(mainModel.canvasNode); // 设置主canvas为全屏
+
+    eventListenerFn.init(); // 监听初始化
+
+    this.initRenderInfo(); // 初始化所有渲染相关信息
+
+    this.canvasControllerMainFn(); // 开始主函数
   },
   canvasControllerMainFn() {
-    mainModel.stats.begin();
 
-    // 创建canvas
-    controllerFn.createCanvas();
+    mainModel.stats.begin(); // stats.js开始
 
-    // 界面清除--放最前
-    controllerFn.clearAll();
+    controllerFn.clearAll(); // 界面清除--放最前
 
-    // 离屏渲染
-    controllerFn.render();
+    controllerFn.render(); // 渲染
 
-    mainModel.stats.end();
+    mainModel.stats.end(); // stats.js结束
 
-    window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
+    window.requestAnimationFrame(controllerFn.canvasControllerMainFn); // RAF执行
   },
   initStats() {
     mainModel.stats = new Stats();
     mainModel.stats.showPanel(0);
     document.body.appendChild(mainModel.stats.dom);
   },
-  createCanvas() {
-    mainModel.textCanvas = document.createElement('canvas');
-    canvasFn.setCanvasToFullScreen(mainModel.textCanvas);
-    mainModel.textCtx = mainModel.textCanvas.getContext('2d');
-
-    mainModel.offscreenCanvas = document.createElement('canvas');
-    canvasFn.setCanvasToFullScreen(mainModel.offscreenCanvas);
-    mainModel.ctx = mainModel.offscreenCanvas.getContext("2d");
+  initRenderInfo() {
+    if (mainModel.interface === 'game') {
+      controllerFn.game[mainModel.game.mode].initRenderInfo();
+    } else if (mainModel.interface === 'menu') {
+      controllerFn.menu[mainModel.menu.mode].initRenderInfo();
+    }
   },
   render() {
-    // 界面渲染--放中间
+    // canvasFn.drawImage(mainModel.mainCtx, mainModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+    // canvasFn.drawImage(mainModel.mainCtx, mainModel.textCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
     if (mainModel.interface === 'game') {
-      controllerFn.game[mainModel.game.mode].drawGame();
+      controllerFn.game[mainModel.game.mode].render();
     } else if (mainModel.interface === 'menu') {
-      controllerFn.menu[mainModel.menu.mode].drawMenu();
+      controllerFn.menu[mainModel.menu.mode].render();
     }
-    // 鼠标特效渲染--放最后
+    
     if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
-      controllerFn.cursor.drawAnimation();
+      controllerFn.cursor.render();
     } else {
-      controllerFn.cursor.resetInfo();
+      controllerFn.cursor.resetRenderInfo();
     }
-
-    canvasFn.drawPic(mainModel.mainCtx, mainModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
-    canvasFn.drawPic(mainModel.mainCtx, mainModel.textCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   clearAll() {
     canvasFn.clearRect(mainModel.mainCtx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
+
+
   menu: {
     star: {
-      drawMenu() {
-        this.initInfo();
-
+      initRenderInfo() {
+        this.initTinyStarInfo();
+        this.initMenuText();
+      },
+      render() {
         this.drawTinyStar();
-        this.tinyStarMoveAuto();
 
         if (mainModel.menu.star.text.focus) {
-          this.drawText();
+          // this.drawText();
         } else {
           this.drawMenuText();
         }
-      },
-      initInfo() {
-        this.initMenuTextInfo();
-        this.initTinyStarInfo();
-      },
-      initMenuTextInfo() {
-
-      },
-      drawMenuText() {
-        const textModel = mainModel.menu.star.text;
-
-        $.each(textModel.content, (i, item) => {
-          canvasFn.drawText(mainModel.ctx, item.name, item.x, item.y, item.font, item.color);
-        });
       },
       initTinyStarInfo() {
         const tinyStarModel = mainModel.menu.star.tiny;
@@ -116,13 +103,28 @@ let controllerFn = {
 
         if (tinyStarModel.axis.length === 0) {
           for (let i = 0; i < tinyStarModel.maxNumber; i++) {
-            tinyStarModel.axis.push({
+            let obj = {
               x: utils.getSimpleRandomNumber(mainModel.clientWidth),
               y: utils.getSimpleRandomNumber(mainModel.clientHeight),
               velocityX: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
               velocityY: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
-              color: utils.getSimpleRandomColor()
-            });
+              color: utils.getSimpleRandomColor(),
+              render() {
+                canvasFn.drawCircle(this.offscreenCanvas, tinyStarModel.radius, this.x, this.y, this.color, false);
+                this.move();
+              },
+              move() {
+                this.x += this.velocityX;
+                this.y += this.velocityY;
+                if (this.x >= mainModel.clientWidth || this.x <= 0) {
+                  this.velocityX = -this.velocityX;
+                }
+                if (this.y >= mainModel.clientHeight || this.y <= 0) {
+                  this.velocityY = -this.velocityY;
+                }
+              }
+            };
+            tinyStarModel.axis.push(obj);
           }
         }
       },
@@ -130,80 +132,85 @@ let controllerFn = {
         const tinyStarModel = mainModel.menu.star.tiny;
 
         $.each(tinyStarModel.axis, (i, item) => {
-          canvasFn.drawCircle(mainModel.ctx, tinyStarModel.radius, item.x, item.y, item.color, false);
-        });
-        mainModel.ctx.stroke();
-      },
-      tinyStarMoveAuto() {
-        const tinyStarModel = mainModel.menu.star.tiny;
-
-        $.each(tinyStarModel.axis, (i, item) => {
-          item.x += item.velocityX;
-          item.y += item.velocityY;
-          if (item.x >= mainModel.clientWidth || item.x <= 0) {
-            item.velocityX = -item.velocityX;
-          }
-          if (item.y >= mainModel.clientHeight || item.y <= 0) {
-            item.velocityY = -item.velocityY;
-          }
+          controllerFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius, tinyStarModel.radius);
+          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, 0, 0, tinyStarModel.radius, tinyStarModel.radius);
         });
       },
-      drawText() {
+      initMenuText() {
         const textModel = mainModel.menu.star.text;
-        if(textModel.textCount===textModel.content.length){
-          textModel.textCount=0;
-        }
+
+        $.each(textModel.content, (i, item) => {
+          item.render = () => {
+            canvasFn.drawText(this.offscreenCanvas, item.name, item.x, item.y, item.font, item.color);
+          };
+        });
+      },
+      drawMenuText() {
+        const textModel = mainModel.menu.star.text;
+
+        $.each(textModel.content, (i, item) => {
+          controllerFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
+          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, 0, 0, item.w, item.h);
+        });
+      },
+      // drawText() {
+      //   const textModel = mainModel.menu.star.text;
+      //   if(textModel.textCount===textModel.content.length){
+      //     textModel.textCount=0;
+      //   }
         
-        let ctx = mainModel.textCtx;
+      //   let ctx = mainModel.textCtx;
 
-        this.createText(ctx, textModel.content[textModel.textCount].name);
-        textModel.textCount++;
-        this.findText(ctx);
-      },
-      //生成文字
-      createText(ctx, text) {
-        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-        ctx.font = mainModel.menu.star.text.font + 'px "微软雅黑';
-        ctx.fillStyle = 'red';
+      //   this.createText(ctx, textModel.content[textModel.textCount].name);
+      //   textModel.textCount++;
+      //   this.findText(ctx);
+      // },
+      // //生成文字
+      // createText(ctx, text) {
+      //   ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+      //   ctx.font = mainModel.menu.star.text.font + 'px "微软雅黑';
+      //   ctx.fillStyle = 'red';
 
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(text, mainModel.clientWidth / 2, mainModel.clientHeight / 2);
-      },
-      createRadius(ctx, data) {
-        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-        for (let i = 0; i < data.length; i++) {
-          ctx.beginPath();
+      //   ctx.textAlign = 'center';
+      //   ctx.textBaseline = 'middle';
+      //   ctx.fillText(text, mainModel.clientWidth / 2, mainModel.clientHeight / 2);
+      // },
+      // createRadius(ctx, data) {
+      //   ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+      //   for (let i = 0; i < data.length; i++) {
+      //     ctx.beginPath();
 
-          ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
-          ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
-          ctx.closePath();
-          ctx.fill();
-        }
-      },
-      //查找不同颜色的值和位置
-      findText(ctx) {
-        let imageData = ctx.getImageData(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-        let data = imageData.data;
-        let pos = [];
-        for (let i = 0; i < mainModel.clientWidth; i += mainModel.menu.star.text.gap) {
-          for (let j = 0; j < mainModel.clientHeight; j += mainModel.menu.star.text.gap) {
-            let index = (j * mainModel.clientWidth + i) * 4;
-            if (data[index] > 128) {
-              pos.push({
-                x: i,
-                y: j
-              });
-            }
-          }
-        }
-        this.createRadius(ctx, pos);
-      }
+      //     ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
+      //     ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
+      //     ctx.closePath();
+      //     ctx.fill();
+      //   }
+      // },
+      // //查找不同颜色的值和位置
+      // findText(ctx) {
+      //   let imageData = ctx.getImageData(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+      //   let data = imageData.data;
+      //   let pos = [];
+      //   for (let i = 0; i < mainModel.clientWidth; i += mainModel.menu.star.text.gap) {
+      //     for (let j = 0; j < mainModel.clientHeight; j += mainModel.menu.star.text.gap) {
+      //       let index = (j * mainModel.clientWidth + i) * 4;
+      //       if (data[index] > 128) {
+      //         pos.push({
+      //           x: i,
+      //           y: j
+      //         });
+      //       }
+      //     }
+      //   }
+      //   this.createRadius(ctx, pos);
+      // }
     }
   },
+
+
   game: {
     snake: {
-      drawGame() {
+      initRenderInfo() {
         this.drawWall();
         this.drawPlayer();
         this.drawScore();
@@ -231,7 +238,6 @@ let controllerFn = {
           },
         ];
         canvasFn.drawLine(mainModel.ctx, wallModel.axis, wallModel.color, gameModel.rectWidth);
-        mainModel.ctx.stroke();
       },
       drawPlayer() {
         const gameModel = mainModel.game.snake.game;
@@ -389,8 +395,10 @@ let controllerFn = {
       }
     }
   },
+
+
   cursor: {
-    drawAnimation() {
+    initRenderInfo() {
       const rectModel = mainModel.cursor.rect;
 
       rectModel.count = rectModel.count || 0;
@@ -428,7 +436,7 @@ let controllerFn = {
         }
       });
     },
-    resetInfo() {
+    resetRenderInfo() {
       const rectModel = mainModel.cursor.rect;
       rectModel.randomInfoArray = [];
       rectModel.count = 0;
@@ -452,8 +460,17 @@ let controllerFn = {
       canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor, mainModel.cursor.rect.borderWidth);
     },
     drawPicByRandomInfo(obj) {
-      canvasFn.drawPic(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
+      canvasFn.drawImage(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
     }
+  },
+
+
+  createAndRenderOffscreenCanvas(obj, w, h) {
+    obj.offscreenCanvas = document.createElement('canvas');
+    obj.offscreenCanvas.width = w;
+    obj.offscreenCanvas.height = h;
+    obj.offscreenCtx = obj.offscreenCanvas.getContext('2d');
+    obj.render(obj.offscreenCtx);
   }
 };
 

@@ -45,6 +45,7 @@ let canvasFn = {
     });
     ctx.closePath();
     ctx.restore();
+    ctx.stroke();
   },
   /**
    * @description: 绘制矩形
@@ -97,7 +98,7 @@ let canvasFn = {
    * @return: void
    * @author: Pumpking
    */  
-  drawPic(ctx, image, x, y, w, h) {
+  drawImage(ctx, image, x, y, w, h) {
     ctx.drawImage(image, Math.floor(x), Math.floor(y), Math.floor(w), Math.floor(h));
   },
   /**
@@ -149,6 +150,7 @@ let canvasFn = {
     }
     ctx.closePath();
     ctx.restore();
+    ctx.stroke();
   }
 };
 
