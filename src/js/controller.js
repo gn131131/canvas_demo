@@ -4,8 +4,9 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-24 16:22:56
+ * @LastEditTime: 2020-02-25 14:34:10
  * TODO: 
+ * Critical.性能优化
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
  * 6.2.文字暗色
@@ -21,27 +22,46 @@ import utils from "./utils";
 import canvasFn from "./canvasFn";
 import mainModel from "./model";
 import $ from "jquery";
+import Stats from "stats.js";
 
 let controllerFn = {
   init() {
     canvasFn.setCanvasToFullScreen(mainModel.canvasNode);
     eventListenerFn.init();
+    this.initStats();
     window.requestAnimationFrame(this.canvasControllerMainFn);
   },
   canvasControllerMainFn() {
+    mainModel.stats.begin();
+
+    // 创建canvas
+    controllerFn.createCanvas();
+
     // 界面清除--放最前
     controllerFn.clearAll();
 
     // 离屏渲染
     controllerFn.render();
 
+    mainModel.stats.end();
+
     window.requestAnimationFrame(controllerFn.canvasControllerMainFn);
   },
-  render() {
-    let offscreenCanvas = document.createElement('canvas');
-    canvasFn.setCanvasToFullScreen(offscreenCanvas);
-    mainModel.ctx = offscreenCanvas.getContext("2d");
+  initStats() {
+    mainModel.stats = new Stats();
+    mainModel.stats.showPanel(0);
+    document.body.appendChild(mainModel.stats.dom);
+  },
+  createCanvas() {
+    mainModel.textCanvas = document.createElement('canvas');
+    canvasFn.setCanvasToFullScreen(mainModel.textCanvas);
+    mainModel.textCtx = mainModel.textCanvas.getContext('2d');
 
+    mainModel.offscreenCanvas = document.createElement('canvas');
+    canvasFn.setCanvasToFullScreen(mainModel.offscreenCanvas);
+    mainModel.ctx = mainModel.offscreenCanvas.getContext("2d");
+  },
+  render() {
     // 界面渲染--放中间
     if (mainModel.interface === 'game') {
       controllerFn.game[mainModel.game.mode].drawGame();
@@ -55,8 +75,8 @@ let controllerFn = {
       controllerFn.cursor.resetInfo();
     }
 
+    canvasFn.drawPic(mainModel.mainCtx, mainModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
     canvasFn.drawPic(mainModel.mainCtx, mainModel.textCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
-    canvasFn.drawPic(mainModel.mainCtx, offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
   clearAll() {
     canvasFn.clearRect(mainModel.mainCtx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
@@ -66,14 +86,14 @@ let controllerFn = {
       drawMenu() {
         this.initInfo();
 
-        // this.drawMenuText();
         this.drawTinyStar();
+        this.tinyStarMoveAuto();
 
-        if (!mainModel.menu.star.text.focus) {
-          this.tinyStarMoveAuto();
+        if (mainModel.menu.star.text.focus) {
+          this.drawText();
+        } else {
+          this.drawMenuText();
         }
-
-        this.drawText();
       },
       initInfo() {
         this.initMenuTextInfo();
@@ -133,11 +153,11 @@ let controllerFn = {
         if(textModel.textCount===textModel.content.length){
           textModel.textCount=0;
         }
-        mainModel.textCanvas = document.createElement('canvas');
-        canvasFn.setCanvasToFullScreen(mainModel.textCanvas);
-        let ctx = mainModel.textCanvas.getContext('2d');
+        
+        let ctx = mainModel.textCtx;
+
         this.createText(ctx, textModel.content[textModel.textCount].name);
-        textModel.textCount++;		
+        textModel.textCount++;
         this.findText(ctx);
       },
       //生成文字

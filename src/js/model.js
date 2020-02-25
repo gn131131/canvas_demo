@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-24 15:57:06
+ * @LastEditTime: 2020-02-25 14:32:55
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -18,6 +18,7 @@ let mainModel = {
   canvasNode: document.getElementById("mainCanvas"),
   mainCtx: document.getElementById("mainCanvas").getContext("2d"), // 主屏ctx
   ctx: null, // 离屏ctx
+  textCtx: null, // 文字ctx
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
   interface: 'menu', // 'menu'、'game'
@@ -38,8 +39,8 @@ let mainModel = {
           name: '测试',
           x: 200,
           y: 150,
-          w: 40,
-          h: 20,
+          w: 400,
+          h: 200,
           color: '#fff',
           font: 200
         }],

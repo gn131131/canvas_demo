@@ -30,6 +30,7 @@ let canvasFn = {
    * @author: Pumpking
    */
   drawLine(ctx, array, color, width) {
+    ctx.save();
     ctx.beginPath();
 
     color = color || '#000';
@@ -43,6 +44,7 @@ let canvasFn = {
       ctx.lineTo(item.x, item.y);
     });
     ctx.closePath();
+    ctx.restore();
   },
   /**
    * @description: 绘制矩形
@@ -59,6 +61,7 @@ let canvasFn = {
    * @author: Pumpking
    */  
   drawRect(ctx, x, y, w, h, color, isEmpty, borderColor, borderWidth) {
+    ctx.save();
     ctx.lineWidth = borderWidth || 0;
 
     if (isEmpty === true) {
@@ -68,6 +71,7 @@ let canvasFn = {
       ctx.fillStyle = color;
       ctx.fillRect(x, y, w, h);
     }
+    ctx.restore();
   },
   /**
    * @description: 清除矩形
@@ -108,6 +112,7 @@ let canvasFn = {
    * @author: Pumpking
    */
   drawText(ctx, text, x, y, font, color) {
+    ctx.save();
 
     color = color || '#000';
     const newFont = font ? (typeof font === 'number' ? (font + 'px sans-serif') : font) : '10px sans-serif';
@@ -115,6 +120,7 @@ let canvasFn = {
     ctx.font = newFont;
     ctx.fillStyle = color;
     ctx.fillText(text, x, y + font);
+    ctx.restore();
   },
   /**
    * @description: 绘制圆形
@@ -130,6 +136,7 @@ let canvasFn = {
    * @author: Pumpking
    */
   drawCircle(ctx, radius, x, y, color, isEmpty, borderColor, borderWidth) {
+    ctx.save();
     ctx.beginPath();
     ctx.lineWidth = borderWidth || 0;
     ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -141,6 +148,7 @@ let canvasFn = {
       ctx.fill();
     }
     ctx.closePath();
+    ctx.restore();
   }
 };
 
