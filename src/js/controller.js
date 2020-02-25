@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 00:58:54
+ * @LastEditTime: 2020-02-26 01:04:02
  * TODO: 
  * Critical.性能优化，解耦
  * 6.菜单
@@ -156,57 +156,57 @@ let controllerFn = {
           canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
         });
       },
-      // drawText() {
-      //   const textModel = mainModel.menu.star.text;
-      //   if(textModel.textCount===textModel.content.length){
-      //     textModel.textCount=0;
-      //   }
+      drawText() {
+        const textModel = mainModel.menu.star.text;
+        if(textModel.textCount===textModel.content.length){
+          textModel.textCount=0;
+        }
         
-      //   let ctx = mainModel.textCtx;
+        let ctx = mainModel.textCtx;
 
-      //   this.createText(ctx, textModel.content[textModel.textCount].name);
-      //   textModel.textCount++;
-      //   this.findText(ctx);
-      // },
-      // //生成文字
-      // createText(ctx, text) {
-      //   ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-      //   ctx.font = mainModel.menu.star.text.font + 'px "微软雅黑';
-      //   ctx.fillStyle = 'red';
+        this.createText(ctx, textModel.content[textModel.textCount].name);
+        textModel.textCount++;
+        this.findText(ctx);
+      },
+      //生成文字
+      createText(ctx, text) {
+        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+        ctx.font = mainModel.menu.star.text.font + 'px "微软雅黑';
+        ctx.fillStyle = 'red';
 
-      //   ctx.textAlign = 'center';
-      //   ctx.textBaseline = 'middle';
-      //   ctx.fillText(text, mainModel.clientWidth / 2, mainModel.clientHeight / 2);
-      // },
-      // createRadius(ctx, data) {
-      //   ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-      //   for (let i = 0; i < data.length; i++) {
-      //     ctx.beginPath();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, mainModel.clientWidth / 2, mainModel.clientHeight / 2);
+      },
+      createRadius(ctx, data) {
+        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+        for (let i = 0; i < data.length; i++) {
+          ctx.beginPath();
 
-      //     ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
-      //     ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
-      //     ctx.closePath();
-      //     ctx.fill();
-      //   }
-      // },
-      // //查找不同颜色的值和位置
-      // findText(ctx) {
-      //   let imageData = ctx.getImageData(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-      //   let data = imageData.data;
-      //   let pos = [];
-      //   for (let i = 0; i < mainModel.clientWidth; i += mainModel.menu.star.text.gap) {
-      //     for (let j = 0; j < mainModel.clientHeight; j += mainModel.menu.star.text.gap) {
-      //       let index = (j * mainModel.clientWidth + i) * 4;
-      //       if (data[index] > 128) {
-      //         pos.push({
-      //           x: i,
-      //           y: j
-      //         });
-      //       }
-      //     }
-      //   }
-      //   this.createRadius(ctx, pos);
-      // }
+          ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
+          ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
+          ctx.closePath();
+          ctx.fill();
+        }
+      },
+      //查找不同颜色的值和位置
+      findText(ctx) {
+        let imageData = ctx.getImageData(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+        let data = imageData.data;
+        let pos = [];
+        for (let i = 0; i < mainModel.clientWidth; i += mainModel.menu.star.text.gap) {
+          for (let j = 0; j < mainModel.clientHeight; j += mainModel.menu.star.text.gap) {
+            let index = (j * mainModel.clientWidth + i) * 4;
+            if (data[index] > 128) {
+              pos.push({
+                x: i,
+                y: j
+              });
+            }
+          }
+        }
+        this.createRadius(ctx, pos);
+      }
     }
   },
 

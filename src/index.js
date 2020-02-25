@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: Pumpking
+ * @Date: 2020-02-11 16:13:25
+ * @LastEditors: Pumpking
+ * @LastEditTime: 2020-02-26 01:04:17
+ */
 "use strict";
 
 import "./vendor/flexble/base.css";
@@ -9,14 +17,10 @@ import $ from "jquery";
 import mainFn from "./js/main";
 
 $(document).ready(() => {
-  init();
-  hotModuleSet();
-});
-
-function init() {
   compatibility();
   mainFn.init();
-}
+  hotModuleSet();
+});
 
 function compatibility() {
   if (!window.requestAnimationFrame) {
@@ -36,7 +40,7 @@ function hotModuleSet() {
   if (module.hot) {
     module.hot.accept("./js/main.js", function () {
       console.log("热部署模块更新");
-      init();
+      mainFn.init();
     });
   }
 
