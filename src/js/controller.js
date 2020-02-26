@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 16:26:38
+ * @LastEditTime: 2020-02-26 17:34:52
  * TODO: 
  * Critical.解耦，使用prototype+Class重构所有元素
  * 6.菜单
@@ -91,10 +91,10 @@ let controllerFn = {
       render() {
         this.drawTinyStar();
 
-        if (mainModel.menu.star.text.focus) {
-          this.drawText();
-        } else {
-          this.drawMenuText();
+        this.drawMenuText();
+
+        if (mainModel.menu.star.text.focusIndex !== null) {
+          this.drawText(mainModel.menu.star.text.focusIndex);
         }
       },
       initTinyStarInfo() {
@@ -157,30 +157,41 @@ let controllerFn = {
         const textModel = mainModel.menu.star.text;
 
         $.each(textModel.content, (i, item) => {
-          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
+          if (textModel.focusIndex !== i) {
+            canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
+          }
         });
       },
       initTextInfo() {
         const textModel = mainModel.menu.star.text;
 
         let vm = this;
-        textModel.content[0].innerTextObject = {
-          name: textModel.content[0].name,
-          x: textModel.content[0].x,
-          y: textModel.content[0].y,
-          w: textModel.content[0].w,
-          h: textModel.content[0].h,
-          font: textModel.content[0].font,
-          render() {
-            vm.createText(this.offscreenCtx, textModel.content[0]);
-            vm.findText(this.offscreenCtx, textModel.content[0]);
-          }
-        };
-        canvasFn.createAndRenderOffscreenCanvas(textModel.content[0].innerTextObject, textModel.content[0].innerTextObject.w, textModel.content[0].innerTextObject.h);
+        $.each(textModel.content, (i, item) => {
+          item.innerTextObject = {
+            name: item.name,
+            x: item.x,
+            y: item.y,
+            w: item.w,
+            h: item.h,
+            font: item.font,
+            render() {
+              vm.createText(this.offscreenCtx, item);
+              vm.findText(this.offscreenCtx, item);
+            }
+          };
+          canvasFn.createAndRenderOffscreenCanvas(item.innerTextObject, item.innerTextObject.w, item.innerTextObject.h);
+        });
       },
-      drawText() {
-        const obj = mainModel.menu.star.text.content[0].innerTextObject;
-        canvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
+      drawText(index) {
+        const textModel = mainModel.menu.star.text;
+
+        $.each(textModel.content, (i, item) => {
+          const obj = item.innerTextObject;
+
+          if (i === index) {
+            canvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
+          }
+        });
       },
       //生成文字
       createText(ctx, obj) {

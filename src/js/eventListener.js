@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-21 17:23:06
+ * @LastEditTime: 2020-02-26 17:34:14
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -31,20 +31,25 @@ let eventListenerFn = {
       mainModel.cursor.axisY = e.offsetY;
 
       const menuText = mainModel.menu[mainModel.menu.mode].text;
-      $.each(menuText.content, (i, item) => {
-        withinRect(item.x, item.y, item.w, item.h).then(() => {
-          menuText.focus = true;
-          mainModel.canvasNode.style.cursor = 'pointer';
-        }, () => {
-          menuText.focus = false;
-          mainModel.canvasNode.style.cursor = 'default';
-        });
+
+      withinRect(menuText.content).then((index) => {
+        menuText.focusIndex = index;
+        mainModel.canvasNode.style.cursor = 'pointer';
+      }, () => {
+        menuText.focusIndex = null;
+        mainModel.canvasNode.style.cursor = 'default';
       });
 
-      function withinRect(x, y, w, h) {
+      function withinRect(textArray) {
         return new Promise((resolve, reject) => {
-          if (mainModel.cursor.axisX <= x + w && mainModel.cursor.axisX >= x && mainModel.cursor.axisY <= y + h && mainModel.cursor.axisY >= y) {
-            resolve();
+          let index = null;
+          $.each(textArray, (i, item) => {
+            if (mainModel.cursor.axisX <= item.x + item.w && mainModel.cursor.axisX >= item.x && mainModel.cursor.axisY <= item.y + item.h && mainModel.cursor.axisY >= item.y) {
+              index = i;
+            }
+          });
+          if (index !== null) {
+            resolve(index);
           } else {
             reject();
           }

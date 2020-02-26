@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 16:24:39
+ * @LastEditTime: 2020-02-26 17:15:34
  */
 import $ from "jquery";
 import img1 from '../assets/image/peach/1.png';
@@ -34,17 +34,25 @@ let mainModel = {
       },
       text: {
         content: [{
-          name: '测试',
+          name: '第一行',
           x: 200,
           y: 150,
-          w: 200,
+          w: 300,
           h: 100,
-          color: '#fff',
+          color: 'gray',
+          font: 100
+        },{
+          name: '第二行',
+          x: 200,
+          y: 400,
+          w: 300,
+          h: 100,
+          color: 'gray',
           font: 100
         }],
+        focusIndex: null,
         font: 100,
-        focus: false,
-        defR: 2,
+        defR: 5,
         gap: 5,
         textCount: 0
       }
