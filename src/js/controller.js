@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 15:16:27
+ * @LastEditTime: 2020-02-26 16:26:38
  * TODO: 
  * Critical.解耦，使用prototype+Class重构所有元素
  * 6.菜单
@@ -111,8 +111,11 @@ let controllerFn = {
               velocityY: utils.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
               color: utils.getSimpleRandomColor(),
               render() {
-                // canvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, 0, 0, this.color, false);
-                canvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
+                if (tinyStarModel.radius <= 10) {
+                  canvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
+                } else {
+                  canvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, tinyStarModel.radius, tinyStarModel.radius, this.color, false);
+                }
               },
               move() {
                 this.x += this.velocityX;
@@ -129,14 +132,14 @@ let controllerFn = {
           }
         }
         $.each(tinyStarModel.axis, (i, item) => {
-          canvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius, tinyStarModel.radius);
+          canvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
         });
       },
       drawTinyStar() {
         const tinyStarModel = mainModel.menu.star.tiny;
 
         $.each(tinyStarModel.axis, (i, item) => {
-          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius, tinyStarModel.radius);
+          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
           item.move();
         });
       },
