@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 00:36:56
+ * @LastEditTime: 2020-02-26 12:34:19
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -120,7 +120,8 @@ let canvasFn = {
 
     ctx.font = newFont;
     ctx.fillStyle = color;
-    ctx.fillText(text, x, y + font);
+    ctx.textBaseline = 'hanging'; // 主要用于离屏canvas坐标和text坐标一致，文字显示完全
+    ctx.fillText(text, x, y);
     ctx.restore();
   },
   /**

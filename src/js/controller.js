@@ -4,9 +4,9 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 01:04:02
+ * @LastEditTime: 2020-02-26 14:52:48
  * TODO: 
- * Critical.性能优化，解耦
+ * Critical.解耦，使用prototype+Class重构所有元素
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
  * 6.2.文字暗色
@@ -85,13 +85,14 @@ let controllerFn = {
     star: {
       initRenderInfo() {
         this.initTinyStarInfo();
-        this.initMenuText();
+        this.initMenuTextInfo();
+        this.initTextInfo();
       },
       render() {
         this.drawTinyStar();
 
         if (mainModel.menu.star.text.focus) {
-          // this.drawText();
+          this.drawText();
         } else {
           this.drawMenuText();
         }
@@ -139,7 +140,7 @@ let controllerFn = {
           item.move();
         });
       },
-      initMenuText() {
+      initMenuTextInfo() {
         const textModel = mainModel.menu.star.text;
 
         $.each(textModel.content, (i, item) => {
@@ -156,47 +157,40 @@ let controllerFn = {
           canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
         });
       },
-      drawText() {
+      initTextInfo() {
         const textModel = mainModel.menu.star.text;
-        if(textModel.textCount===textModel.content.length){
-          textModel.textCount=0;
-        }
-        
-        let ctx = mainModel.textCtx;
 
-        this.createText(ctx, textModel.content[textModel.textCount].name);
-        textModel.textCount++;
-        this.findText(ctx);
+        let vm = this;
+        textModel.content[0].innerTextObject = {
+          name: textModel.content[0].name,
+          x: textModel.content[0].x,
+          y: textModel.content[0].y,
+          w: textModel.content[0].w,
+          h: textModel.content[0].h,
+          font: textModel.content[0].font,
+          render() {
+            vm.createText(this.offscreenCtx, textModel.content[0]);
+            vm.findText(this.offscreenCtx, textModel.content[0]);
+          }
+        };
+        controllerFn.createAndRenderOffscreenCanvas(textModel.content[0].innerTextObject, textModel.content[0].innerTextObject.w, textModel.content[0].innerTextObject.h);
+      },
+      drawText() {
+        const obj = mainModel.menu.star.text.content[0].innerTextObject;
+        canvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
       },
       //生成文字
-      createText(ctx, text) {
-        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-        ctx.font = mainModel.menu.star.text.font + 'px "微软雅黑';
-        ctx.fillStyle = 'red';
-
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(text, mainModel.clientWidth / 2, mainModel.clientHeight / 2);
-      },
-      createRadius(ctx, data) {
-        ctx.clearRect(0, 0, mainModel.clientWidth, mainModel.clientHeight);
-        for (let i = 0; i < data.length; i++) {
-          ctx.beginPath();
-
-          ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
-          ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
-          ctx.closePath();
-          ctx.fill();
-        }
+      createText(ctx, obj) {
+        canvasFn.drawText(ctx, obj.name, 0, 0, obj.font, 'red');
       },
       //查找不同颜色的值和位置
-      findText(ctx) {
-        let imageData = ctx.getImageData(0, 0, mainModel.clientWidth, mainModel.clientHeight);
+      findText(ctx, obj) {
+        let imageData = ctx.getImageData(0, 0, obj.w, obj.h);
         let data = imageData.data;
         let pos = [];
-        for (let i = 0; i < mainModel.clientWidth; i += mainModel.menu.star.text.gap) {
-          for (let j = 0; j < mainModel.clientHeight; j += mainModel.menu.star.text.gap) {
-            let index = (j * mainModel.clientWidth + i) * 4;
+        for (let i = 0; i < obj.w; i += mainModel.menu.star.text.gap) {
+          for (let j = 0; j < obj.h; j += mainModel.menu.star.text.gap) {
+            let index = (j * obj.w + i) * 4;
             if (data[index] > 128) {
               pos.push({
                 x: i,
@@ -205,7 +199,18 @@ let controllerFn = {
             }
           }
         }
-        this.createRadius(ctx, pos);
+        this.createRadius(ctx, pos, obj);
+      },
+      createRadius(ctx, data, obj) {
+        ctx.clearRect(0, 0, obj.w, obj.h);
+        for (let i = 0; i < data.length; i++) {
+          ctx.beginPath();
+
+          ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
+          ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
+          ctx.closePath();
+          ctx.fill();
+        }
       }
     }
   },
