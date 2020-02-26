@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 12:34:19
+ * @LastEditTime: 2020-02-26 15:15:13
  */
 import $ from "jquery";
 import mainModel from "./model";
@@ -19,6 +19,21 @@ let canvasFn = {
   setCanvasToFullScreen(node) {
     node.width = mainModel.clientWidth;
     node.height = mainModel.clientHeight;
+  },
+  /**
+   * @description: 为当前元素obj生成离屏canvas并渲染，渲染方法render()，离屏canvas属性offscreenCanvas，离屏ctx属性offscreenCtx
+   * @param {object} obj 当前元素信息所在对象
+   * @param {number} w 离屏canvas宽度
+   * @param {number} h 离屏canvas高度
+   * @return: void
+   * @author: Pumpking
+   */
+  createAndRenderOffscreenCanvas(obj, w, h) {
+    obj.offscreenCanvas = document.createElement('canvas');
+    obj.offscreenCanvas.width = w;
+    obj.offscreenCanvas.height = h;
+    obj.offscreenCtx = obj.offscreenCanvas.getContext('2d');
+    obj.render(obj.offscreenCtx);
   },
   /**
    * @description: 绘制线

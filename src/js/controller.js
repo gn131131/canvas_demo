@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 14:52:48
+ * @LastEditTime: 2020-02-26 15:16:27
  * TODO: 
  * Critical.解耦，使用prototype+Class重构所有元素
  * 6.菜单
@@ -129,7 +129,7 @@ let controllerFn = {
           }
         }
         $.each(tinyStarModel.axis, (i, item) => {
-          controllerFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius, tinyStarModel.radius);
+          canvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius, tinyStarModel.radius);
         });
       },
       drawTinyStar() {
@@ -147,7 +147,7 @@ let controllerFn = {
           item.render = () => {
             canvasFn.drawText(item.offscreenCtx, item.name, 0, 0, item.font, item.color);
           };
-          controllerFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
+          canvasFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
         });
       },
       drawMenuText() {
@@ -173,7 +173,7 @@ let controllerFn = {
             vm.findText(this.offscreenCtx, textModel.content[0]);
           }
         };
-        controllerFn.createAndRenderOffscreenCanvas(textModel.content[0].innerTextObject, textModel.content[0].innerTextObject.w, textModel.content[0].innerTextObject.h);
+        canvasFn.createAndRenderOffscreenCanvas(textModel.content[0].innerTextObject, textModel.content[0].innerTextObject.w, textModel.content[0].innerTextObject.h);
       },
       drawText() {
         const obj = mainModel.menu.star.text.content[0].innerTextObject;
@@ -289,7 +289,7 @@ let controllerFn = {
         wallModel.render = () => {
           canvasFn.drawLine(wallModel.offscreenCtx, wallModel.axis, wallModel.color, gameModel.rectWidth);
         };
-        controllerFn.createAndRenderOffscreenCanvas(wallModel, mainModel.clientWidth, mainModel.clientHeight);
+        canvasFn.createAndRenderOffscreenCanvas(wallModel, mainModel.clientWidth, mainModel.clientHeight);
       },
       drawWall() {
         const wallModel = mainModel.game.snake.wall;
@@ -490,15 +490,6 @@ let controllerFn = {
     drawPicByRandomInfo(obj) {
       canvasFn.drawImage(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
     }
-  },
-
-
-  createAndRenderOffscreenCanvas(obj, w, h) {
-    obj.offscreenCanvas = document.createElement('canvas');
-    obj.offscreenCanvas.width = w;
-    obj.offscreenCanvas.height = h;
-    obj.offscreenCtx = obj.offscreenCanvas.getContext('2d');
-    obj.render(obj.offscreenCtx);
   }
 };
 
