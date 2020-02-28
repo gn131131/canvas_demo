@@ -4,9 +4,9 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-20 18:15:26
+ * @LastEditTime: 2020-02-28 15:55:49
  */
-import controllerFn from "./controller";
+import controllerFn from "./controller/controller";
 import testFn from "./test";
 
 let mainObj = {

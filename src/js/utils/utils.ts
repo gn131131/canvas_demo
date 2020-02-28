@@ -4,20 +4,20 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-22 16:59:55
+ * @LastEditTime: 2020-02-28 15:55:22
  */
-let utilsFn = {
+export class UtilsFn {
   /**
    * @description: 获得一个随机数字
    * @param {number} max 上限
    * @param {number} min 下限
-   * @param {number} multiple 倍数，可填
-   * @param {boolean} noZero 去0，可填
-   * @param {boolean} noInt 非整数，可填
+   * @param {number} multiple 倍数，可选
+   * @param {boolean} noZero 去0，可选
+   * @param {boolean} noInt 非整数，可选
    * @return: 随机数字
    * @author: Pumpking
    */
-  getSimpleRandomNumber(max, min, multiple, noZero, noInt) {
+  getSimpleRandomNumber(max: number, min: number, multiple?: number, noZero?: boolean, noInt?: boolean): number {
     let number = null;
     if (!min) {
       min = 0;
@@ -60,32 +60,32 @@ let utilsFn = {
     }
     
     return number;
-  },
+  }
   /**
    * @description: 生成随机颜色
    * @param {null} 
    * @return: 随机颜色
    * @author: Pumpking
    */
-  getSimpleRandomColor() {
+  getSimpleRandomColor(): string {
     return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
-  },
+  }
   /**
    * @description: 从数组中随机一个值
    * @param {array} array 数组
    * @return: 随机值
    * @author: Pumpking
    */
-  getRandomItemFromArray(array) {
+  getRandomItemFromArray(array: Array<any>): any {
     return array[Math.floor(Math.random() * array.length)];
-  },
+  }
   /**
    * @description: 深拷贝
    * @param {any} 原数据 
    * @return: 深拷贝后的数据
    * @author: Pumpking
    */
-  deepClone(origin) {
+  deepClone(origin: any): any {
     let toStr = Object.prototype.toString
     let isInvalid = toStr.call(origin) !== '[object Object]' && toStr.call(origin) !== '[object Array]'
     if (isInvalid) {
@@ -96,7 +96,7 @@ let utilsFn = {
       if (origin.hasOwnProperty(key)) {
         const item = origin[key];
         if (typeof item === 'object' && item !== null) {
-          target[key] = deepClone(item)
+          target[key] = this.deepClone(item)
         } else {
           target[key] = item
         }
@@ -104,6 +104,4 @@ let utilsFn = {
     }
     return target
   }
-};
-
-export default utilsFn;
+}

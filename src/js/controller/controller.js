@@ -18,9 +18,9 @@
  * 10.自食截断（暂不考虑）
  */
 import eventListenerFn from "./eventListener";
-import utils from "./utils";
-import canvasFn from "./canvasFn";
-import mainModel from "./model";
+import utils from "../utils/utils";
+import canvasFn from "../utils/canvasFn";
+import mainModel from "../model/model";
 import $ from "jquery";
 import Stats from "stats.js";
 

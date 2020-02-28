@@ -4,22 +4,22 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 15:15:13
+ * @LastEditTime: 2020-02-28 16:21:56
  */
 import $ from "jquery";
-import mainModel from "./model";
+import mainModel from "../model/model";
 
-let canvasFn = {
+export class CanvasFn {
   /**
    * @description: 设置canvas为全屏
    * @param {object} node canvas节点
    * @return: void
    * @author: Pumpking
    */
-  setCanvasToFullScreen(node) {
+  setCanvasToFullScreen(node: any): void {
     node.width = mainModel.clientWidth;
     node.height = mainModel.clientHeight;
-  },
+  }
   /**
    * @description: 为当前元素obj生成离屏canvas并渲染，渲染方法render()，离屏canvas属性offscreenCanvas，离屏ctx属性offscreenCtx
    * @param {object} obj 当前元素信息所在对象
@@ -28,23 +28,23 @@ let canvasFn = {
    * @return: void
    * @author: Pumpking
    */
-  createAndRenderOffscreenCanvas(obj, w, h) {
+  createAndRenderOffscreenCanvas(obj: any, w: number, h: number): void {
     obj.offscreenCanvas = document.createElement('canvas');
     obj.offscreenCanvas.width = w;
     obj.offscreenCanvas.height = h;
     obj.offscreenCtx = obj.offscreenCanvas.getContext('2d');
     obj.render(obj.offscreenCtx);
-  },
+  }
   /**
    * @description: 绘制线
    * @param {object} ctx canvas
    * @param {array} array 包含顺序路径点坐标的数组，eg.[{x: 0, y: 0}]
-   * @param {string} 线条颜色，不填默认黑色
-   * @param {number} 线条宽度，不填默认1
+   * @param {string} 线条颜色，默认黑色，可选
+   * @param {number} 线条宽度，默认1，可选
    * @return: void
    * @author: Pumpking
    */
-  drawLine(ctx, array, color, width) {
+  drawLine(ctx: any, array: Array<any>, color?: string, width?: number): void {
     ctx.save();
     ctx.beginPath();
 
@@ -61,7 +61,7 @@ let canvasFn = {
     ctx.closePath();
     ctx.stroke();
     ctx.restore();
-  },
+  }
   /**
    * @description: 绘制矩形
    * @param {object} ctx canvas
@@ -70,13 +70,13 @@ let canvasFn = {
    * @param {number} w 宽度
    * @param {number} h 高度
    * @param {string} color 填充颜色
-   * @param {boolean} isEmpty 是否空心
-   * @param {string} borderColor 边框颜色
-   * @param {number} borderWidth 边框宽度
+   * @param {boolean} isEmpty 是否空心，可填
+   * @param {string} borderColor 边框颜色，可填
+   * @param {number} borderWidth 边框宽度，可填
    * @return: void
    * @author: Pumpking
    */  
-  drawRect(ctx, x, y, w, h, color, isEmpty, borderColor, borderWidth) {
+  drawRect(ctx: any, x: number, y: number, w: number, h: number, color: string, isEmpty?: boolean, borderColor?: string, borderWidth?: number):void {
     ctx.save();
     ctx.lineWidth = borderWidth || 0;
 
@@ -88,7 +88,7 @@ let canvasFn = {
       ctx.fillRect(x, y, w, h);
     }
     ctx.restore();
-  },
+  }
   /**
    * @description: 清除矩形
    * @param {object} ctx canvas
@@ -99,9 +99,9 @@ let canvasFn = {
    * @return: void
    * @author: Pumpking
    */  
-  clearRect(ctx, x, y, w, h) {
+  clearRect(ctx: any, x: number, y: number, w: number, h: number): void {
     ctx.clearRect(x, y, w, h);
-  },
+  }
   /**
    * @description: 绘制图片
    * @param {object} ctx canvas
@@ -113,9 +113,9 @@ let canvasFn = {
    * @return: void
    * @author: Pumpking
    */  
-  drawImage(ctx, image, x, y, w, h) {
+  drawImage(ctx: any, image: ImageData, x: number, y: number, w: number, h: number): void {
     ctx.drawImage(image, Math.floor(x), Math.floor(y), Math.floor(w), Math.floor(h));
-  },
+  }
   /**
    * @description: 绘制文字
    * @param {object} ctx canvas
@@ -127,7 +127,7 @@ let canvasFn = {
    * @return: void
    * @author: Pumpking
    */
-  drawText(ctx, text, x, y, font, color) {
+  drawText(ctx: any, text: string, x: number, y: number, font: (string | number), color: string): void {
     ctx.save();
 
     color = color || '#000';
@@ -138,7 +138,7 @@ let canvasFn = {
     ctx.textBaseline = 'hanging'; // 主要用于离屏canvas坐标和text坐标一致，文字显示完全
     ctx.fillText(text, x, y);
     ctx.restore();
-  },
+  }
   /**
    * @description: 绘制圆形
    * @param {object} ctx canvas
@@ -146,13 +146,13 @@ let canvasFn = {
    * @param {number} x x坐标
    * @param {number} y y坐标
    * @param {string} color 填充颜色
-   * @param {boolean} isEmpty 是否为圆环
-   * @param {string} borderColor 边框颜色
-   * @param {number} borderWidth 边框宽度
+   * @param {boolean} isEmpty 是否为圆环，可选
+   * @param {string} borderColor 边框颜色，可选
+   * @param {number} borderWidth 边框宽度，可选
    * @return: void
    * @author: Pumpking
    */
-  drawCircle(ctx, radius, x, y, color, isEmpty, borderColor, borderWidth) {
+  drawCircle(ctx: any, radius: number, x: number, y: number, color: string, isEmpty: boolean, borderColor: string, borderWidth: number): void {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = borderWidth || 0;
@@ -168,6 +168,4 @@ let canvasFn = {
     ctx.stroke();
     ctx.restore();
   }
-};
-
-export default canvasFn;
+}

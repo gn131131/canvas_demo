@@ -4,17 +4,17 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 17:15:34
+ * @LastEditTime: 2020-02-28 12:49:03
  */
 import $ from "jquery";
-import img1 from '../assets/image/peach/1.png';
-import img2 from '../assets/image/peach/2.png';
-import img3 from '../assets/image/peach/3.png';
-import img4 from '../assets/image/peach/4.png';
-import img5 from '../assets/image/peach/5.png';
-import img6 from '../assets/image/peach/6.png';
+import img1 from '../../assets/image/peach/1.png';
+import img2 from '../../assets/image/peach/2.png';
+import img3 from '../../assets/image/peach/3.png';
+import img4 from '../../assets/image/peach/4.png';
+import img5 from '../../assets/image/peach/5.png';
+import img6 from '../../assets/image/peach/6.png';
 
-let mainModel = {
+export default mainModel = {
   canvasNode: document.getElementById("mainCanvas"),
   ctx: document.getElementById("mainCanvas").getContext("2d"),
   clientWidth: document.documentElement.clientWidth,
@@ -24,7 +24,7 @@ let mainModel = {
     mode: 'star',
     star: {
       tiny: {
-        maxNumber: 200,
+        maxNumber: 500,
         color: '#fff',
         radius: 2,
         speed: 2
@@ -121,5 +121,3 @@ function linkInfo() {
   mainModel.game.snake.player.oriAxis.y = mainModel.game.snake.player.oriAxis.y * mainModel.game.snake.game.rectWidth;
 }
 linkInfo();
-
-export default mainModel;

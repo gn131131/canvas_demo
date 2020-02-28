@@ -4,10 +4,10 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 17:04:42
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-26 17:34:14
+ * @LastEditTime: 2020-02-28 15:57:26
  */
 import $ from "jquery";
-import mainModel from "./model";
+import mainModel from "../model/model";
 
 let eventListenerFn = {
   init() {
