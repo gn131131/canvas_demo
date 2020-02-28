@@ -4,19 +4,20 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-28 16:21:56
+ * @LastEditTime: 2020-02-28 19:45:39
  */
 import $ from "jquery";
 import mainModel from "../model/model";
 
-export class CanvasFn {
+export default class CanvasFn {
+  constructor() {}
   /**
    * @description: 设置canvas为全屏
    * @param {object} node canvas节点
    * @return: void
    * @author: Pumpking
    */
-  setCanvasToFullScreen(node: any): void {
+  setCanvasToFullScreen(node) {
     node.width = mainModel.clientWidth;
     node.height = mainModel.clientHeight;
   }
@@ -28,7 +29,7 @@ export class CanvasFn {
    * @return: void
    * @author: Pumpking
    */
-  createAndRenderOffscreenCanvas(obj: any, w: number, h: number): void {
+  createAndRenderOffscreenCanvas(obj, w, h) {
     obj.offscreenCanvas = document.createElement('canvas');
     obj.offscreenCanvas.width = w;
     obj.offscreenCanvas.height = h;
@@ -44,7 +45,7 @@ export class CanvasFn {
    * @return: void
    * @author: Pumpking
    */
-  drawLine(ctx: any, array: Array<any>, color?: string, width?: number): void {
+  drawLine(ctx, array, color, width) {
     ctx.save();
     ctx.beginPath();
 
@@ -76,7 +77,7 @@ export class CanvasFn {
    * @return: void
    * @author: Pumpking
    */  
-  drawRect(ctx: any, x: number, y: number, w: number, h: number, color: string, isEmpty?: boolean, borderColor?: string, borderWidth?: number):void {
+  drawRect(ctx, x, y, w, h, color, isEmpty, borderColor, borderWidth) {
     ctx.save();
     ctx.lineWidth = borderWidth || 0;
 
@@ -99,7 +100,7 @@ export class CanvasFn {
    * @return: void
    * @author: Pumpking
    */  
-  clearRect(ctx: any, x: number, y: number, w: number, h: number): void {
+  clearRect(ctx, x, y, w, h) {
     ctx.clearRect(x, y, w, h);
   }
   /**
@@ -113,7 +114,7 @@ export class CanvasFn {
    * @return: void
    * @author: Pumpking
    */  
-  drawImage(ctx: any, image: ImageData, x: number, y: number, w: number, h: number): void {
+  drawImage(ctx, image, x, y, w, h) {
     ctx.drawImage(image, Math.floor(x), Math.floor(y), Math.floor(w), Math.floor(h));
   }
   /**
@@ -127,7 +128,7 @@ export class CanvasFn {
    * @return: void
    * @author: Pumpking
    */
-  drawText(ctx: any, text: string, x: number, y: number, font: (string | number), color: string): void {
+  drawText(ctx, text, x, y, font, color) {
     ctx.save();
 
     color = color || '#000';
@@ -152,7 +153,7 @@ export class CanvasFn {
    * @return: void
    * @author: Pumpking
    */
-  drawCircle(ctx: any, radius: number, x: number, y: number, color: string, isEmpty: boolean, borderColor: string, borderWidth: number): void {
+  drawCircle(ctx, radius, x, y, color, isEmpty, borderColor, borderWidth) {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = borderWidth || 0;

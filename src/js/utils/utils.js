@@ -4,9 +4,10 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-28 15:55:22
+ * @LastEditTime: 2020-02-28 20:02:41
  */
-export class UtilsFn {
+export default class UtilsFn {
+  constructor() {}
   /**
    * @description: 获得一个随机数字
    * @param {number} max 上限
@@ -17,8 +18,8 @@ export class UtilsFn {
    * @return: 随机数字
    * @author: Pumpking
    */
-  getSimpleRandomNumber(max: number, min: number, multiple?: number, noZero?: boolean, noInt?: boolean): number {
-    let number = null;
+  getSimpleRandomNumber(max, min, multiple, noZero, noInt) {
+    let number;
     if (!min) {
       min = 0;
     }
@@ -67,7 +68,7 @@ export class UtilsFn {
    * @return: 随机颜色
    * @author: Pumpking
    */
-  getSimpleRandomColor(): string {
+  getSimpleRandomColor() {
     return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
   }
   /**
@@ -76,7 +77,7 @@ export class UtilsFn {
    * @return: 随机值
    * @author: Pumpking
    */
-  getRandomItemFromArray(array: Array<any>): any {
+  getRandomItemFromArray(array) {
     return array[Math.floor(Math.random() * array.length)];
   }
   /**
@@ -85,7 +86,7 @@ export class UtilsFn {
    * @return: 深拷贝后的数据
    * @author: Pumpking
    */
-  deepClone(origin: any): any {
+  deepClone(origin) {
     let toStr = Object.prototype.toString
     let isInvalid = toStr.call(origin) !== '[object Object]' && toStr.call(origin) !== '[object Array]'
     if (isInvalid) {

@@ -4,9 +4,9 @@
  * @Autor: Pumpking
  * @Date: 2020-02-20 17:26:57
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-28 15:58:08
+ * @LastEditTime: 2020-02-28 19:42:34
  */
-import utilsFn from "./utils/utils";
+import UtilsFn from "./utils/utils";
 import $ from "jquery";
 
 let testModel = {
@@ -15,7 +15,7 @@ let testModel = {
 
 let testFn = {
   init() {
-    this.utils.getSimpleRandomNumber();
+    this.UtilsFn.getSimpleRandomNumber();
   },
   utils: {
     getSimpleRandomNumber() {

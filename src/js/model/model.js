@@ -14,7 +14,7 @@ import img4 from '../../assets/image/peach/4.png';
 import img5 from '../../assets/image/peach/5.png';
 import img6 from '../../assets/image/peach/6.png';
 
-export default mainModel = {
+let mainModel = {
   canvasNode: document.getElementById("mainCanvas"),
   ctx: document.getElementById("mainCanvas").getContext("2d"),
   clientWidth: document.documentElement.clientWidth,
@@ -121,3 +121,5 @@ function linkInfo() {
   mainModel.game.snake.player.oriAxis.y = mainModel.game.snake.player.oriAxis.y * mainModel.game.snake.game.rectWidth;
 }
 linkInfo();
+
+export default mainModel;
