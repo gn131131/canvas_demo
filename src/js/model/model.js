@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-28 12:49:03
+ * @LastEditTime: 2020-02-29 12:15:18
  */
 import $ from "jquery";
 import img1 from '../../assets/image/peach/1.png';

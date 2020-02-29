@@ -4,10 +4,9 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:24:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-28 20:02:41
+ * @LastEditTime: 2020-02-29 12:35:42
  */
 export default class UtilsFn {
-  constructor() {}
   /**
    * @description: 获得一个随机数字
    * @param {number} max 上限
@@ -53,7 +52,7 @@ export default class UtilsFn {
     }
     
     if (noZero) {
-      while (number === null || number === 0) {
+      while (!number || number === 0) {
         getResult();
       }
     } else {

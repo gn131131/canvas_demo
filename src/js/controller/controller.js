@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-28 19:59:21
+ * @LastEditTime: 2020-02-29 12:36:14
  * TODO: 
  * Critical.解耦，使用prototype+Class重构所有元素
  * 6.菜单
@@ -24,12 +24,15 @@ import mainModel from "../model/model";
 import $ from "jquery";
 import Stats from "stats.js";
 
+const utilsFn = new UtilsFn();
+const canvasFn = new CanvasFn();
+
 let controllerFn = {
   init() {
 
     this.initStats(); // 初始化stats.js
 
-    CanvasFn.setCanvasToFullScreen(mainModel.canvasNode); // 设置主canvas为全屏
+    canvasFn.setCanvasToFullScreen(mainModel.canvasNode); // 设置主canvas为全屏
 
     eventListenerFn.init(); // 监听初始化
 
@@ -77,7 +80,7 @@ let controllerFn = {
     }
   },
   clearAll() {
-    CanvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+    canvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   },
 
 
@@ -105,16 +108,16 @@ let controllerFn = {
         if (tinyStarModel.axis.length === 0) {
           for (let i = 0; i < tinyStarModel.maxNumber; i++) {
             let obj = {
-              x: UtilsFn.getSimpleRandomNumber(mainModel.clientWidth),
-              y: UtilsFn.getSimpleRandomNumber(mainModel.clientHeight),
-              velocityX: UtilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
-              velocityY: UtilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
-              color: UtilsFn.getSimpleRandomColor(),
+              x: utilsFn.getSimpleRandomNumber(mainModel.clientWidth),
+              y: utilsFn.getSimpleRandomNumber(mainModel.clientHeight),
+              velocityX: utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
+              velocityY: utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
+              color: utilsFn.getSimpleRandomColor(),
               render() {
                 if (tinyStarModel.radius <= 10) {
-                  CanvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
+                  canvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
                 } else {
-                  CanvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, tinyStarModel.radius, tinyStarModel.radius, this.color, false);
+                  canvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, tinyStarModel.radius, tinyStarModel.radius, this.color, false);
                 }
               },
               move() {
@@ -132,14 +135,13 @@ let controllerFn = {
           }
         }
         $.each(tinyStarModel.axis, (i, item) => {
-          CanvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
+          canvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
         });
       },
       drawTinyStar() {
         const tinyStarModel = mainModel.menu.star.tiny;
-
         $.each(tinyStarModel.axis, (i, item) => {
-          CanvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
+          canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
           item.move();
         });
       },
@@ -148,9 +150,9 @@ let controllerFn = {
 
         $.each(textModel.content, (i, item) => {
           item.render = () => {
-            CanvasFn.drawText(item.offscreenCtx, item.name, 0, 0, item.font, item.color);
+            canvasFn.drawText(item.offscreenCtx, item.name, 0, 0, item.font, item.color);
           };
-          CanvasFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
+          canvasFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
         });
       },
       drawMenuText() {
@@ -158,7 +160,7 @@ let controllerFn = {
 
         $.each(textModel.content, (i, item) => {
           if (textModel.focusIndex !== i) {
-            CanvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
+            canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
           }
         });
       },
@@ -179,7 +181,7 @@ let controllerFn = {
               vm.findText(this.offscreenCtx, item);
             }
           };
-          CanvasFn.createAndRenderOffscreenCanvas(item.innerTextObject, item.innerTextObject.w, item.innerTextObject.h);
+          canvasFn.createAndRenderOffscreenCanvas(item.innerTextObject, item.innerTextObject.w, item.innerTextObject.h);
         });
       },
       drawText(index) {
@@ -189,13 +191,13 @@ let controllerFn = {
           const obj = item.innerTextObject;
 
           if (i === index) {
-            CanvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
+            canvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
           }
         });
       },
       //生成文字
       createText(ctx, obj) {
-        CanvasFn.drawText(ctx, obj.name, 0, 0, obj.font, 'red');
+        canvasFn.drawText(ctx, obj.name, 0, 0, obj.font, 'red');
       },
       //查找不同颜色的值和位置
       findText(ctx, obj) {
@@ -301,14 +303,14 @@ let controllerFn = {
           },
         ];
         wallModel.render = () => {
-          CanvasFn.drawLine(wallModel.offscreenCtx, wallModel.axis, wallModel.color, gameModel.rectWidth);
+          canvasFn.drawLine(wallModel.offscreenCtx, wallModel.axis, wallModel.color, gameModel.rectWidth);
         };
-        CanvasFn.createAndRenderOffscreenCanvas(wallModel, mainModel.clientWidth, mainModel.clientHeight);
+        canvasFn.createAndRenderOffscreenCanvas(wallModel, mainModel.clientWidth, mainModel.clientHeight);
       },
       drawWall() {
         const wallModel = mainModel.game.snake.wall;
 
-        CanvasFn.drawImage(mainModel.ctx, wallModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+        canvasFn.drawImage(mainModel.ctx, wallModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
       },
       initFoodInfo() {
         const foodModel = mainModel.game.snake.food;
@@ -318,9 +320,9 @@ let controllerFn = {
         if (foodModel.axis.length < foodModel.count) {
           for (let i = 0; i < foodModel.count; i++) {
             foodModel.axis.push({
-              x: UtilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
-              y: UtilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth, wallModel.y + gameModel.rectWidth, gameModel.rectWidth),
-              color: UtilsFn.getSimpleRandomColor()
+              x: utilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w - gameModel.rectWidth, wallModel.x + gameModel.rectWidth, gameModel.rectWidth),
+              y: utilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h - gameModel.rectWidth, wallModel.y + gameModel.rectWidth, gameModel.rectWidth),
+              color: utilsFn.getSimpleRandomColor()
             });
           }
         }
@@ -329,7 +331,7 @@ let controllerFn = {
         const gameModel = mainModel.game.snake.game;
         const foodModel = mainModel.game.snake.food;
         $.each(foodModel.axis, (i, item) => {
-          CanvasFn.drawRect(mainModel.ctx, item.x, item.y, gameModel.rectWidth, gameModel.rectWidth, item.color);
+          canvasFn.drawRect(mainModel.ctx, item.x, item.y, gameModel.rectWidth, gameModel.rectWidth, item.color);
         });
       },
       initScoreInfo() {
@@ -337,7 +339,7 @@ let controllerFn = {
       },
       drawScore() {
         const playerModel = mainModel.game.snake.player;
-        CanvasFn.drawText(mainModel.ctx, `${playerModel.scoreText}: ${playerModel.score}`, playerModel.scoreAxis.x, playerModel.scoreAxis.y, playerModel.scoreFont, playerModel.scoreColor);
+        canvasFn.drawText(mainModel.ctx, `${playerModel.scoreText}: ${playerModel.score}`, playerModel.scoreAxis.x, playerModel.scoreAxis.y, playerModel.scoreFont, playerModel.scoreColor);
       },
       resetInfo() {
         const model = mainModel.game.snake;
@@ -359,7 +361,7 @@ let controllerFn = {
         const gameModel = mainModel.game.snake.game;
         const playerModel = mainModel.game.snake.player;
         $.each(playerModel.axis, (i, item) => {
-          CanvasFn.drawRect(mainModel.ctx, item.x, item.y, gameModel.rectWidth, gameModel.rectWidth, playerModel.color);
+          canvasFn.drawRect(mainModel.ctx, item.x, item.y, gameModel.rectWidth, gameModel.rectWidth, playerModel.color);
         });
       },
       playerMoveByPosition() {
@@ -375,7 +377,7 @@ let controllerFn = {
             playerModel.axis.shift(0);
           }
 
-          const tempObj = UtilsFn.deepClone(playerModel.axis[playerModel.axis.length - 1]);
+          const tempObj = utilsFn.deepClone(playerModel.axis[playerModel.axis.length - 1]);
           if (playerModel.position[1] === 'right') {
             tempObj.x = tempObj.x + gameModel.rectWidth;
           } else if (playerModel.position[1] === 'left') {
@@ -414,9 +416,9 @@ let controllerFn = {
 
         for (let i = 0; i < foodModel.count; i++) {
           if (foodModel.axis[i].x == headAxis.x && foodModel.axis[i].y == headAxis.y) {
-            foodModel.axis[i].x = UtilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, gameModel.rectWidth);
-            foodModel.axis[i].y = UtilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, gameModel.rectWidth);
-            foodModel.axis[i].color = UtilsFn.getSimpleRandomColor();
+            foodModel.axis[i].x = utilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, gameModel.rectWidth);
+            foodModel.axis[i].y = utilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, gameModel.rectWidth);
+            foodModel.axis[i].color = utilsFn.getSimpleRandomColor();
 
             playerModel.eating = true;
             playerModel.score++;
@@ -489,20 +491,20 @@ let controllerFn = {
       const randomRectInfo = {
         x: cursor.axisX,
         y: cursor.axisY,
-        randomOffsetX: UtilsFn.getSimpleRandomNumber(rectModel.offsetXScope[0], rectModel.offsetXScope[1]),
-        randomOffsetY: UtilsFn.getSimpleRandomNumber(rectModel.offsetYScope[0], rectModel.offsetYScope[1]),
-        randomWidth: UtilsFn.getSimpleRandomNumber(rectModel.widthScope[0], rectModel.widthScope[1]),
-        randomColor: UtilsFn.getSimpleRandomColor(),
-        randomImage: UtilsFn.getRandomItemFromArray(rectModel.imageArray)
+        randomOffsetX: utilsFn.getSimpleRandomNumber(rectModel.offsetXScope[0], rectModel.offsetXScope[1]),
+        randomOffsetY: utilsFn.getSimpleRandomNumber(rectModel.offsetYScope[0], rectModel.offsetYScope[1]),
+        randomWidth: utilsFn.getSimpleRandomNumber(rectModel.widthScope[0], rectModel.widthScope[1]),
+        randomColor: utilsFn.getSimpleRandomColor(),
+        randomImage: utilsFn.getRandomItemFromArray(rectModel.imageArray)
       }
       randomRectInfo.randomHeight = randomRectInfo.randomWidth;
       return randomRectInfo;
     },
     drawRectByRandomInfo(obj) {
-      CanvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor, mainModel.cursor.rect.borderWidth);
+      canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor, mainModel.cursor.rect.borderWidth);
     },
     drawPicByRandomInfo(obj) {
-      CanvasFn.drawImage(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
+      canvasFn.drawImage(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
     }
   }
 };

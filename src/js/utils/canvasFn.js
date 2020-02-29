@@ -10,7 +10,6 @@ import $ from "jquery";
 import mainModel from "../model/model";
 
 export default class CanvasFn {
-  constructor() {}
   /**
    * @description: 设置canvas为全屏
    * @param {object} node canvas节点
