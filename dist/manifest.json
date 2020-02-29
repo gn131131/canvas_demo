@@ -6,7 +6,6 @@
   "vendors.app.js": "vendors.app.bundle.js",
   "vendors.app.js.map": "vendors.app.bundle.js.map",
   "favicon.ico": "favicon.ico",
-  "fonts/simkai.ttf": "fonts/6078b506afa793576f8a93475aab95b8.ttf",
   "images/bg_1.jpg": "images/00168cecf7c208917473f3e37c8ba787.jpg",
   "images/16d05ede6239bcdf8c8ff86f6e6f558b.png": "images/16d05ede6239bcdf8c8ff86f6e6f558b.png",
   "images/209ae68b00cc1da8ceecd82d61709fa4.png": "images/209ae68b00cc1da8ceecd82d61709fa4.png",

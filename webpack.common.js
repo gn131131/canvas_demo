@@ -4,14 +4,14 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-16 13:32:29
+ * @LastEditTime: 2020-02-29 14:40:02
  */
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    app: "./src/index.js"
+    app: "./src/index.ts"
   },
   output: {
     filename: "[name].bundle.js",
@@ -56,7 +56,7 @@ module.exports = {
         }
       },
       {
-        test: /\.tsx?$/,
+        test: /\.ts?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       }
