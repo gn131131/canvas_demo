@@ -22,9 +22,9 @@ import CanvasFn from "../utils/canvasFn";
 import mainModel from "../model/model";
 import Stats from "stats.js";
 
-import Cursor from "./cursor";
-import Snake from "./snake";
-import Star from "./star";
+import Cursor from "./item/cursor";
+import Snake from "./item/snake";
+import Star from "./item/star";
 
 const eventListenerFn = new EventListenerFn();
 const canvasFn = new CanvasFn();

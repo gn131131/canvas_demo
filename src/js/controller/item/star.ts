@@ -4,12 +4,12 @@
  * @Autor: Pumpking
  * @Date: 2020-02-29 15:24:02
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-29 15:24:03
+ * @LastEditTime: 2020-02-29 16:14:23
  */
 import $ from "jquery";
-import UtilsFn from "../utils/utils";
-import CanvasFn from "../utils/canvasFn";
-import mainModel from "../model/model";
+import UtilsFn from "../../utils/utils";
+import CanvasFn from "../../utils/canvasFn";
+import mainModel from "../../model/model";
 
 const utilsFn = new UtilsFn();
 const canvasFn = new CanvasFn();

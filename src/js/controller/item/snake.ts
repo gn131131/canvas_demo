@@ -7,9 +7,9 @@
  * @LastEditTime: 2020-02-29 15:18:27
  */
 import $ from "jquery";
-import UtilsFn from "../utils/utils";
-import CanvasFn from "../utils/canvasFn";
-import mainModel from "../model/model";
+import UtilsFn from "../../utils/utils";
+import CanvasFn from "../../utils/canvasFn";
+import mainModel from "../../model/model";
 
 const utilsFn = new UtilsFn();
 const canvasFn = new CanvasFn();
