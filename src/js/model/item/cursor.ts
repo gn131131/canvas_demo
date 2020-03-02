@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-03-02 14:52:33
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 18:15:55
+ * @LastEditTime: 2020-03-02 19:15:02
  */
 import img1 from '../../../assets/image/peach/1.png';
 import img2 from '../../../assets/image/peach/2.png';
@@ -19,7 +19,7 @@ const cursorModel: any = {
   isClicked: false,
   isMoving: false,
   animation: {
-    mode: 'rect', // 'picture' 'rect'
+    mode: 'picture', // 'picture' 'rect'
     offsetXScope: [30, -30],
     offsetYScope: [30, -30],
     widthScope: [20, 3],

@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 18:27:39
+ * @LastEditTime: 2020-03-02 19:15:34
  */
 const canvasNode: any = document.getElementById("mainCanvas");
 
@@ -14,7 +14,7 @@ let mainModel: any = {
   ctx: canvasNode.getContext("2d"),
   clientWidth: document.documentElement.clientWidth,
   clientHeight: document.documentElement.clientHeight,
-  interface: 'game', // 'menu'、'game'
+  interface: 'menu', // 'menu'、'game'
 };
 
 export default mainModel;
