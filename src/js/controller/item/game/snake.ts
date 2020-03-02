@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-29 15:18:26
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 16:17:06
+ * @LastEditTime: 2020-03-02 19:11:36
  */
 import $ from "jquery";
 import UtilsFn from "../../../utils/utils";
@@ -26,7 +26,7 @@ export default class Snake {
     this.rectWidth = gameModel.snake.game.rectWidth;
   }
 
-  initRenderInfo() {
+  init() {
     this.initPlayerInfo();
     this.initWallInfo();
     this.initFoodInfo();
@@ -143,7 +143,7 @@ export default class Snake {
 
     model.food.axis = [];
 
-    this.initRenderInfo();
+    this.init();
   }
   drawPlayerByInfo() {
     const playerModel = gameModel.snake.player;

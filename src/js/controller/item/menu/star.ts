@@ -17,12 +17,12 @@ export default class Star {
   utilsFn: any;
   canvasFn: any;
 
-  constructor () {
+  constructor() {
     this.utilsFn = new UtilsFn();
     this.canvasFn = new CanvasFn();
   }
 
-  initRenderInfo() {
+  init() {
     this.initTinyStarInfo();
     this.initMenuTextInfo();
     this.initTextInfo();

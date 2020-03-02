@@ -16,7 +16,7 @@ export default class MainFn {
   mainService: any;
   testFn: any;
 
-  constructor () {
+  constructor() {
     this.mainController = new MainController();
     this.mainService = new MainService();
     this.testFn = new TestFn();

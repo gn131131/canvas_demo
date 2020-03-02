@@ -15,7 +15,7 @@ export default class MainService {
   keyboardService: any;
   screenService: any;
 
-  constructor () {
+  constructor() {
     this.mouseService = new MouseService();
     this.keyboardService = new KeyboardService();
     this.screenService = new ScreenService();

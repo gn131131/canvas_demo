@@ -17,12 +17,12 @@ export default class Cursor {
   utilsFn: any;
   canvasFn: any;
 
-  constructor () {
+  constructor() {
     this.utilsFn = new UtilsFn();
     this.canvasFn = new CanvasFn();
   }
 
-  initRenderInfo() {
+  init() {
     cursorModel.animation.count = cursorModel.animation.count || 0;
     cursorModel.animation.randomInfoArray = cursorModel.animation.randomInfoArray || [];
     cursorModel.animation.imageArray = cursorModel.animation.imageArray || [];

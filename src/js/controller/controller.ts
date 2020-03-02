@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 18:27:24
+ * @LastEditTime: 2020-03-02 19:09:35
  * TODO: 
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
@@ -19,32 +19,27 @@ import Stats from "stats.js";
 import CanvasFn from "../utils/canvasFn";
 import mainModel from "../model/model";
 import cursorModel from "../model/item/cursor";
-import gameModel from "../model/item/game";
-import menuModel from "../model/item/menu";
 
 import Cursor from "./item/cursor";
-import Snake from "./item/game/snake";
-import Star from "./item/menu/star";
+import Game from "./item/game";
+import Menu from "./item/menu";
 
 
 export default class MainController {
   stats: any;
+
   canvasFn: any;
+
   cursor: any;
   game: any;
   menu: any;
 
-  constructor () {
+  constructor() {
     this.canvasFn = new CanvasFn();
 
     this.cursor = new Cursor();
-
-    this.game = {
-      snake: new Snake()
-    };
-    this.menu = {
-      star: new Star()
-    }
+    this.game = new Game();
+    this.menu = new Menu();
   }
 
   init() {
@@ -77,18 +72,18 @@ export default class MainController {
   }
   initRenderInfo() {
     if (mainModel.interface === 'game') {
-      this.game[gameModel.mode].initRenderInfo();
+      this.game.init();
     } else if (mainModel.interface === 'menu') {
-      this.menu[menuModel.mode].initRenderInfo();
+      this.menu.init();
     }
 
-    this.cursor.initRenderInfo();
+    this.cursor.init();
   }
   render() {
     if (mainModel.interface === 'game') {
-      this.game[gameModel.mode].render();
+      this.game.render();
     } else if (mainModel.interface === 'menu') {
-      this.menu[menuModel.mode].render();
+      this.menu.render();
     }
     
     if (cursorModel.axisX && cursorModel.axisY && cursorModel.isClicked) {
