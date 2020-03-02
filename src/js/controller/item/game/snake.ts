@@ -12,13 +12,17 @@ import CanvasFn from "../../../utils/canvasFn";
 import mainModel from "../../../model/model";
 import gameModel from "../../../model/item/game";
 
-const utilsFn = new UtilsFn();
-const canvasFn = new CanvasFn();
 
 export default class Snake {
+  utilsFn: any;
+  canvasFn: any;
+
   rectWidth: number;
 
   constructor() {
+    this.utilsFn = new UtilsFn();
+    this.canvasFn = new CanvasFn();
+
     this.rectWidth = gameModel.snake.game.rectWidth;
   }
 
@@ -70,6 +74,7 @@ export default class Snake {
     
     const x = wallModel.x + this.rectWidth / 2;
     const y = wallModel.y + this.rectWidth / 2;
+    let vm: any = this;
     wallModel.axis = [{
         x: x,
         y: y
@@ -88,14 +93,14 @@ export default class Snake {
       },
     ];
     wallModel.render = () => {
-      canvasFn.drawLine(wallModel.offscreenCtx, wallModel.axis, wallModel.color, this.rectWidth);
+      vm.canvasFn.drawLine(wallModel.offscreenCtx, wallModel.axis, wallModel.color, this.rectWidth);
     };
-    canvasFn.createAndRenderOffscreenCanvas(wallModel, mainModel.clientWidth, mainModel.clientHeight);
+    this.canvasFn.createAndRenderOffscreenCanvas(wallModel, mainModel.clientWidth, mainModel.clientHeight);
   }
   drawWall() {
     const wallModel = gameModel.snake.wall;
 
-    canvasFn.drawImage(mainModel.ctx, wallModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+    this.canvasFn.drawImage(mainModel.ctx, wallModel.offscreenCanvas, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   }
   initFoodInfo() {
     const foodModel = gameModel.snake.food;
@@ -104,9 +109,9 @@ export default class Snake {
     if (foodModel.axis.length < foodModel.count) {
       for (let i = 0; i < foodModel.count; i++) {
         foodModel.axis.push({
-          x: utilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w - this.rectWidth, wallModel.x + this.rectWidth, this.rectWidth),
-          y: utilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h - this.rectWidth, wallModel.y + this.rectWidth, this.rectWidth),
-          color: utilsFn.getSimpleRandomColor()
+          x: this.utilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w - this.rectWidth, wallModel.x + this.rectWidth, this.rectWidth),
+          y: this.utilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h - this.rectWidth, wallModel.y + this.rectWidth, this.rectWidth),
+          color: this.utilsFn.getSimpleRandomColor()
         });
       }
     }
@@ -114,7 +119,7 @@ export default class Snake {
   drawFood() {
     const foodModel = gameModel.snake.food;
     $.each(foodModel.axis, (i, item) => {
-      canvasFn.drawRect(mainModel.ctx, item.x, item.y, this.rectWidth, this.rectWidth, item.color);
+      this.canvasFn.drawRect(mainModel.ctx, item.x, item.y, this.rectWidth, this.rectWidth, item.color);
     });
   }
   initScoreInfo() {
@@ -122,7 +127,7 @@ export default class Snake {
   }
   drawScore() {
     const playerModel = gameModel.snake.player;
-    canvasFn.drawText(mainModel.ctx, `${playerModel.scoreText}: ${playerModel.score}`, playerModel.scoreAxis.x, playerModel.scoreAxis.y, playerModel.scoreFont, playerModel.scoreColor);
+    this.canvasFn.drawText(mainModel.ctx, `${playerModel.scoreText}: ${playerModel.score}`, playerModel.scoreAxis.x, playerModel.scoreAxis.y, playerModel.scoreFont, playerModel.scoreColor);
   }
   resetInfo() {
     const model = gameModel.snake;
@@ -143,7 +148,7 @@ export default class Snake {
   drawPlayerByInfo() {
     const playerModel = gameModel.snake.player;
     $.each(playerModel.axis, (i, item) => {
-      canvasFn.drawRect(mainModel.ctx, item.x, item.y, this.rectWidth, this.rectWidth, playerModel.color);
+      this.canvasFn.drawRect(mainModel.ctx, item.x, item.y, this.rectWidth, this.rectWidth, playerModel.color);
     });
   }
   playerMoveByPosition() {
@@ -158,7 +163,7 @@ export default class Snake {
         playerModel.axis.shift(0);
       }
 
-      const tempObj = utilsFn.deepClone(playerModel.axis[playerModel.axis.length - 1]);
+      const tempObj = this.utilsFn.deepClone(playerModel.axis[playerModel.axis.length - 1]);
       if (playerModel.position[1] === 'right') {
         tempObj.x = tempObj.x + this.rectWidth;
       } else if (playerModel.position[1] === 'left') {
@@ -195,9 +200,9 @@ export default class Snake {
 
     for (let i = 0; i < foodModel.count; i++) {
       if (foodModel.axis[i].x == headAxis.x && foodModel.axis[i].y == headAxis.y) {
-        foodModel.axis[i].x = utilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, this.rectWidth);
-        foodModel.axis[i].y = utilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, this.rectWidth);
-        foodModel.axis[i].color = utilsFn.getSimpleRandomColor();
+        foodModel.axis[i].x = this.utilsFn.getSimpleRandomNumber(wallModel.x + wallModel.w, wallModel.x, this.rectWidth);
+        foodModel.axis[i].y = this.utilsFn.getSimpleRandomNumber(wallModel.y + wallModel.h, wallModel.y, this.rectWidth);
+        foodModel.axis[i].color = this.utilsFn.getSimpleRandomColor();
 
         playerModel.eating = true;
         playerModel.score++;

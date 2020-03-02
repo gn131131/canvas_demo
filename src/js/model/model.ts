@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 20:33:15
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 16:16:22
+ * @LastEditTime: 2020-03-02 18:27:39
  */
 const canvasNode: any = document.getElementById("mainCanvas");
 

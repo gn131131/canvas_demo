@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 16:13:04
+ * @LastEditTime: 2020-03-02 18:27:24
  * TODO: 
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
@@ -26,28 +26,32 @@ import Cursor from "./item/cursor";
 import Snake from "./item/game/snake";
 import Star from "./item/menu/star";
 
-const canvasFn = new CanvasFn();
-
-const cursor = new Cursor();
-const snake = new Snake();
-const star = new Star();
 
 export default class MainController {
   stats: any;
+  canvasFn: any;
+  cursor: any;
+  game: any;
+  menu: any;
 
-  game: any = {
-    snake: snake
-  };
+  constructor () {
+    this.canvasFn = new CanvasFn();
 
-  menu: any ={
-    star: star
-  };
+    this.cursor = new Cursor();
+
+    this.game = {
+      snake: new Snake()
+    };
+    this.menu = {
+      star: new Star()
+    }
+  }
 
   init() {
 
     this.initStats(); // 初始化stats.js
 
-    canvasFn.setCanvasToFullScreen(mainModel.canvasNode); // 设置主canvas为全屏
+    this.canvasFn.setCanvasToFullScreen(mainModel.canvasNode); // 设置主canvas为全屏
 
     this.initRenderInfo(); // 初始化所有渲染相关信息
 
@@ -78,7 +82,7 @@ export default class MainController {
       this.menu[menuModel.mode].initRenderInfo();
     }
 
-    cursor.initRenderInfo();
+    this.cursor.initRenderInfo();
   }
   render() {
     if (mainModel.interface === 'game') {
@@ -88,12 +92,12 @@ export default class MainController {
     }
     
     if (cursorModel.axisX && cursorModel.axisY && cursorModel.isClicked) {
-      cursor.render();
+      this.cursor.render();
     } else {
-      cursor.resetRenderInfo();
+      this.cursor.resetRenderInfo();
     }
   }
   clearAll() {
-    canvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
+    this.canvasFn.clearRect(mainModel.ctx, 0, 0, mainModel.clientWidth, mainModel.clientHeight);
   }
 }

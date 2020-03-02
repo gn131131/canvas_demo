@@ -12,10 +12,16 @@ import CanvasFn from "../../../utils/canvasFn";
 import mainModel from "../../../model/model";
 import menuModel from "../../../model/item/menu";
 
-const utilsFn = new UtilsFn();
-const canvasFn = new CanvasFn();
 
 export default class Star {
+  utilsFn: any;
+  canvasFn: any;
+
+  constructor () {
+    this.utilsFn = new UtilsFn();
+    this.canvasFn = new CanvasFn();
+  }
+
   initRenderInfo() {
     this.initTinyStarInfo();
     this.initMenuTextInfo();
@@ -35,19 +41,20 @@ export default class Star {
 
     tinyStarModel.axis = tinyStarModel.axis || [];
 
+    let vm: any = this;
     if (tinyStarModel.axis.length === 0) {
       for (let i = 0; i < tinyStarModel.maxNumber; i++) {
         let obj = {
-          x: utilsFn.getSimpleRandomNumber(mainModel.clientWidth),
-          y: utilsFn.getSimpleRandomNumber(mainModel.clientHeight),
-          velocityX: utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
-          velocityY: utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
-          color: utilsFn.getSimpleRandomColor(),
+          x: vm.utilsFn.getSimpleRandomNumber(mainModel.clientWidth),
+          y: vm.utilsFn.getSimpleRandomNumber(mainModel.clientHeight),
+          velocityX: vm.utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
+          velocityY: vm.utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
+          color: vm.utilsFn.getSimpleRandomColor(),
           render() {
             if (tinyStarModel.radius <= 10) {
-              canvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
+              vm.canvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
             } else {
-              canvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, tinyStarModel.radius, tinyStarModel.radius, this.color, false);
+              vm.canvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, tinyStarModel.radius, tinyStarModel.radius, this.color, false);
             }
           },
           move() {
@@ -65,13 +72,13 @@ export default class Star {
       }
     }
     $.each(tinyStarModel.axis, (i, item) => {
-      canvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
+      this.canvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
     });
   }
   drawTinyStar() {
     const tinyStarModel = menuModel.star.tiny;
     $.each(tinyStarModel.axis, (i, item) => {
-      canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
+      this.canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
       item.move();
     });
   }
@@ -80,9 +87,9 @@ export default class Star {
 
     $.each(textModel.content, (i, item) => {
       item.render = () => {
-        canvasFn.drawText(item.offscreenCtx, item.name, 0, 0, item.font, item.color);
+        this.canvasFn.drawText(item.offscreenCtx, item.name, 0, 0, item.font, item.color);
       };
-      canvasFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
+      this.canvasFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
     });
   }
   drawMenuText() {
@@ -90,7 +97,7 @@ export default class Star {
 
     $.each(textModel.content, (i, item) => {
       if (textModel.focusIndex !== i) {
-        canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
+        this.canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
       }
     });
   }
@@ -111,7 +118,7 @@ export default class Star {
           vm.findText(this.offscreenCtx, item);
         }
       };
-      canvasFn.createAndRenderOffscreenCanvas(item.innerTextObject, item.innerTextObject.w, item.innerTextObject.h);
+      this.canvasFn.createAndRenderOffscreenCanvas(item.innerTextObject, item.innerTextObject.w, item.innerTextObject.h);
     });
   }
   drawText(index: number) {
@@ -121,13 +128,13 @@ export default class Star {
       const obj = item.innerTextObject;
 
       if (i === index) {
-        canvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
+        this.canvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
       }
     });
   }
   //生成文字
   createText(ctx: any, obj: any) {
-    canvasFn.drawText(ctx, obj.name, 0, 0, obj.font, 'red');
+    this.canvasFn.drawText(ctx, obj.name, 0, 0, obj.font, 'red');
   }
   //查找不同颜色的值和位置
   findText(ctx: any, obj: any) {

@@ -12,10 +12,16 @@ import CanvasFn from "../../utils/canvasFn";
 import mainModel from "../../model/model";
 import cursorModel from "../../model/item/cursor";
 
-const utilsFn = new UtilsFn();
-const canvasFn = new CanvasFn();
 
 export default class Cursor {
+  utilsFn: any;
+  canvasFn: any;
+
+  constructor () {
+    this.utilsFn = new UtilsFn();
+    this.canvasFn = new CanvasFn();
+  }
+
   initRenderInfo() {
     cursorModel.animation.count = cursorModel.animation.count || 0;
     cursorModel.animation.randomInfoArray = cursorModel.animation.randomInfoArray || [];
@@ -63,20 +69,20 @@ export default class Cursor {
     const randomRectInfo: any = {
       x: cursor.axisX,
       y: cursor.axisY,
-      randomOffsetX: utilsFn.getSimpleRandomNumber(cursorModel.animation.offsetXScope[0], cursorModel.animation.offsetXScope[1]),
-      randomOffsetY: utilsFn.getSimpleRandomNumber(cursorModel.animation.offsetYScope[0], cursorModel.animation.offsetYScope[1]),
-      randomWidth: utilsFn.getSimpleRandomNumber(cursorModel.animation.widthScope[0], cursorModel.animation.widthScope[1]),
+      randomOffsetX: this.utilsFn.getSimpleRandomNumber(cursorModel.animation.offsetXScope[0], cursorModel.animation.offsetXScope[1]),
+      randomOffsetY: this.utilsFn.getSimpleRandomNumber(cursorModel.animation.offsetYScope[0], cursorModel.animation.offsetYScope[1]),
+      randomWidth: this.utilsFn.getSimpleRandomNumber(cursorModel.animation.widthScope[0], cursorModel.animation.widthScope[1]),
       randomHeight: null,
-      randomColor: utilsFn.getSimpleRandomColor(),
-      randomImage: utilsFn.getRandomItemFromArray(cursorModel.animation.imageArray)
+      randomColor: this.utilsFn.getSimpleRandomColor(),
+      randomImage: this.utilsFn.getRandomItemFromArray(cursorModel.animation.imageArray)
     }
     randomRectInfo.randomHeight = randomRectInfo.randomWidth;
     return randomRectInfo;
   }
   drawRectByRandomInfo(obj: any) {
-    canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor, cursorModel.animation.borderWidth);
+    this.canvasFn.drawRect(mainModel.ctx, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight, null, true, obj.randomColor, cursorModel.animation.borderWidth);
   }
   drawPicByRandomInfo(obj: any) {
-    canvasFn.drawImage(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
+    this.canvasFn.drawImage(mainModel.ctx, obj.randomImage, obj.x + obj.randomOffsetX - obj.randomWidth / 2, obj.y + obj.randomOffsetY - obj.randomHeight / 2, obj.randomWidth, obj.randomHeight);
   }
 }

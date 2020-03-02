@@ -10,14 +10,20 @@ import MouseService from "./item/mouse";
 import KeyboardService from "./item/keyboard";
 import ScreenService from "./item/screen";
 
-const mouseService = new MouseService();
-const keyboardService = new KeyboardService();
-const screenService = new ScreenService();
-
 export default class MainService {
+  mouseService: any;
+  keyboardService: any;
+  screenService: any;
+
+  constructor () {
+    this.mouseService = new MouseService();
+    this.keyboardService = new KeyboardService();
+    this.screenService = new ScreenService();
+  }
+  
   init() {
-    mouseService.init();
-    keyboardService.init();
-    screenService.init();
+    this.mouseService.init();
+    this.keyboardService.init();
+    this.screenService.init();
   }
 }

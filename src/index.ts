@@ -23,7 +23,8 @@ $(document).ready(() => {
 });
 
 function init() {
-  new MainFn().init();
+  const mainFn = new MainFn();
+  mainFn.init();
 }
 // ts 兼容性写法不可行
 // function compatibility() {

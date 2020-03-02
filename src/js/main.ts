@@ -4,24 +4,29 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 17:43:19
+ * @LastEditTime: 2020-03-02 18:02:55
  */
 import MainController from "./controller/controller";
 import TestFn from "./test";
 import MainService from "./service/service";
 import mainModel from "./model/model";
 
-const mainController = new MainController();
-const mainService = new MainService();
-const testFn = new TestFn();
-
 export default class MainFn {
+  mainController: any;
+  mainService: any;
+  testFn: any;
+
+  constructor () {
+    this.mainController = new MainController();
+    this.mainService = new MainService();
+    this.testFn = new TestFn();
+  }
   init() {
     if (mainModel.mode === 'normal') {
-      mainController.init();
-      mainService.init();
+      this.mainController.init();
+      this.mainService.init();
     } else if (mainModel.mode === 'test') {
-      testFn.init();
+      this.testFn.init();
     }
   }
 };
