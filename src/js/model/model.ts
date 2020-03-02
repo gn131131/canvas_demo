@@ -6,14 +6,6 @@
  * @LastEditors: Pumpking
  * @LastEditTime: 2020-02-29 15:26:33
  */
-import $ from "jquery";
-import img1 from '../../assets/image/peach/1.png';
-import img2 from '../../assets/image/peach/2.png';
-import img3 from '../../assets/image/peach/3.png';
-import img4 from '../../assets/image/peach/4.png';
-import img5 from '../../assets/image/peach/5.png';
-import img6 from '../../assets/image/peach/6.png';
-
 const canvasNode: any = document.getElementById("mainCanvas");
 
 let mainModel: any = {
@@ -94,22 +86,6 @@ let mainModel: any = {
       food: {
         count: 10
       }
-    }
-  },
-  cursor: {
-    axisX: null,
-    axisY: null,
-    isClicked: false,
-    isMoving: false,
-    rect: {
-      offsetXScope: [30, -30],
-      offsetYScope: [30, -30],
-      widthScope: [20, 3],
-      borderWidth: 1,
-      speed: 59, // 最大59
-      showNumber: 20,
-      mode: 'rect', // 'picture' 'rect'
-      picArray: [img1, img2, img3, img4, img5, img6],
     }
   }
 };

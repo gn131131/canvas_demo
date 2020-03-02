@@ -4,23 +4,22 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-29 15:25:29
+ * @LastEditTime: 2020-03-02 15:28:51
  * TODO: 
- * Critical.解耦，使用prototype+Class重构所有元素
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
- * 6.2.文字暗色
- * 6.3.星辰形成亮字
  * 6.3.点击跳转
  * 8.皮肤
  * 8.5.代码优化
  * 9.多人（暂不考虑）
  * 10.自食截断（暂不考虑）
  */
-import EventListenerFn from "./eventListener";
+import Stats from "stats.js";
+
+import EventListenerFn from "../service/eventListener";
 import CanvasFn from "../utils/canvasFn";
 import mainModel from "../model/model";
-import Stats from "stats.js";
+import cursorModel from "../model/item/cursor";
 
 import Cursor from "./item/cursor";
 import Snake from "./item/snake";
@@ -90,7 +89,7 @@ export default class ControllerFn {
       this.menu[mainModel.menu.mode].render();
     }
     
-    if (mainModel.cursor.axisX && mainModel.cursor.axisY && mainModel.cursor.isClicked) {
+    if (cursorModel.axisX && cursorModel.axisY && cursorModel.isClicked) {
       cursor.render();
     } else {
       cursor.resetRenderInfo();
