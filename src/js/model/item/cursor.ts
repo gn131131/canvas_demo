@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-03-02 14:52:33
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 19:15:02
+ * @LastEditTime: 2020-03-02 19:24:38
  */
 import img1 from '../../../assets/image/peach/1.png';
 import img2 from '../../../assets/image/peach/2.png';
