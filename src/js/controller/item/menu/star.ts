@@ -4,12 +4,13 @@
  * @Autor: Pumpking
  * @Date: 2020-02-29 15:24:02
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-29 16:14:23
+ * @LastEditTime: 2020-03-02 16:03:42
  */
 import $ from "jquery";
-import UtilsFn from "../../utils/utils";
-import CanvasFn from "../../utils/canvasFn";
-import mainModel from "../../model/model";
+import UtilsFn from "../../../utils/utils";
+import CanvasFn from "../../../utils/canvasFn";
+import mainModel from "../../../model/model";
+import menuModel from "../../../model/item/menu";
 
 const utilsFn = new UtilsFn();
 const canvasFn = new CanvasFn();
@@ -25,12 +26,12 @@ export default class Star {
 
     this.drawMenuText();
 
-    if (mainModel.menu.star.text.focusIndex !== null) {
-      this.drawText(mainModel.menu.star.text.focusIndex);
+    if (menuModel.star.text.focusIndex !== null) {
+      this.drawText(menuModel.star.text.focusIndex);
     }
   }
   initTinyStarInfo() {
-    const tinyStarModel = mainModel.menu.star.tiny;
+    const tinyStarModel = menuModel.star.tiny;
 
     tinyStarModel.axis = tinyStarModel.axis || [];
 
@@ -68,14 +69,14 @@ export default class Star {
     });
   }
   drawTinyStar() {
-    const tinyStarModel = mainModel.menu.star.tiny;
+    const tinyStarModel = menuModel.star.tiny;
     $.each(tinyStarModel.axis, (i, item) => {
       canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
       item.move();
     });
   }
   initMenuTextInfo() {
-    const textModel = mainModel.menu.star.text;
+    const textModel = menuModel.star.text;
 
     $.each(textModel.content, (i, item) => {
       item.render = () => {
@@ -85,7 +86,7 @@ export default class Star {
     });
   }
   drawMenuText() {
-    const textModel = mainModel.menu.star.text;
+    const textModel = menuModel.star.text;
 
     $.each(textModel.content, (i, item) => {
       if (textModel.focusIndex !== i) {
@@ -94,7 +95,7 @@ export default class Star {
     });
   }
   initTextInfo() {
-    const textModel = mainModel.menu.star.text;
+    const textModel = menuModel.star.text;
 
     let vm = this;
     $.each(textModel.content, (i, item) => {
@@ -114,7 +115,7 @@ export default class Star {
     });
   }
   drawText(index: number) {
-    const textModel = mainModel.menu.star.text;
+    const textModel = menuModel.star.text;
 
     $.each(textModel.content, (i, item) => {
       const obj = item.innerTextObject;
@@ -133,8 +134,8 @@ export default class Star {
     let imageData = ctx.getImageData(0, 0, obj.w, obj.h);
     let data = imageData.data;
     let pos = [];
-    for (let i = 0; i < obj.w; i += mainModel.menu.star.text.gap) {
-      for (let j = 0; j < obj.h; j += mainModel.menu.star.text.gap) {
+    for (let i = 0; i < obj.w; i += menuModel.star.text.gap) {
+      for (let j = 0; j < obj.h; j += menuModel.star.text.gap) {
         let index = (j * obj.w + i) * 4;
         if (data[index] > 128) {
           pos.push({
@@ -151,7 +152,7 @@ export default class Star {
     for (let i = 0; i < data.length; i++) {
       ctx.beginPath();
 
-      ctx.arc(data[i].x, data[i].y, Math.random() * mainModel.menu.star.text.defR, 0, Math.PI * 2);
+      ctx.arc(data[i].x, data[i].y, Math.random() * menuModel.star.text.defR, 0, Math.PI * 2);
       ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
       ctx.closePath();
       ctx.fill();

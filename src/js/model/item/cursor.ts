@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-03-02 14:52:33
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 15:05:12
+ * @LastEditTime: 2020-03-02 16:15:39
  */
 import img1 from '../../../assets/image/peach/1.png';
 import img2 from '../../../assets/image/peach/2.png';
@@ -19,13 +19,13 @@ const cursorModel: any = {
   isClicked: false,
   isMoving: false,
   animation: {
+    mode: 'picture', // 'picture' 'rect'
     offsetXScope: [30, -30],
     offsetYScope: [30, -30],
     widthScope: [20, 3],
     borderWidth: 1,
     speed: 59, // 最大59
     showNumber: 20,
-    mode: 'rect', // 'picture' 'rect'
     picArray: [img1, img2, img3, img4, img5, img6]
   }
 }

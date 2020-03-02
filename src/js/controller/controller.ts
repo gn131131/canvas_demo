@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:56:12
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 15:28:51
+ * @LastEditTime: 2020-03-02 16:13:04
  * TODO: 
  * 6.菜单
  * 6.1.鼠标指向，星辰移动聚焦
@@ -16,23 +16,23 @@
  */
 import Stats from "stats.js";
 
-import EventListenerFn from "../service/eventListener";
 import CanvasFn from "../utils/canvasFn";
 import mainModel from "../model/model";
 import cursorModel from "../model/item/cursor";
+import gameModel from "../model/item/game";
+import menuModel from "../model/item/menu";
 
 import Cursor from "./item/cursor";
-import Snake from "./item/snake";
-import Star from "./item/star";
+import Snake from "./item/game/snake";
+import Star from "./item/menu/star";
 
-const eventListenerFn = new EventListenerFn();
 const canvasFn = new CanvasFn();
 
 const cursor = new Cursor();
 const snake = new Snake();
 const star = new Star();
 
-export default class ControllerFn {
+export default class MainController {
   stats: any;
 
   game: any = {
@@ -48,8 +48,6 @@ export default class ControllerFn {
     this.initStats(); // 初始化stats.js
 
     canvasFn.setCanvasToFullScreen(mainModel.canvasNode); // 设置主canvas为全屏
-
-    eventListenerFn.init(); // 监听初始化
 
     this.initRenderInfo(); // 初始化所有渲染相关信息
 
@@ -75,18 +73,18 @@ export default class ControllerFn {
   }
   initRenderInfo() {
     if (mainModel.interface === 'game') {
-      this.game[mainModel.game.mode].initRenderInfo();
+      this.game[gameModel.mode].initRenderInfo();
     } else if (mainModel.interface === 'menu') {
-      this.menu[mainModel.menu.mode].initRenderInfo();
+      this.menu[menuModel.mode].initRenderInfo();
     }
 
     cursor.initRenderInfo();
   }
   render() {
     if (mainModel.interface === 'game') {
-      this.game[mainModel.game.mode].render();
+      this.game[gameModel.mode].render();
     } else if (mainModel.interface === 'menu') {
-      this.menu[mainModel.menu.mode].render();
+      this.menu[menuModel.mode].render();
     }
     
     if (cursorModel.axisX && cursorModel.axisY && cursorModel.isClicked) {

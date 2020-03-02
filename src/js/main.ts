@@ -4,18 +4,24 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-28 15:55:49
+ * @LastEditTime: 2020-03-02 15:54:33
  */
-import ControllerFn from "./controller/controller";
+import MainController from "./controller/controller";
 import TestFn from "./test";
+import MainService from "./service/service";
+import mainModel from "./model/model";
 
-const controllerFn = new ControllerFn();
+const mainController = new MainController();
+const mainService = new MainService();
 const testFn = new TestFn();
 
 export default class MainFn {
   init() {
-    controllerFn.init();
-
-    // testFn.init();
+    if (mainModel.mode === 'normal') {
+      mainController.init();
+      mainService.init();
+    } else if (mainModel.mode === 'test') {
+      testFn.init();
+    }
   }
 };

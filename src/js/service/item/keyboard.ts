@@ -1,36 +1,24 @@
 /*
- * @Description: 全局事件监听
+ * @Description: keyboard service
  * @Version: 1.0
  * @Autor: Pumpking
- * @Date: 2020-02-11 17:04:42
+ * @Date: 2020-03-02 15:47:32
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 15:15:01
+ * @LastEditTime: 2020-03-02 16:14:50
  */
 import $ from "jquery";
-import mainModel from "../model/model";
-import CursorService from "./item/cursor";
+import gameModel from "../../model/item/game";
 
-const cursorService = new CursorService();
-
-export default class EventListenerFn {
+export default class KeyboardService {
   init() {
-    cursorService.init();
-    this.resize();
     this.keyDown();
-  }
-  resize() {
-    $(window).resize(() => {
-      mainModel.clientWidth = document.documentElement.clientWidth;
-      mainModel.clientHeight = document.documentElement.clientHeight;
-    });
   }
   keyDown() {
     $(window).off('keydown').on('keydown', (e) => {
-      if (mainModel.game.mode === 'snake') {
+      if (gameModel.mode === 'snake') {
         e.preventDefault();
-        const playerModel = mainModel.game[mainModel.game.mode].player;
-        const gameModel = mainModel.game[mainModel.game.mode].game;
-        gameModel.start = true;
+        const playerModel = gameModel[gameModel.mode].player;
+        gameModel[gameModel.mode].game.start = true;
         
         switch (e.keyCode) {
           case 37:
@@ -51,7 +39,7 @@ export default class EventListenerFn {
   }
 
   refreshPosition(pos: string) {
-    const playerModel = mainModel.game[mainModel.game.mode].player;
+    const playerModel = gameModel[gameModel.mode].player;
     
     playerModel.position.shift(0);
     playerModel.position.push(pos);

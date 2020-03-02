@@ -1,16 +1,17 @@
 /*
- * @Description: 
+ * @Description: mouse service
  * @Version: 1.0
  * @Autor: Pumpking
  * @Date: 2020-03-02 15:08:03
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 15:27:17
+ * @LastEditTime: 2020-03-02 16:14:12
  */
 import $ from "jquery";
 import mainModel from "../../model/model";
 import cursorModel from "../../model/item/cursor";
+import menuModel from "../../model/item/menu";
 
-export default class CursorService {
+export default class MouseService {
   init() {
     this.mouseMove();
     this.mouseUp();
@@ -23,7 +24,7 @@ export default class CursorService {
       cursorModel.axisX = e.offsetX;
       cursorModel.axisY = e.offsetY;
 
-      const menuText = mainModel.menu[mainModel.menu.mode].text;
+      const menuText = menuModel[menuModel.mode].text;
 
       withinRect(menuText.content).then((index) => {
         menuText.focusIndex = index;
