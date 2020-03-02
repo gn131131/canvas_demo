@@ -11,8 +11,7 @@ module.exports = merge(common, {
     contentBase: path.join(__dirname, "dist"),
     port: 8001,
     compress: true,
-    hot: true,
-    hotOnly: true
+    hot: true
   },
   plugins: [
     new webpack.NamedModulesPlugin(),

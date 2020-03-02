@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-02-29 13:38:06
+ * @LastEditTime: 2020-03-02 17:53:57
  */
 "use strict";
 
@@ -16,14 +16,15 @@ import "./style.css";
 import $ from "jquery";
 import MainFn from "./js/main";
 
-const mainFn = new MainFn();
-
 $(document).ready(() => {
   // compatibility();
-  mainFn.init();
+  init();
   hotModuleSet();
 });
 
+function init() {
+  new MainFn().init();
+}
 // ts 兼容性写法不可行
 // function compatibility() {
 //   if (!window.requestAnimationFrame) {
@@ -41,11 +42,12 @@ $(document).ready(() => {
 
 function hotModuleSet() {
   if (module.hot) {
-    module.hot.accept("./js/main.ts", function () {
+    module.hot.accept("./js/main.ts", () => {
       console.log("热部署模块更新");
-      mainFn.init();
+      init();
     });
   }
+
 
   if (process.env.NODE_ENV !== "production") {
     console.log("Looks like we are in development mode!");

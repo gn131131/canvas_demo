@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-03-02 16:04:13
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 16:24:44
+ * @LastEditTime: 2020-03-02 16:51:10
  */
 let gameModel: any = {
   mode: 'snake',
