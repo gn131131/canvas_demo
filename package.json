@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "canvas demo",
   "main": "./src/index.ts",
+  "homepage": "www.pumpking.xyz",
   "repository": "git@github.com:gn131131/canvas_demo.git",
   "author": "Pumpking <gn131131@sina.com>",
   "license": "MIT",
   "scripts": {
+    "deploy": "gh-pages -d dist",
     "analyse": "webpack --config webpack.analyse.js",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --open --config webpack.dev.js"
@@ -24,6 +26,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
     "file-loader": "^5.0.2",
+    "gh-pages": "^2.2.0",
     "html-webpack-plugin": "^3.2.0",
     "stats.js": "^0.17.0",
     "style-loader": "^1.1.2",

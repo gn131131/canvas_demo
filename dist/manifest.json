@@ -1,10 +1,7 @@
 {
   "app.js": "app.bundle.js",
-  "app.js.map": "app.bundle.js.map",
   "manifest.app.js": "manifest.app.bundle.js",
-  "manifest.app.js.map": "manifest.app.bundle.js.map",
   "vendors.app.js": "vendors.app.bundle.js",
-  "vendors.app.js.map": "vendors.app.bundle.js.map",
   "favicon.ico": "favicon.ico",
   "images/bg_1.jpg": "images/00168cecf7c208917473f3e37c8ba787.jpg",
   "images/16d05ede6239bcdf8c8ff86f6e6f558b.png": "images/16d05ede6239bcdf8c8ff86f6e6f558b.png",
