@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-03-02 15:58:38
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-02 15:58:40
+ * @LastEditTime: 2020-03-06 16:18:25
  */
 let menuModel: any = {
   mode: 'star',
@@ -20,24 +20,26 @@ let menuModel: any = {
     },
     text: {
       content: [{
-        name: '第一行',
-        x: 200,
+        name: 'AngularJS',
+        x: 150,
         y: 150,
         w: 300,
-        h: 100,
+        h: 50,
         color: 'gray',
-        font: 100
+        font: 50,
+        url: 'https://angularjs.pumpking.xyz'
       }, {
-        name: '第二行',
-        x: 200,
-        y: 400,
-        w: 300,
-        h: 100,
+        name: 'Angular',
+        x: 150,
+        y: 250,
+        w: 250,
+        h: 50,
         color: 'gray',
-        font: 100
+        font: 50,
+        url: 'https://angular.pumpking.xyz'
       }],
       focusIndex: null,
-      font: 100,
+      font: 50,
       defR: 5,
       gap: 5,
       textCount: 0
