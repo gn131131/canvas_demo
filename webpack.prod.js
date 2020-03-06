@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-03 22:50:53
+ * @LastEditTime: 2020-03-06 17:09:51
  */
 const webpack = require("webpack");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
@@ -17,7 +17,9 @@ const common = require("./webpack.common");
 module.exports = merge(common, {
   mode: "production",
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['!CNAME']
+    }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production")
     }),
