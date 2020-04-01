@@ -11,7 +11,7 @@
     "deploy": "gh-pages -d dist",
     "analyse": "webpack --config webpack.analyse.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --open --config webpack.dev.js"
+    "start": "webpack-dev-server --config webpack.dev.js"
   },
   "sideEffects": [
     "*.css"

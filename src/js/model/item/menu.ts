@@ -4,7 +4,7 @@
  * @Autor: Pumpking
  * @Date: 2020-03-02 15:58:38
  * @LastEditors: Pumpking
- * @LastEditTime: 2020-03-06 16:18:25
+ * @LastEditTime: 2020-03-31 20:13:39
  */
 let menuModel: any = {
   mode: 'star',
@@ -37,6 +37,15 @@ let menuModel: any = {
         color: 'gray',
         font: 50,
         url: 'https://angular.pumpking.xyz'
+      }, {
+        name: 'Vue',
+        x: 150,
+        y: 350,
+        w: 100,
+        h: 50,
+        color: 'gray',
+        font: 50,
+        url: 'https://vue.pumpking.xyz'
       }],
       focusIndex: null,
       font: 50,
