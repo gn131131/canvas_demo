@@ -8,10 +8,10 @@
   "author": "Pumpking <gn131131@sina.com>",
   "license": "MIT",
   "scripts": {
-    "deploy": "gh-pages -d dist",
-    "analyse": "webpack --config webpack.analyse.js",
+    "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.dev.js"
+    "analyse": "webpack --config webpack.analyse.js",
+    "deploy": "cp CNAME ./dist/ && gh-pages -d dist"
   },
   "sideEffects": [
     "*.css"
