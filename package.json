@@ -11,7 +11,7 @@
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "analyse": "webpack --config webpack.analyse.js",
-    "deploy": "cp CNAME ./dist/ && gh-pages -d dist"
+    "deploy": "cp CNAME ./dist/ && cp ./dist/index.html ./dist/404.html && gh-pages -d dist"
   },
   "sideEffects": [
     "*.css"
