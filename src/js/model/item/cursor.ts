@@ -19,7 +19,7 @@ const cursorModel: any = {
   isClicked: false,
   isMoving: false,
   animation: {
-    mode: 'picture', // 'picture' 'rect'
+    mode: 'rect', // 'picture' 'rect'
     offsetXScope: [30, -30],
     offsetYScope: [30, -30],
     widthScope: [20, 3],

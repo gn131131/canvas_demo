@@ -46,6 +46,15 @@ let menuModel: any = {
         color: 'gray',
         font: 50,
         url: 'https://vue.pumpking.xyz'
+      }, {
+        name: 'React',
+        x: 150,
+        y: 450,
+        w: 150,
+        h: 50,
+        color: 'gray',
+        font: 50,
+        url: 'https://react.pumpking.xyz'
       }],
       focusIndex: null,
       font: 50,
