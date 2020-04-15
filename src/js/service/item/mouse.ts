@@ -10,6 +10,7 @@ import $ from "jquery";
 import mainModel from "../../model/model";
 import cursorModel from "../../model/item/cursor";
 import menuModel from "../../model/item/menu";
+import MainFn from "../../main";
 
 export default class MouseService {
   init() {
@@ -20,52 +21,77 @@ export default class MouseService {
     this.mouseLeave();
   }
   click() {
-    $("#mainCanvas").off('click').on('click', (e) => {
-      const menuText = menuModel[menuModel.mode].text;
+    $("#mainCanvas")
+      .off("click")
+      .on("click", (e) => {
+        const menuText = menuModel[menuModel.mode].text;
 
-      this.withinRect(menuText.content).then((index: number) => {
-        window.open(menuText.content[index].url);
+        this.withinRect(menuText.content).then((index: number) => {
+          if (menuText.content[index].type) {
+            if (menuText.content[index].type === "game") {
+              mainModel.interface = "game";
+              new MainFn().init();
+            }
+          } else {
+            window.open(menuText.content[index].url);
+          }
+        });
       });
-    });
   }
   mouseMove() {
-    $("#mainCanvas").off('mousemove').on('mousemove', (e) => {
-      cursorModel.isMoving = true;
-      cursorModel.axisX = e.offsetX;
-      cursorModel.axisY = e.offsetY;
+    $("#mainCanvas")
+      .off("mousemove")
+      .on("mousemove", (e) => {
+        cursorModel.isMoving = true;
+        cursorModel.axisX = e.offsetX;
+        cursorModel.axisY = e.offsetY;
 
-      const menuText = menuModel[menuModel.mode].text;
+        const menuText = menuModel[menuModel.mode].text;
 
-      this.withinRect(menuText.content).then((index) => {
-        menuText.focusIndex = index;
-        mainModel.canvasNode.style.cursor = 'pointer';
-      }, () => {
-        menuText.focusIndex = null;
-        mainModel.canvasNode.style.cursor = 'default';
+        this.withinRect(menuText.content).then(
+          (index) => {
+            menuText.focusIndex = index;
+            mainModel.canvasNode.style.cursor = "pointer";
+          },
+          () => {
+            menuText.focusIndex = null;
+            mainModel.canvasNode.style.cursor = "default";
+          }
+        );
       });
-    });
   }
   mouseDown() {
-    $("#mainCanvas").off('mousedown').on('mousedown', (e) => {
-      cursorModel.isClicked = true;
-    });
+    $("#mainCanvas")
+      .off("mousedown")
+      .on("mousedown", (e) => {
+        cursorModel.isClicked = true;
+      });
   }
   mouseUp() {
-    $("#mainCanvas").off('mouseup').on('mouseup', (e) => {
-      cursorModel.isClicked = false;
-    });
+    $("#mainCanvas")
+      .off("mouseup")
+      .on("mouseup", (e) => {
+        cursorModel.isClicked = false;
+      });
   }
   mouseLeave() {
-    $("#mainCanvas").off('mouseleave').on('mouseleave', (e) => {
-      cursorModel.isClicked = false;
-    });
+    $("#mainCanvas")
+      .off("mouseleave")
+      .on("mouseleave", (e) => {
+        cursorModel.isClicked = false;
+      });
   }
 
   withinRect(textArray: Array<any>) {
     return new Promise((resolve, reject) => {
       let index = null;
       $.each(textArray, (i, item) => {
-        if (cursorModel.axisX <= item.x + item.w && cursorModel.axisX >= item.x && cursorModel.axisY <= item.y + item.h && cursorModel.axisY >= item.y) {
+        if (
+          cursorModel.axisX <= item.x + item.w &&
+          cursorModel.axisX >= item.x &&
+          cursorModel.axisY <= item.y + item.h &&
+          cursorModel.axisY >= item.y
+        ) {
           index = i;
         }
       });

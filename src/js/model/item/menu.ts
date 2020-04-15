@@ -7,62 +7,75 @@
  * @LastEditTime: 2020-03-31 20:13:39
  */
 let menuModel: any = {
-  mode: 'star',
+  mode: "star",
   star: {
     tiny: {
       maxNumber: 500,
-      color: '#fff',
+      color: "#fff",
       radius: 2,
-      speed: 2
+      speed: 2,
     },
-    big: {
-
-    },
+    big: {},
     text: {
-      content: [{
-        name: 'AngularJS',
-        x: 150,
-        y: 150,
-        w: 300,
-        h: 50,
-        color: 'gray',
-        font: 50,
-        url: 'https://angularjs.pumpking.xyz'
-      }, {
-        name: 'Angular',
-        x: 150,
-        y: 250,
-        w: 250,
-        h: 50,
-        color: 'gray',
-        font: 50,
-        url: 'https://angular.pumpking.xyz'
-      }, {
-        name: 'Vue',
-        x: 150,
-        y: 350,
-        w: 100,
-        h: 50,
-        color: 'gray',
-        font: 50,
-        url: 'https://vue.pumpking.xyz'
-      }, {
-        name: 'React',
-        x: 150,
-        y: 450,
-        w: 150,
-        h: 50,
-        color: 'gray',
-        font: 50,
-        url: 'https://react.pumpking.xyz'
-      }],
+      content: [
+        {
+          name: "AngularJS",
+          x: 150,
+          y: 150,
+          w: 300,
+          h: 50,
+          color: "gray",
+          font: 50,
+          url: "https://angularjs.pumpking.xyz",
+        },
+        {
+          name: "Angular",
+          x: 150,
+          y: 250,
+          w: 250,
+          h: 50,
+          color: "gray",
+          font: 50,
+          url: "https://angular.pumpking.xyz",
+        },
+        {
+          name: "Vue",
+          x: 150,
+          y: 350,
+          w: 100,
+          h: 50,
+          color: "gray",
+          font: 50,
+          url: "https://vue.pumpking.xyz",
+        },
+        {
+          name: "React",
+          x: 150,
+          y: 450,
+          w: 150,
+          h: 50,
+          color: "gray",
+          font: 50,
+          url: "https://react.pumpking.xyz",
+        },
+        {
+          name: "切换到贪吃蛇",
+          x: 650,
+          y: 150,
+          w: 300,
+          h: 50,
+          color: "gray",
+          font: 50,
+          type: "game",
+        },
+      ],
       focusIndex: null,
       font: 50,
       defR: 5,
       gap: 5,
-      textCount: 0
-    }
-  }
+      textCount: 0,
+    },
+  },
 };
 
 export default menuModel;
