@@ -14,33 +14,42 @@ export default class KeyboardService {
     this.keyDown();
   }
   keyDown() {
-    $(window).off('keydown').on('keydown', (e) => {
-      if (gameModel.mode === 'snake') {
-        e.preventDefault();
-        const playerModel = gameModel[gameModel.mode].player;
-        gameModel[gameModel.mode].game.start = true;
-        
-        switch (e.keyCode) {
-          case 37:
-            playerModel.position[0] !== 'right' && this.refreshPosition("left");
-            break;
-          case 38:
-            playerModel.position[0] !== 'bottom' && this.refreshPosition("top");
-            break;
-          case 39:
-            playerModel.position[0] !== 'left' && this.refreshPosition("right");
-            break;
-          case 40:
-            playerModel.position[0] !== 'top' && this.refreshPosition("bottom");
-            break;
+    $(window)
+      .off("keydown")
+      .on("keydown", (e) => {
+        if (gameModel.mode === "snake") {
+          const playerModel = gameModel[gameModel.mode].player;
+          gameModel[gameModel.mode].game.start = true;
+
+          switch (e.keyCode) {
+            case 37:
+              e.preventDefault();
+              playerModel.position[0] !== "right" &&
+                this.refreshPosition("left");
+              break;
+            case 38:
+              e.preventDefault();
+              playerModel.position[0] !== "bottom" &&
+                this.refreshPosition("top");
+              break;
+            case 39:
+              e.preventDefault();
+              playerModel.position[0] !== "left" &&
+                this.refreshPosition("right");
+              break;
+            case 40:
+              e.preventDefault();
+              playerModel.position[0] !== "top" &&
+                this.refreshPosition("bottom");
+              break;
+          }
         }
-      }
-    });
+      });
   }
 
   refreshPosition(pos: string) {
     const playerModel = gameModel[gameModel.mode].player;
-    
+
     playerModel.position.shift(0);
     playerModel.position.push(pos);
   }

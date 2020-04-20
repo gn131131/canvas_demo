@@ -1,5 +1,5 @@
 /*
- * @Description: 
+ * @Description:
  * @Version: 1.0
  * @Autor: Pumpking
  * @Date: 2020-02-29 15:24:02
@@ -11,7 +11,6 @@ import UtilsFn from "../../../utils/utils";
 import CanvasFn from "../../../utils/canvasFn";
 import mainModel from "../../../model/model";
 import menuModel from "../../../model/item/menu";
-
 
 export default class Star {
   utilsFn: any;
@@ -47,14 +46,40 @@ export default class Star {
         let obj = {
           x: vm.utilsFn.getSimpleRandomNumber(mainModel.clientWidth),
           y: vm.utilsFn.getSimpleRandomNumber(mainModel.clientHeight),
-          velocityX: vm.utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
-          velocityY: vm.utilsFn.getSimpleRandomNumber(tinyStarModel.speed, -tinyStarModel.speed, null, true, true),
+          velocityX: vm.utilsFn.getSimpleRandomNumber(
+            tinyStarModel.speed,
+            -tinyStarModel.speed,
+            null,
+            true,
+            true
+          ),
+          velocityY: vm.utilsFn.getSimpleRandomNumber(
+            tinyStarModel.speed,
+            -tinyStarModel.speed,
+            null,
+            true,
+            true
+          ),
           color: vm.utilsFn.getSimpleRandomColor(),
           render() {
             if (tinyStarModel.radius <= 10) {
-              vm.canvasFn.drawRect(this.offscreenCtx, 0, 0, tinyStarModel.radius, tinyStarModel.radius, this.color);
+              vm.canvasFn.drawRect(
+                this.offscreenCtx,
+                0,
+                0,
+                tinyStarModel.radius,
+                tinyStarModel.radius,
+                this.color
+              );
             } else {
-              vm.canvasFn.drawCircle(this.offscreenCtx, tinyStarModel.radius, tinyStarModel.radius, tinyStarModel.radius, this.color, false);
+              vm.canvasFn.drawCircle(
+                this.offscreenCtx,
+                tinyStarModel.radius,
+                tinyStarModel.radius,
+                tinyStarModel.radius,
+                this.color,
+                false
+              );
             }
           },
           move() {
@@ -66,20 +91,39 @@ export default class Star {
             if (this.y >= mainModel.clientHeight || this.y <= 0) {
               this.velocityY = -this.velocityY;
             }
-          }
+          },
+          shine() {
+            if (tinyStarModel.radius <= 30) {
+              tinyStarModel.radius = tinyStarModel.radius * 1.000001;
+            } else {
+              tinyStarModel.radius = 1;
+            }
+          },
         };
         tinyStarModel.axis.push(obj);
       }
     }
     $.each(tinyStarModel.axis, (i, item) => {
-      this.canvasFn.createAndRenderOffscreenCanvas(item, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
+      this.canvasFn.createAndRenderOffscreenCanvas(
+        item,
+        tinyStarModel.radius * 2,
+        tinyStarModel.radius * 2
+      );
     });
   }
   drawTinyStar() {
     const tinyStarModel = menuModel.star.tiny;
     $.each(tinyStarModel.axis, (i, item) => {
-      this.canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, tinyStarModel.radius * 2, tinyStarModel.radius * 2);
+      this.canvasFn.drawImage(
+        mainModel.ctx,
+        item.offscreenCanvas,
+        item.x,
+        item.y,
+        tinyStarModel.radius * 2,
+        tinyStarModel.radius * 2
+      );
       item.move();
+      // item.shine();
     });
   }
   initMenuTextInfo() {
@@ -87,7 +131,14 @@ export default class Star {
 
     $.each(textModel.content, (i, item) => {
       item.render = () => {
-        this.canvasFn.drawText(item.offscreenCtx, item.name, 0, 0, item.font, item.color);
+        this.canvasFn.drawText(
+          item.offscreenCtx,
+          item.name,
+          0,
+          0,
+          item.font,
+          item.color
+        );
       };
       this.canvasFn.createAndRenderOffscreenCanvas(item, item.w, item.h);
     });
@@ -97,7 +148,14 @@ export default class Star {
 
     $.each(textModel.content, (i, item) => {
       if (textModel.focusIndex !== i) {
-        this.canvasFn.drawImage(mainModel.ctx, item.offscreenCanvas, item.x, item.y, item.w, item.h);
+        this.canvasFn.drawImage(
+          mainModel.ctx,
+          item.offscreenCanvas,
+          item.x,
+          item.y,
+          item.w,
+          item.h
+        );
       }
     });
   }
@@ -116,9 +174,13 @@ export default class Star {
         render() {
           vm.createText(this.offscreenCtx, item);
           vm.findText(this.offscreenCtx, item);
-        }
+        },
       };
-      this.canvasFn.createAndRenderOffscreenCanvas(item.innerTextObject, item.innerTextObject.w, item.innerTextObject.h);
+      this.canvasFn.createAndRenderOffscreenCanvas(
+        item.innerTextObject,
+        item.innerTextObject.w,
+        item.innerTextObject.h
+      );
     });
   }
   drawText(index: number) {
@@ -128,13 +190,20 @@ export default class Star {
       const obj = item.innerTextObject;
 
       if (i === index) {
-        this.canvasFn.drawImage(mainModel.ctx, obj.offscreenCanvas, obj.x, obj.y, obj.w, obj.h);
+        this.canvasFn.drawImage(
+          mainModel.ctx,
+          obj.offscreenCanvas,
+          obj.x,
+          obj.y,
+          obj.w,
+          obj.h
+        );
       }
     });
   }
   //生成文字
   createText(ctx: any, obj: any) {
-    this.canvasFn.drawText(ctx, obj.name, 0, 0, obj.font, 'red');
+    this.canvasFn.drawText(ctx, obj.name, 0, 0, obj.font, "red");
   }
   //查找不同颜色的值和位置
   findText(ctx: any, obj: any) {
@@ -147,7 +216,7 @@ export default class Star {
         if (data[index] > 128) {
           pos.push({
             x: i,
-            y: j
+            y: j,
           });
         }
       }
@@ -159,8 +228,21 @@ export default class Star {
     for (let i = 0; i < data.length; i++) {
       ctx.beginPath();
 
-      ctx.arc(data[i].x, data[i].y, Math.random() * menuModel.star.text.defR, 0, Math.PI * 2);
-      ctx.fillStyle = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
+      ctx.arc(
+        data[i].x,
+        data[i].y,
+        Math.random() * menuModel.star.text.defR,
+        0,
+        Math.PI * 2
+      );
+      ctx.fillStyle =
+        "rgb(" +
+        Math.random() * 255 +
+        "," +
+        Math.random() * 255 +
+        "," +
+        Math.random() * 255 +
+        ")";
       ctx.closePath();
       ctx.fill();
     }

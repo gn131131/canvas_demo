@@ -12,7 +12,7 @@ let menuModel: any = {
     tiny: {
       maxNumber: 500,
       color: "#fff",
-      radius: 2,
+      radius: 12,
       speed: 2,
     },
     big: {},
