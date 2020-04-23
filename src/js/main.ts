@@ -22,11 +22,11 @@ export default class MainFn {
     this.testFn = new TestFn();
   }
   init() {
-    if (mainModel.mode === 'normal') {
+    if (mainModel.mode === "normal") {
       this.mainController.init();
       this.mainService.init();
-    } else if (mainModel.mode === 'test') {
+    } else if (mainModel.mode === "test") {
       this.testFn.init();
     }
   }
-};
+}

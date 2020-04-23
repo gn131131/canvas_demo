@@ -1,5 +1,5 @@
 /*
- * @Description: 
+ * @Description:
  * @Version: 1.0
  * @Autor: Pumpking
  * @Date: 2020-02-11 16:13:25
@@ -48,7 +48,6 @@ function hotModuleSet() {
       init();
     });
   }
-
 
   if (process.env.NODE_ENV !== "production") {
     console.log("Looks like we are in development mode!");

@@ -26,16 +26,19 @@ export default class MouseService {
       .on("click", (e) => {
         const menuText = menuModel[menuModel.mode].text;
 
-        this.withinRect(menuText.content).then((index: number) => {
-          if (menuText.content[index].type) {
-            if (menuText.content[index].type === "game") {
-              mainModel.interface = "game";
-              new MainFn().init();
+        this.withinRect(menuText.content).then(
+          (index: number) => {
+            if (menuText.content[index].type) {
+              if (menuText.content[index].type === "game") {
+                mainModel.interface = "game";
+                new MainFn().init();
+              }
+            } else {
+              window.open(menuText.content[index].url);
             }
-          } else {
-            window.open(menuText.content[index].url);
-          }
-        });
+          },
+          () => {}
+        );
       });
   }
   mouseMove() {
