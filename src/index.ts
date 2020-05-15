@@ -17,7 +17,7 @@ import $ from "jquery";
 import MainFn from "./js/main";
 
 $(document).ready(() => {
-  // compatibility();
+  compatibility();
   init();
   hotModuleSet();
 });
@@ -26,20 +26,35 @@ function init() {
   const mainFn = new MainFn();
   mainFn.init();
 }
-// ts 兼容性写法不可行
-// function compatibility() {
-//   if (!window.requestAnimationFrame) {
-//     window.requestAnimationFrame = (
-//       window.webkitRequestAnimationFrame ||
-//       window.mozRequestAnimationFrame ||
-//       window.msRquestAniamtionFrame ||
-//       window.oRequestAnimationFrame ||
-//       function (callback: any) {
-//         return setTimeout(callback, Math.floor(1000 / 60))
-//       }
-//     )
-//   }
-// }
+
+// raf兼容性
+function compatibility() {
+  const win: any = window;
+  let lastTime = 0;
+  const vendors = ["webkit", "moz"];
+  for (let x = 0; x < vendors.length && !win.requestAnimationFrame; ++x) {
+    win.requestAnimationFrame = win[vendors[x] + "RequestAnimationFrame"];
+    win.cancelAnimationFrame =
+      win[vendors[x] + "CancelAnimationFrame"] || // Webkit中此取消方法的名字变了
+      win[vendors[x] + "CancelRequestAnimationFrame"];
+  }
+  if (!win.requestAnimationFrame) {
+    win.requestAnimationFrame = function (callback: any) {
+      const currTime = new Date().getTime();
+      const timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
+      const id = win.setTimeout(function () {
+        callback(currTime + timeToCall);
+      }, timeToCall);
+      lastTime = currTime + timeToCall;
+      return id;
+    };
+  }
+  if (!win.cancelAnimationFrame) {
+    window.cancelAnimationFrame = function (id) {
+      clearTimeout(id);
+    };
+  }
+}
 
 function hotModuleSet() {
   if (module.hot) {

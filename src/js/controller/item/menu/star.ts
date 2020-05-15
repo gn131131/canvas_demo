@@ -25,7 +25,6 @@ export default class Star {
     this.initTinyStarInfo();
     this.initMenuTextInfo();
     this.initTextInfo();
-    console.log(menuModel.star.tiny.axis);
   }
   render() {
     this.drawTinyStar();
