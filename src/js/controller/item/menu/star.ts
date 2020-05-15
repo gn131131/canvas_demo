@@ -61,6 +61,7 @@ export default class Star {
             true
           ),
           color: vm.utilsFn.getSimpleRandomColor(),
+          zoom: 'out',
           render() {
             if (tinyStarModel.radius <= 10) {
               vm.canvasFn.drawRect(
@@ -93,10 +94,18 @@ export default class Star {
             }
           },
           shine() {
-            if (tinyStarModel.radius <= 30) {
-              tinyStarModel.radius = tinyStarModel.radius * 1.000001;
-            } else {
-              tinyStarModel.radius = 1;
+            if (this.zoom === 'out') {
+              if (tinyStarModel.radius <= 40) {
+                tinyStarModel.radius = tinyStarModel.radius + 0.0000000000001;
+              } else {
+                this.zoom = 'in';
+              }
+            } else if (this.zoom === 'in') {
+              if (tinyStarModel.radius >= 0) {
+                tinyStarModel.radius = tinyStarModel.radius - 0.0000000000001;
+              } else {
+                this.zoom = 'out';
+              }
             }
           },
         };
